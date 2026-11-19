@@ -9,7 +9,7 @@
 This solar system is generated from my **public GitHub repositories**. Projects, detected languages, stars, and activity are refreshed automatically.
 
 <!-- PROJECTS:START -->
-- [chvnagarjunababu14-boop](https://github.com/chvnagarjunababu14-boop/chvnagarjunababu14-boop) — Public project · Mixed · ⭐ 0
+- [chvnagarjunababu14-boop](https://github.com/chvnagarjunababu14-boop/chvnagarjunababu14-boop) — Public project · Python · ⭐ 0
 - [Knox](https://github.com/chvnagarjunababu14-boop/Knox) — Public project · TypeScript · ⭐ 0
 - [Store-Point](https://github.com/chvnagarjunababu14-boop/Store-Point) — Public project · TypeScript · ⭐ 0
 - [devcatalyst-community-crm](https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm) —  Community Registration and CRM platform built for the DevCatalyst OSS recruitment task · TypeScript · ⭐ 0
