@@ -2,7 +2,7 @@
 
 <img src="./assets/nebula-hero.svg" width="100%" alt="Personal developer universe banner"/>
 
-<img src="./assets/project-orbits.gif" width="100%" alt="Automatically looping animated project orbit GIF"/>
+<img src="./assets/project-orbits.svg" width="100%" alt="Automatically looping animated project orbit GIF"/>
 
 ### ✦ StarLord · Developer / Builder / Explorer
 
