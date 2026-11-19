@@ -1,4 +1,4 @@
-name: Update Solar System Profile
+name: Update Glass Profile
 on:
   schedule:
     - cron: '17 4 * * *'
@@ -13,22 +13,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install GIF renderer
-        run: python -m pip install Pillow
-      - name: Generate profile data and SVG
+      - name: Generate dynamic profile
         env:
           GITHUB_USERNAME: chvnagarjunababu14-boop
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/generate.js
-      - name: Render animated solar system GIF
-        run: python scripts/render_animation.py
-      - name: Commit generated files
+      - name: Commit generated profile assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md assets/solar-data.json assets/glass-hero.svg
-          git diff --cached --quiet || git commit -m "chore: update animated solar system profile"
+          git diff --cached --quiet || git commit -m "chore: refresh dynamic glass profile"
           git push
