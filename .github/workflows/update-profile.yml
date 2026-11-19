@@ -20,10 +20,12 @@ jobs:
         run: node scripts/generate.js
       - name: Generate autoplay animated orbit SVG
         run: python scripts/create_orbits.py
+      - name: Combine hero and electron field into one image
+        run: python scripts/combine_profile.py
       - name: Commit refreshed profile
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md assets/*.svg assets/*.json scripts/create_orbits.py
+          git add README.md assets/*.svg assets/*.json scripts/create_orbits.py scripts/combine_profile.py
           git diff --cached --quiet || git commit -m "chore: refresh glass profile"
           git push
