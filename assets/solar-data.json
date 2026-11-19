@@ -102,38 +102,38 @@
     }
   ],
   "languages": [
-    {
-      "name": "TypeScript",
-      "bytes": 3774115
-    },
-    {
-      "name": "Kotlin",
-      "bytes": 1452501
-    },
-    {
-      "name": "Python",
-      "bytes": 564534
-    },
-    {
-      "name": "Rust",
-      "bytes": 549800
-    },
-    {
-      "name": "PLpgSQL",
-      "bytes": 81231
-    },
-    {
-      "name": "JavaScript",
-      "bytes": 53883
-    },
-    {
-      "name": "CSS",
-      "bytes": 34934
-    },
-    {
-      "name": "Java",
-      "bytes": 31282
-    }
+    [
+      "TypeScript",
+      3774115
+    ],
+    [
+      "Kotlin",
+      1452501
+    ],
+    [
+      "Python",
+      564534
+    ],
+    [
+      "Rust",
+      549800
+    ],
+    [
+      "PLpgSQL",
+      81231
+    ],
+    [
+      "JavaScript",
+      53883
+    ],
+    [
+      "CSS",
+      34934
+    ],
+    [
+      "Java",
+      31282
+    ]
   ],
   "totalStars": 3
 }
