@@ -1,15 +1,48 @@
 #!/usr/bin/env python3
-import json,html
-D=json.load(open("assets/solar-data.json",encoding="utf-8")); repos=(D.get("publicRepositories") or [])[:8]; langs=D.get("languages") or []; username=D.get("username","developer")
-colors=["#a78bfa","#67e8f9","#f472b6","#fbbf24","#60a5fa","#34d399","#fb7185","#c084fc"]; W,H=900,390; cx,cy=525,205
-s=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}"><defs><linearGradient id="bg"><stop stop-color="#060814"/><stop offset="1" stop-color="#071e2b"/></linearGradient><radialGradient id="glow"><stop stop-color="#9466ff" stop-opacity=".4"/><stop offset="1" stop-color="#9466ff" stop-opacity="0"/></radialGradient><filter id="soft"><feGaussianBlur stdDeviation="25"/></filter></defs><rect width="900" height="390" rx="24" fill="url(#bg)"/><circle cx="190" cy="110" r="210" fill="url(#glow)" filter="url(#soft)"/><rect x="18" y="18" width="864" height="354" rx="20" fill="#fff" fill-opacity=".025" stroke="#7f9bd0" stroke-opacity=".28"/><text x="42" y="47" font-family="Arial" font-size="11" letter-spacing="2.2" fill="#829ac6">PROJECT ORBIT / PUBLIC REPOSITORIES</text><text x="42" y="76" font-family="Arial" font-size="22" font-weight="bold" fill="#e8edff">My projects, moving through the universe</text>']
-for i in range(85):
- x=(i*137.5)%850+25;y=(i*73.7)%340+25;s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.3" fill="#d8e5ff" opacity=".3"><animate attributeName="opacity" values=".15;.65;.15" dur="3s" repeatCount="indefinite"/></circle>')
+"""Build a minimal Tony-Stark-inspired animated developer electron field from public repos."""
+import json, html, math
+D=json.load(open("assets/solar-data.json",encoding="utf-8"))
+repos=(D.get("publicRepositories") or [])[:10]
+langs=D.get("languages") or []
+colors=["#a78bfa","#67e8f9","#f472b6","#fbbf24","#60a5fa","#34d399","#fb7185","#c084fc","#38bdf8","#e879f9"]
+W,H=900,330; cx,cy=450,168
+out=[f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+<defs>
+ <linearGradient id="space" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050712"/><stop offset=".52" stop-color="#0b1225"/><stop offset="1" stop-color="#041722"/></linearGradient>
+ <radialGradient id="core"><stop stop-color="#f4f0ff"/><stop offset=".25" stop-color="#b8a1ff"/><stop offset=".6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+ <radialGradient id="haze"><stop stop-color="#8055ff" stop-opacity=".32"/><stop offset="1" stop-color="#8055ff" stop-opacity="0"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="20"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="900" height="330" rx="20" fill="url(#space)"/>
+<ellipse cx="{cx}" cy="{cy}" rx="330" ry="160" fill="url(#haze)" filter="url(#blur)"/>
+<rect x="12" y="12" width="876" height="306" rx="17" fill="none" stroke="#7d95c9" stroke-opacity=".18"/>
+''']
+# sparse animated background stars
+for i in range(72):
+ x=(i*137.3)%860+20; y=(i*71.9)%290+18; rr=.6+(i%3)*.35
+ out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rr:.1f}" fill="#d9e6ff" opacity=".24"><animate attributeName="opacity" values=".1;.55;.1" dur="{2.5+(i%5)*.6:.1f}s" repeatCount="indefinite"/></circle>')
+# tilted orbital tracks, visually background
+for i in range(max(4,len(repos))):
+ rx=92+i*25; ry=34+i*12; tilt=(i*31-55)%180
+ out.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" transform="rotate({tilt} {cx} {cy})" fill="none" stroke="#9eb9f5" stroke-opacity="{.075 if i%2 else .12}" stroke-width="1"/>')
+# center core
+out.append(f'''<circle cx="{cx}" cy="{cy}" r="68" fill="url(#core)" opacity=".18"><animate attributeName="opacity" values=".12;.26;.12" dur="3.5s" repeatCount="indefinite"/></circle>
+<circle cx="{cx}" cy="{cy}" r="29" fill="url(#core)" filter="url(#glow)"><animate attributeName="r" values="24;31;24" dur="3.6s" repeatCount="indefinite"/></circle>
+<circle cx="{cx}" cy="{cy}" r="12" fill="#ffffff" opacity=".9"><animate attributeName="opacity" values=".75;1;.75" dur="2.4s" repeatCount="indefinite"/></circle>
+<text x="{cx}" y="{cy+53}" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="3" fill="#b8c6ee" opacity=".65">STΛRLORD</text>''')
+# Project nodes: electron style, names intentionally tiny/low-contrast, only a few labels
 for i,r in enumerate(repos):
- rad=62+i*21;s.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rad}" ry="{rad*.56:.1f}" fill="none" stroke="#7184b5" stroke-opacity=".2"/>')
-s.append(f'<circle cx="{cx}" cy="{cy}" r="38" fill="#8b5cf6" opacity=".12"><animate attributeName="r" values="33;39;33" dur="4s" repeatCount="indefinite"/></circle><circle cx="{cx}" cy="{cy}" r="24" fill="#d9ceff" stroke="#9c7cff" stroke-width="5"/><text x="{cx}" y="{cy+44}" text-anchor="middle" font-family="Arial" font-size="10" fill="#b9aaff">STARLORD</text>')
-for i,r in enumerate(repos):
- rad=62+i*21;color=colors[i%len(colors)];name=html.escape((r.get("name") or "project")[:20]);dur=16+i*3;size=7
- s.append(f'<g transform="translate({cx} {cy})"><g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="{dur}s" repeatCount="indefinite"/><circle cx="{rad}" cy="0" r="{size+4}" fill="{color}" opacity=".12"><animate attributeName="opacity" values=".08;.35;.08" dur="3s" repeatCount="indefinite"/></circle><circle cx="{rad}" cy="0" r="{size}" fill="{color}" stroke="#edf3ff" stroke-opacity=".85" stroke-width="1.3"/><text x="{rad+12}" y="4" font-family="Arial" font-size="10" fill="#cbd8f4">{name}</text></g></g>')
-s.append(f'<text x="42" y="333" font-family="Arial" font-size="11" fill="#75cde5">STACK SIGNAL / {html.escape(", ".join(x[0] for x in langs[:6]))}</text><text x="42" y="352" font-family="Arial" font-size="10" fill="#7186b6">github.com/{html.escape(username)}</text></svg>')
-open("assets/project-orbits.svg","w",encoding="utf-8").write("\n".join(s));print("Animated SVG generated:",len(repos),"projects")
+ color=colors[i%len(colors)]; name=html.escape((r.get("name") or "repo").replace("-"," ")[:18])
+ rx=95+i*21; ry=38+i*11; tilt=(i*31-55)%180; speed=18+i*2.5; phase=i*39
+ size=3.5+(min(int(r.get("stars",0)),8)*.35)
+ label = f'<text x="{rx+size+8}" y="3" font-family="Arial,sans-serif" font-size="8" fill="#b8c9e9" opacity=".32">{name}</text>' if i<4 else ""
+ out.append(f'''<g transform="translate({cx} {cy}) rotate({tilt})">
+ <ellipse rx="{rx}" ry="{ry}" fill="none" stroke="{color}" stroke-opacity=".025"/>
+ <g><animateTransform attributeName="transform" type="rotate" from="{phase}" to="{phase+360}" dur="{speed}s" repeatCount="indefinite"/>
+ <circle cx="{rx}" cy="0" r="{size+7}" fill="{color}" opacity=".1"><animate attributeName="opacity" values=".04;.2;.04" dur="2.8s" repeatCount="indefinite"/></circle>
+ <circle cx="{rx}" cy="0" r="{size}" fill="{color}" filter="url(#glow)" stroke="#eaf3ff" stroke-opacity=".7" stroke-width=".6"/>
+ {label}</g></g>''')
+out.append(f'<text x="34" y="294" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="#8aa6d4" opacity=".55">PROJECT PARTICLES  /  {len(repos)} ACTIVE</text><text x="866" y="294" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#8aa6d4" opacity=".45">{html.escape(", ".join(x[0] for x in langs[:4]))}</text></svg>')
+open("assets/project-orbits.svg","w",encoding="utf-8").write("\\n".join(out))
+print("Generated electron-field animation with",len(repos),"repository nodes")
