@@ -5,7 +5,7 @@ from pathlib import Path
 hero=Path("assets/nebula-hero.svg").read_text(encoding="utf-8")
 orbit=Path("assets/project-orbits.svg").read_text(encoding="utf-8")
 def inner(svg):
- m=re.search(r"<svg\\b[^>]*>(.*)</svg>\\s*$",svg,re.S)
+ m=re.search(r"<svg\b[^>]*>(.*)</svg>\s*$",svg,re.S)
  if not m: raise ValueError("SVG root not found")
  return m.group(1)
 HH=384; OH=330; TOTAL=HH+OH
