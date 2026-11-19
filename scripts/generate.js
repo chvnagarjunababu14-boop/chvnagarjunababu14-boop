@@ -63,7 +63,7 @@ stack,
 '</div>',
 '',
 '<div align="center"><sub>✦ Automatically refreshed from public GitHub data · Built with curiosity</sub></div>'
-].join('\\n');
+].join('\n');
 await write('README.md',readme);await write('assets/nebula-hero.svg',hero);await write('assets/solar-data.json',JSON.stringify({username,profile,publicRepositories:repos.map(r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,updated_at:r.updated_at,url:r.html_url})),languages:langs,totalStars:stars},null,2));
 console.log('Nebula profile generated for '+repos.length+' repositories and '+langs.length+' languages.');
 async function write(path,content){const fs=await import('node:fs/promises');await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
