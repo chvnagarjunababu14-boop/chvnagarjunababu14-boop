@@ -17,7 +17,7 @@ for frame in range(FRAMES):
  gd.ellipse((50,20,470,430),fill=(105,60,210,48)); gd.ellipse((500,-80,950,380),fill=(10,150,210,32))
  im=Image.alpha_composite(im,glow.filter(ImageFilter.GaussianBlur(48))); d=ImageDraw.Draw(im)
  for i in range(110):
-  x=(i*97+frame*13)%W; y=(i*53+frame*3)%H; a=90+int(65*math.sin(frame/4+i)
+  x=(i*97+frame*13)%W; y=(i*53+frame*3)%H; a=90+int(65*math.sin(frame/4+i))
   d.ellipse((x,y,x+1.5,y+1.5),fill=(185,215,255,a))
  d.rounded_rectangle((22,20,W-22,H-20),radius=20,outline=(80,100,150,150),width=1,fill=(15,20,35,120))
  d.text((48,44),"PROJECT ORBIT / PUBLIC REPOSITORIES",font=small,fill=(140,165,210,255))
