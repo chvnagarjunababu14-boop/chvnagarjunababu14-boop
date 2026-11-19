@@ -19,7 +19,14 @@
 ## ◈ Developer Overview
 
 <!-- PROJECTS:START -->
-Projects will automatically populate from my public GitHub repositories.
+- [chvnagarjunababu14-boop](https://github.com/chvnagarjunababu14-boop/chvnagarjunababu14-boop) — Public project · Python · ⭐ 0
+- [Knox](https://github.com/chvnagarjunababu14-boop/Knox) — Public project · TypeScript · ⭐ 0
+- [Store-Point](https://github.com/chvnagarjunababu14-boop/Store-Point) — Public project · TypeScript · ⭐ 0
+- [devcatalyst-community-crm](https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm) —  Community Registration and CRM platform built for the DevCatalyst OSS recruitment task · TypeScript · ⭐ 0
+- [SafeHer](https://github.com/chvnagarjunababu14-boop/SafeHer) — SafeHer — a privacy-first Android personal safety app built with Kotlin and Jetpack Compose. · Kotlin · ⭐ 3
+- [QuantumShield-India](https://github.com/chvnagarjunababu14-boop/QuantumShield-India) — Public project · TypeScript · ⭐ 0
+- [Fresh-Circle](https://github.com/chvnagarjunababu14-boop/Fresh-Circle) — Public project · TypeScript · ⭐ 0
+- [Feed-Hyderabad-](https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-) — Public project · TypeScript · ⭐ 0
 <!-- PROJECTS:END -->
 
 ---
@@ -27,7 +34,7 @@ Projects will automatically populate from my public GitHub repositories.
 ## ◈ Technology Stack
 
 <!-- STACK:START -->
-Detected from the languages in my public repositories.
+**TypeScript** · **Kotlin** · **Python** · **Rust** · **PLpgSQL** · **JavaScript** · **CSS** · **Java**
 <!-- STACK:END -->
 
 ---
