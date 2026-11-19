@@ -5,16 +5,16 @@ from pathlib import Path
 hero=Path("assets/nebula-hero.svg").read_text(encoding="utf-8")
 orbit=Path("assets/project-orbits.svg").read_text(encoding="utf-8")
 def inner(svg):
- m=re.search(r"<svg\\b[^>]*>(.*)</svg>\\s*$",svg,re.S)
+ m=re.search(r"<svg\b[^>]*>(.*)</svg>\s*$",svg,re.S)
  if not m: raise ValueError("SVG root not found")
  return m.group(1)
 def strip_canvas(s):
- s=re.sub(r'<rect\\s+width="(?:1100|900)"\\s+height="(?:470|330)"[^>]*?(?:/>|>.*?</rect>)','',s,count=1,flags=re.S)
- s=re.sub(r'<rect\\s+x="12"\\s+y="12"\\s+width="876"\\s+height="306"[^>]*/>','',s)
- s=re.sub(r'<rect\\s+x="18"\\s+y="18"\\s+width="864"\\s+height="354"[^>]*/>','',s)
+ s=re.sub(r'<rect\s+width="(?:1100|900)"\s+height="(?:470|330)"[^>]*?(?:/>|>.*?</rect>)','',s,count=1,flags=re.S)
+ s=re.sub(r'<rect\s+x="12"\s+y="12"\s+width="876"\s+height="306"[^>]*/>','',s)
+ s=re.sub(r'<rect\s+x="18"\s+y="18"\s+width="864"\s+height="354"[^>]*/>','',s)
  return s
 def prefix_ids(s,p):
- ids=re.findall(r'\\bid="([^"]+)"',s)
+ ids=re.findall(r'\bid="([^"]+)"',s)
  for id in ids:
   s=s.replace(f'id="{id}"',f'id="{p}{id}"').replace(f'url(#{id})',f'url(#{p}{id})')
   s=s.replace(f'href="#{id}"',f'href="#{p}{id}"').replace(f'xlink:href="#{id}"',f'xlink:href="#{p}{id}"')
