@@ -15,6 +15,20 @@ out=[f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBo
  <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
 <rect width="900" height="330" rx="20" fill="url(#space)"/>
+<defs>
+ <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#78a8ff" stroke-opacity=".035" stroke-width=".6"/></pattern>
+ <linearGradient id="edgeGlow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8b5cf6" stop-opacity=".16"/><stop offset=".45" stop-color="#22d3ee" stop-opacity=".02"/><stop offset="1" stop-color="#22d3ee" stop-opacity=".12"/></linearGradient>
+ <radialGradient id="violetFog"><stop stop-color="#8b5cf6" stop-opacity=".30"/><stop offset=".45" stop-color="#7047d9" stop-opacity=".14"/><stop offset="1" stop-color="#7047d9" stop-opacity="0"/></radialGradient>
+ <radialGradient id="cyanFog"><stop stop-color="#06b6d4" stop-opacity=".20"/><stop offset="1" stop-color="#06b6d4" stop-opacity="0"/></radialGradient>
+</defs>
+<ellipse cx="420" cy="175" rx="390" ry="230" fill="url(#violetFog)"/>
+<ellipse cx="820" cy="155" rx="300" ry="240" fill="url(#cyanFog)"/>
+<ellipse cx="90" cy="260" rx="220" ry="170" fill="#4338ca" opacity=".08" filter="url(#blur)"/>
+<rect width="900" height="330" rx="20" fill="url(#grid)"/>
+<rect width="900" height="330" rx="20" fill="url(#edgeGlow)"/>
+<path d="M-30 220 C170 145 250 275 430 185 S720 115 940 190" fill="none" stroke="#8b5cf6" stroke-opacity=".08" stroke-width="65" filter="url(#blur)"/>
+<path d="M-30 245 C170 185 280 290 460 205 S740 145 940 210" fill="none" stroke="#22d3ee" stroke-opacity=".06" stroke-width="42" filter="url(#blur)"/>
+<g stroke="#94a9ff" stroke-opacity=".05" fill="none"><circle cx="450" cy="165" r="110"/><circle cx="450" cy="165" r="145"/><path d="M450 22V308M22 165H878"/></g>
 <ellipse cx="{cx}" cy="{cy}" rx="330" ry="160" fill="url(#haze)" filter="url(#blur)"/>
 <rect x="12" y="12" width="876" height="306" rx="17" fill="none" stroke="#7d95c9" stroke-opacity=".18"/>
 ''']
