@@ -2,7 +2,7 @@
 <div align="center">
   <h1>🌌 StarLord's GitHub Universe</h1>
   <p><i>Every project is a world. Every language, a constellation.</i></p>
-  <img src="./assets/solar-system.svg" alt="Dynamic animated solar system showing my public GitHub repositories" width="100%" />
+  <img src="./assets/solar-system.gif" alt="Dynamic animated solar system showing my public GitHub repositories" width="100%" />
 </div>
 
 ## 🪐 My Projects Orbit
