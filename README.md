@@ -1,12 +1,11 @@
 <div align="center">
 <img src="./assets/profile-universe.svg" width="100%" alt="Neon developer universe banner"/>
 
-<table width="100%" cellspacing="5" cellpadding="8"><tr><td align="center" bgcolor="#17132e"><h2>🌌 7</h2><sub>PUBLIC PROJECTS</sub></td><td align="center" bgcolor="#111b34"><h2>⭐ 3</h2><sub>TOTAL STARS</sub></td><td align="center" bgcolor="#12243a"><h2>🧬 8</h2><sub>LANGUAGES</sub></td><td align="center" bgcolor="#201331"><h2>👥 2</h2><sub>FOLLOWERS</sub></td></tr></table>
+<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile metrics: public projects, stars, languages and followers"/>
 
-<h2>🧰 &nbsp; TECH STACK</h2>
-<img src="https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/> <sub>58%</sub> &nbsp; <img src="https://img.shields.io/badge/Kotlin-A97BFF?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin"/> <sub>22%</sub> &nbsp; <img src="https://img.shields.io/badge/Python-3572A5?style=flat-square&logo=python&logoColor=white" alt="Python"/> <sub>9%</sub> &nbsp; <img src="https://img.shields.io/badge/Rust-dea584?style=flat-square&logo=rust&logoColor=white" alt="Rust"/> <sub>8%</sub> &nbsp; <img src="https://img.shields.io/badge/PLpgSQL-8b5cf6?style=flat-square&logo=plpgsql&logoColor=white" alt="PLpgSQL"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/JavaScript-f1e05a?style=flat-square&logo=javascript&logoColor=white" alt="JavaScript"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/CSS-563d7c?style=flat-square&logo=css&logoColor=white" alt="CSS"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/Java-b07219?style=flat-square&logo=java&logoColor=white" alt="Java"/> <sub><1%</sub>
+<img src="./assets/tech-stack.svg" width="100%" alt="Technology stack and language distribution"/>
 
-<h2>🚀 &nbsp; FEATURED PROJECTS</h2>
+<h2 align="center">✦ &nbsp; SELECTED PROJECTS</h2>
 <sub>7 public projects · updated automatically from GitHub</sub>
 
 <table width="100%" cellspacing="12" cellpadding="0">
