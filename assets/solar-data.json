@@ -1,40 +1,12 @@
 {
   "username": "chvnagarjunababu14-boop",
-  "theme": "solar-system",
+  "theme": "solar-system-diva-structure",
   "profile": {
     "login": "chvnagarjunababu14-boop",
-    "id": 240295208,
-    "node_id": "U_kgDODlKdKA",
-    "avatar_url": "https://avatars.githubusercontent.com/u/240295208?v=4",
-    "gravatar_id": "",
-    "url": "https://api.github.com/users/chvnagarjunababu14-boop",
-    "html_url": "https://github.com/chvnagarjunababu14-boop",
-    "followers_url": "https://api.github.com/users/chvnagarjunababu14-boop/followers",
-    "following_url": "https://api.github.com/users/chvnagarjunababu14-boop/following{/other_user}",
-    "gists_url": "https://api.github.com/users/chvnagarjunababu14-boop/gists{/gist_id}",
-    "starred_url": "https://api.github.com/users/chvnagarjunababu14-boop/starred{/owner}{/repo}",
-    "subscriptions_url": "https://api.github.com/users/chvnagarjunababu14-boop/subscriptions",
-    "organizations_url": "https://api.github.com/users/chvnagarjunababu14-boop/orgs",
-    "repos_url": "https://api.github.com/users/chvnagarjunababu14-boop/repos",
-    "events_url": "https://api.github.com/users/chvnagarjunababu14-boop/events{/privacy}",
-    "received_events_url": "https://api.github.com/users/chvnagarjunababu14-boop/received_events",
-    "type": "User",
-    "user_view_type": "public",
-    "site_admin": false,
     "name": "StarLord",
-    "company": null,
-    "blog": "",
-    "location": null,
-    "email": "chvnagarjunababu14@gmail.com",
-    "hireable": null,
-    "bio": null,
-    "twitter_username": null,
-    "public_repos": 8,
-    "public_gists": 0,
+    "avatar_url": "https://avatars.githubusercontent.com/u/240295208?v=4",
     "followers": 2,
-    "following": 7,
-    "created_at": "2025-10-26T10:09:52Z",
-    "updated_at": "2026-11-20T09:06:05Z"
+    "public_repos": 8
   },
   "featuredRepositories": [
     {
@@ -175,37 +147,56 @@
       "name": "TypeScript",
       "pct": 57.59578058904312,
       "label": "58%",
-      "color": "#5BC0EB"
+      "color": "#38BDF8",
+      "domain": "Web Architecture & Full-Stack Products",
+      "moons": [
+        "Knox",
+        "Store-Point",
+        "devcatalyst-community-crm",
+        "QuantumShield-India"
+      ]
     },
     {
       "name": "Kotlin",
       "pct": 22.166237356669242,
       "label": "22%",
-      "color": "#C792EA"
+      "color": "#C084FC",
+      "domain": "Android & Privacy-Minded Mobile",
+      "moons": [
+        "SafeHer"
+      ]
     },
     {
       "name": "Python",
       "pct": 8.553262188789676,
       "label": "9%",
-      "color": "#82AAFF"
+      "color": "#60A5FA",
+      "domain": "Learning Systems & Experiments",
+      "moons": []
     },
     {
       "name": "Rust",
       "pct": 8.390353809530422,
       "label": "8%",
-      "color": "#E07A5F"
+      "color": "#F97316",
+      "domain": "Developer Tools & Agent Memory",
+      "moons": []
     },
     {
       "name": "PLpgSQL",
       "pct": 1.2396450169188173,
       "label": "1%",
-      "color": "#A7B18D"
+      "color": "#86EFAC",
+      "domain": "Data Layer & Persistence",
+      "moons": []
     },
     {
       "name": "JavaScript",
       "pct": 0.8222943512530516,
       "label": "<1%",
-      "color": "#F0C75E"
+      "color": "#FBBF24",
+      "domain": "Interface Experiments",
+      "moons": []
     }
   ],
   "totalStars": 3
