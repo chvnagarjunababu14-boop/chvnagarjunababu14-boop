@@ -1,0 +1,43 @@
+name: Draw Activity Koi
+
+on:
+  schedule:
+    - cron: "20 0 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/koi.yml"
+
+permissions:
+  contents: write
+
+concurrency: koi
+
+jobs:
+  koi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out profile repository
+        uses: actions/checkout@v4
+
+      - name: Draw my koi from public GitHub activity
+        uses: yalongwastaken/git-koi@v1
+        with:
+          login: chvnagarjunababu14-boop
+          body: asagi
+          size: 256x256
+          scale: 2
+          output-dir: koi
+
+      - name: Commit the koi when it changes
+        shell: bash
+        run: |
+          git add koi/koi.gif
+          if git diff --cached --quiet; then
+            echo "The koi is unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --quiet --message "koi: refresh activity artwork"
+          git push --quiet
