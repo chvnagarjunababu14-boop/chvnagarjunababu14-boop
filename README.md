@@ -1,6 +1,5 @@
 <div align="center">
 <img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>
-
 <img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
 
 <div align="left">
@@ -32,14 +31,6 @@
 
 <img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
 </div>
-
-
-<h3><font color="#D7BD78">My Approach</font></h3>
-<p><font color="#C5CEC1">I believe in learning by building, experimenting beyond my comfort zone, embracing challenges and improving every project one iteration at a time.</font></p>
-<p><font color="#E4E1D4"><i>I'm always curious about what's next, always exploring, and always looking for something exciting to build.</i></font></p>
-<p><font color="#C58E6A"><b>Build thoughtfully. Experiment boldly. Keep learning.</b></font></p>
-</td></tr>
-</table>
 
 <img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile metrics: public projects, stars, languages and followers"/>
 
