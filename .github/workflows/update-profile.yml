@@ -1,4 +1,4 @@
-name: Refresh Cedar & Stone Profile
+name: Refresh Cedar & Stone Profile (Validated)
 on:
   push:
     paths:
