@@ -18,7 +18,7 @@
 <p align="center"><sub>Also growing: <a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India">QuantumShield India</a> · <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle">FreshLink</a> · <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-">Feed Hyderabad</a></sub></p>
 
 <a id="toolkit"></a>
-<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — verified languages and technologies"/>
+<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — languages, platforms and focus areas from public code"/>
 
 <a id="snapshot"></a>
 <img src="./assets/profile-metrics.svg" width="100%" alt="GitHub snapshot: public projects, featured work, languages, stars and followers"/>

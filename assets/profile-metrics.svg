@@ -1,1 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="168" viewBox="0 0 1200 168"><defs><linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14241C"/><stop offset=".5" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient><linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient></defs><rect x="5" y="5" width="1190" height="158" rx="18" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".5" stroke-width="1.5"/><text x="32" y="32" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.2" fill="#C58E6A">04 / SNAPSHOT</text><text x="1165" y="32" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">PUBLIC GITHUB DATA ONLY</text><text x="95" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">7</text><text x="95" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="#C58E6A">PUBLIC PROJECTS</text><text x="315" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">4</text><text x="315" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="#91B8A8">FEATURED PROJECTS</text><text x="535" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">10</text><text x="535" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="#7FA88A">LANGUAGES USED</text><text x="755" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">3</text><text x="755" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="#D7BD78">REPOSITORY STARS</text><text x="975" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">2</text><text x="975" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="#A8899C">FOLLOWERS</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 0 1200 150" role="img">
+<defs>
+ <linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".5" stop-color="#172A22"/><stop offset="1" stop-color="#14241C"/></linearGradient>
+ <linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
+</defs>
+<rect x="4" y="4" width="1192" height="142" rx="20" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".55" stroke-width="1.5"/>
+<rect x="4" y="18" width="6" height="114" rx="3" fill="#7FA88A"/>
+<text x="36" y="34" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">04 / SNAPSHOT</text>
+<text x="170" y="34" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#F1EBDD">Public GitHub at a glance</text>
+<text x="1160" y="34" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">PUBLIC DATA ONLY</text>
+<g>
+  <text x="120" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">7
+   <animate attributeName="opacity" values="1;.82;1" dur="2.8s" repeatCount="indefinite"/>
+  </text>
+  <text x="120" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#C58E6A">PUBLIC PROJECTS</text>
+  <path d="M230 62V122" stroke="#7FA88A" stroke-opacity=".18"/>
+ </g><g>
+  <text x="340" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">4
+   <animate attributeName="opacity" values="1;.82;1" dur="3.05s" repeatCount="indefinite"/>
+  </text>
+  <text x="340" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#91B8A8">FEATURED</text>
+  <path d="M450 62V122" stroke="#7FA88A" stroke-opacity=".18"/>
+ </g><g>
+  <text x="560" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">9
+   <animate attributeName="opacity" values="1;.82;1" dur="3.3s" repeatCount="indefinite"/>
+  </text>
+  <text x="560" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#7FA88A">LANGUAGES</text>
+  <path d="M670 62V122" stroke="#7FA88A" stroke-opacity=".18"/>
+ </g><g>
+  <text x="780" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">3
+   <animate attributeName="opacity" values="1;.82;1" dur="3.55s" repeatCount="indefinite"/>
+  </text>
+  <text x="780" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#D7BD78">STARS</text>
+  <path d="M890 62V122" stroke="#7FA88A" stroke-opacity=".18"/>
+ </g><g>
+  <text x="1000" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">2
+   <animate attributeName="opacity" values="1;.82;1" dur="3.8s" repeatCount="indefinite"/>
+  </text>
+  <text x="1000" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="#A8899C">FOLLOWERS</text>
+  
+ </g>
+</svg>

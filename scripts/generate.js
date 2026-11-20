@@ -141,55 +141,125 @@ ${tinyLeaf(1120,34,-20,'#7FA88A',0.45)}
 <text x="340" y="78" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">${featured.length} featured · ${repos.length} public · Android, tools, security &amp; community</text>
 </svg>`;
 
-// Categorised toolkit using verified language stats + known project tags
+// Grove board — toolkit + snapshot + explore as one visual system (SMIL from SKILL.md)
 const langSet=new Set(allLangs.map(([n])=>n));
 const tagSet=new Set(Object.values(projectTagLists).flat());
+const langItems=allLangs.map(([n])=>n).filter(n=>!['CSS','HTML','Shell'].includes(n)).slice(0,7);
+const platformItems=['Android','Tauri','Web','SQL'].filter(x=>{
+ if(x==='Android')return tagSet.has('Android');
+ if(x==='Tauri')return tagSet.has('Tauri');
+ if(x==='Web')return langSet.has('TypeScript')||langSet.has('JavaScript')||langSet.has('HTML')||langSet.has('CSS');
+ if(x==='SQL')return langSet.has('PLpgSQL')||langSet.has('SQL');
+ return false;
+});
+const focusItems=[
+ tagSet.has('Android')?'Mobile Safety':null,
+ tagSet.has('Tauri')?'Agent Memory':null,
+ tagSet.has('POS')?'Retail Systems':null,
+ tagSet.has('CRM')?'Community CRM':null,
+ projectTagLists['quantumshield-india']?'Security Education':null,
+ (projectTagLists['feed-hyderabad']||projectTagLists['fresh-circle'])?'Local Impact':null
+].filter(Boolean).slice(0,5);
 const categories=[
- {title:'Programming Languages',items:['TypeScript','Kotlin','Python','Rust','JavaScript','Java','PLpgSQL'].filter(x=>langSet.has(x)||tagSet.has(x))},
- {title:'Frontend & Mobile',items:['Android','TypeScript','JavaScript','CSS','HTML','Kotlin'].filter((x,i,a)=>a.indexOf(x)===i&&(langSet.has(x)||tagSet.has(x)||x==='Android'))},
- {title:'Backend & Data',items:['TypeScript','Python','PLpgSQL','Rust'].filter(x=>langSet.has(x))},
- {title:'Tools & Emerging',items:['Tauri','POS','CRM','Android'].filter(x=>tagSet.has(x))}
+ {title:'Languages',items:langItems},
+ {title:'Platforms',items:platformItems},
+ {title:'Focus',items:focusItems}
 ].filter(c=>c.items.length);
-const stackH=72+categories.length*70;
+
+const pillW=name=>Math.max(92,Math.round(28+String(name).length*8.1));
 const stackRows=categories.map((cat,ci)=>{
- const y=58+ci*70;
- const pills=cat.items.slice(0,6).map((name,ni)=>{
+ const y=78+ci*62;
+ let x=208;
+ const pills=cat.items.map((name,ni)=>{
   const color=palette[name]||colors[ni%colors.length];
-  const x=250+ni*145;
-  return `<rect x="${x}" y="${y-18}" width="132" height="36" rx="18" fill="${color}" fill-opacity=".14" stroke="${color}" stroke-opacity=".5"/><text x="${x+66}" y="${y+5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">${esc(name)}</text>`;
+  const w=pillW(name);
+  const px=x;x+=w+12;
+  return `<g>
+   <rect x="${px}" y="${y-18}" width="${w}" height="36" rx="18" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-opacity=".55">
+    <animate attributeName="fill-opacity" values=".14;.2;.14" dur="${3.2+ni*0.35}s" repeatCount="indefinite"/>
+   </rect>
+   <text x="${px+w/2}" y="${y+5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">${esc(name)}</text>
+  </g>`;
  }).join('');
- return `<text x="36" y="${y+5}" font-family="Georgia,serif" font-size="16" fill="#D7BD78">${esc(cat.title)}</text>${pills}`;
+ return `<text x="40" y="${y+5}" font-family="Georgia,serif" font-size="17" fill="#D7BD78">${esc(cat.title)}</text>
+ <path d="M40 ${y+18}H190" stroke="#7FA88A" stroke-opacity=".22" stroke-width="1"/>
+ ${pills}`;
 }).join('');
-const stackSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${stackH}" viewBox="0 0 1200 ${stackH}">
-<defs><linearGradient id="stackPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#172A24"/></linearGradient><linearGradient id="stackEdge"><stop stop-color="#C58E6A"/><stop offset="1" stop-color="#7FA88A"/></linearGradient></defs>
-<rect x="5" y="5" width="1190" height="${stackH-10}" rx="18" fill="url(#stackPanel)" stroke="url(#stackEdge)" stroke-opacity=".4"/>
-<text x="32" y="36" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.2" fill="#C58E6A">03 / TOOLKIT</text>
-<text x="1165" y="36" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">VERIFIED FROM PUBLIC CODE</text>
+const stackH=92+categories.length*62+18;
+const stackSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${stackH}" viewBox="0 0 1200 ${stackH}" role="img">
+<defs>
+ <linearGradient id="stackPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#122018"/><stop offset=".55" stop-color="#172A22"/><stop offset="1" stop-color="#14241C"/></linearGradient>
+ <linearGradient id="stackEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
+ <radialGradient id="stackGlow" cx="92%" cy="18%" r="28%"><stop stop-color="#7FA88A" stop-opacity=".18"/><stop offset="1" stop-color="#122018" stop-opacity="0"/></radialGradient>
+</defs>
+<rect x="4" y="4" width="1192" height="${stackH-8}" rx="20" fill="url(#stackPanel)" stroke="url(#stackEdge)" stroke-opacity=".55" stroke-width="1.5"/>
+<rect x="4" y="4" width="1192" height="${stackH-8}" rx="20" fill="url(#stackGlow)"/>
+<rect x="4" y="18" width="6" height="${stackH-36}" rx="3" fill="#C58E6A"/>
+<g transform="translate(1128 42)">
+ <g>
+  <animateTransform attributeName="transform" type="rotate" values="-12;10;-12" dur="5.5s" repeatCount="indefinite"/>
+  <path d="M0-16C-9-4-9 8 0 18 9 8 9-4 0-16Z" fill="#7FA88A" opacity=".55"/>
+ </g>
+</g>
+${tinyLeaf(1162,58,22,'#C58E6A',0.4)}
+<text x="36" y="38" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">03 / TOOLKIT</text>
+<text x="168" y="38" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#F1EBDD">Skills in one place</text>
+<text x="1160" y="38" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">VERIFIED FROM PUBLIC CODE</text>
+<path d="M36 52H420" stroke="#C58E6A" stroke-opacity=".45" stroke-width="1.6"/>
 ${stackRows}
 </svg>`;
 
 const metricItems=[
- {value:repos.length,label:'PUBLIC PROJECTS',symbol:'✳',color:'#C58E6A'},
- {value:featured.length,label:'FEATURED PROJECTS',symbol:'◎',color:'#91B8A8'},
- {value:allLangs.length,label:'LANGUAGES USED',symbol:'⌘',color:'#7FA88A'},
- {value:stars,label:'REPOSITORY STARS',symbol:'★',color:'#D7BD78'},
- {value:followers,label:'FOLLOWERS',symbol:'◎',color:'#A8899C'}
+ {value:repos.length,label:'PUBLIC PROJECTS',color:'#C58E6A'},
+ {value:featured.length,label:'FEATURED',color:'#91B8A8'},
+ {value:allLangs.length,label:'LANGUAGES',color:'#7FA88A'},
+ {value:stars,label:'STARS',color:'#D7BD78'},
+ {value:followers,label:'FOLLOWERS',color:'#A8899C'}
 ];
-const metricsSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="168" viewBox="0 0 1200 168"><defs><linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14241C"/><stop offset=".5" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient><linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient></defs><rect x="5" y="5" width="1190" height="158" rx="18" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".5" stroke-width="1.5"/><text x="32" y="32" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.2" fill="#C58E6A">04 / SNAPSHOT</text><text x="1165" y="32" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">PUBLIC GITHUB DATA ONLY</text>${metricItems.map((m,i)=>{const x=95+i*220;return `<text x="${x}" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">${m.value}</text><text x="${x}" y="122" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.2" fill="${m.color}">${m.label}</text>`;}).join('')}</svg>`;
-
-const footerCta=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="120" viewBox="0 0 1200 120" role="img">
+const metricsSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 0 1200 150" role="img">
 <defs>
-<linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14241C"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
-<linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".5" stop-color="#172A22"/><stop offset="1" stop-color="#14241C"/></linearGradient>
+ <linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
 </defs>
-<rect x="1" y="1" width="1198" height="118" rx="18" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62"/>
-<rect x="1" y="16" width="6" height="88" rx="3" fill="#B47D58"/>
-${tinyLeaf(1060,34,-25,'#7FA88A',0.45)}
+<rect x="4" y="4" width="1192" height="142" rx="20" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".55" stroke-width="1.5"/>
+<rect x="4" y="18" width="6" height="114" rx="3" fill="#7FA88A"/>
+<text x="36" y="34" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">04 / SNAPSHOT</text>
+<text x="170" y="34" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#F1EBDD">Public GitHub at a glance</text>
+<text x="1160" y="34" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">PUBLIC DATA ONLY</text>
+${metricItems.map((m,i)=>{
+ const x=120+i*220;
+ return `<g>
+  <text x="${x}" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">${m.value}
+   <animate attributeName="opacity" values="1;.82;1" dur="${2.8+i*0.25}s" repeatCount="indefinite"/>
+  </text>
+  <text x="${x}" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="${m.color}">${m.label}</text>
+  ${i<metricItems.length-1?`<path d="M${x+110} 62V122" stroke="#7FA88A" stroke-opacity=".18"/>`:''}
+ </g>`;
+}).join('')}
+</svg>`;
+
+const footerCta=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="128" viewBox="0 0 1200 128" role="img">
+<defs>
+ <linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
+ <linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
+ <radialGradient id="footerGlow" cx="90%" cy="50%" r="22%"><stop stop-color="#7FA88A" stop-opacity=".2"/><stop offset="1" stop-color="#122018" stop-opacity="0"/></radialGradient>
+</defs>
+<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62" stroke-width="1.5"/>
+<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerGlow)"/>
+<rect x="4" y="22" width="6" height="84" rx="3" fill="#B47D58"/>
+<g transform="translate(1048 64)" opacity=".5">
+ <g>
+  <animateTransform attributeName="transform" type="rotate" values="-8;12;-8" dur="6s" repeatCount="indefinite"/>
+  <path d="M0-22C-12-6-12 10 0 26 12 10 12-6 0-22Z" fill="#7FA88A"/>
+ </g>
+</g>
 <text x="36" y="42" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">EXPLORE THE GROVE</text>
-<text x="36" y="80" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">All public repositories</text>
-<text x="400" y="80" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">Browse every project and experiment · private work stays private</text>
-<circle cx="1130" cy="60" r="28" fill="#7FA88A" fill-opacity=".1" stroke="#7FA88A" stroke-opacity=".55"/>
-<path d="M1118 60H1140M1132 50L1142 60 1132 70" fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="36" y="82" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">All public repositories</text>
+<text x="420" y="82" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">${featured.length} featured · ${repos.length} public · private work stays private</text>
+<circle cx="1130" cy="64" r="28" fill="#7FA88A" fill-opacity=".12" stroke="#7FA88A" stroke-opacity=".55">
+ <animate attributeName="stroke-opacity" values=".4;.7;.4" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+<path d="M1118 64H1140M1132 54L1142 64 1132 74" fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
 // --- Nature hero (preserved falling-leaf animation markers) ---
@@ -290,7 +360,7 @@ projectCards,
 moreWorkBlock,
 '',
 '<a id="toolkit"></a>',
-'<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — verified languages and technologies"/>',
+'<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — languages, platforms and focus areas from public code"/>',
 '',
 '<a id="snapshot"></a>',
 '<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub snapshot: public projects, featured work, languages, stars and followers"/>',

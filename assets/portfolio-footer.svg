@@ -1,14 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="120" viewBox="0 0 1200 120" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="128" viewBox="0 0 1200 128" role="img">
 <defs>
-<linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14241C"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
-<linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
+ <linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
+ <linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
+ <radialGradient id="footerGlow" cx="90%" cy="50%" r="22%"><stop stop-color="#7FA88A" stop-opacity=".2"/><stop offset="1" stop-color="#122018" stop-opacity="0"/></radialGradient>
 </defs>
-<rect x="1" y="1" width="1198" height="118" rx="18" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62"/>
-<rect x="1" y="16" width="6" height="88" rx="3" fill="#B47D58"/>
-<g transform="translate(1060 34) rotate(-25)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#7FA88A" opacity="0.45"/></g>
+<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62" stroke-width="1.5"/>
+<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerGlow)"/>
+<rect x="4" y="22" width="6" height="84" rx="3" fill="#B47D58"/>
+<g transform="translate(1048 64)" opacity=".5">
+ <g>
+  <animateTransform attributeName="transform" type="rotate" values="-8;12;-8" dur="6s" repeatCount="indefinite"/>
+  <path d="M0-22C-12-6-12 10 0 26 12 10 12-6 0-22Z" fill="#7FA88A"/>
+ </g>
+</g>
 <text x="36" y="42" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">EXPLORE THE GROVE</text>
-<text x="36" y="80" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">All public repositories</text>
-<text x="400" y="80" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">Browse every project and experiment · private work stays private</text>
-<circle cx="1130" cy="60" r="28" fill="#7FA88A" fill-opacity=".1" stroke="#7FA88A" stroke-opacity=".55"/>
-<path d="M1118 60H1140M1132 50L1142 60 1132 70" fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="36" y="82" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">All public repositories</text>
+<text x="420" y="82" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">4 featured · 7 public · private work stays private</text>
+<circle cx="1130" cy="64" r="28" fill="#7FA88A" fill-opacity=".12" stroke="#7FA88A" stroke-opacity=".55">
+ <animate attributeName="stroke-opacity" values=".4;.7;.4" dur="2.8s" repeatCount="indefinite"/>
+</circle>
+<path d="M1118 64H1140M1132 54L1142 64 1132 74" fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
