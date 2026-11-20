@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Leaf sway + falling canopy leaves for Cedar & Stone nature hero."""
+"""Clear vertical falling leaves + gentle grove sway for Cedar & Stone."""
 from __future__ import annotations
 
 import math
@@ -12,11 +12,11 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SVG_PATH = ROOT / "assets" / "profile-universe.svg"
 GIF_PATH = ROOT / "assets" / "profile-universe.gif"
-FRAME_COUNT = 40
-FRAME_DURATION_MS = 100
+FRAME_COUNT = 48
+FRAME_DURATION_MS = 90
 WIDTH, HEIGHT = 1200, 480
 COLORS = 192
-FALL_TRAVEL = 520
+FALL_TRAVEL = 560
 
 SWAY_RE = re.compile(
     r'<g data-leaf="([^"]+)" data-px="([^"]+)" data-py="([^"]+)" transform="rotate\([^"]+\)">'
@@ -24,7 +24,7 @@ SWAY_RE = re.compile(
 FALL_RE = re.compile(
     r'<g data-fall="1" data-x0="([^"]+)" data-y0="([^"]+)" data-rot0="([^"]+)" '
     r'data-scale="([^"]+)" data-phase="([^"]+)" data-drift="([^"]+)" data-spin="([^"]+)" '
-    r'transform="[^"]*">'
+    r'opacity="[^"]*" transform="[^"]*">'
 )
 SWAY = {
     "sage": (2.4, 0.0),
@@ -32,6 +32,14 @@ SWAY = {
     "gold": (2.1, 1.1),
     "moss": (-2.5, 1.7),
 }
+
+
+def fall_opacity(p: float) -> float:
+    if p < 0.12:
+        return max(0.0, p / 0.12)
+    if p > 0.88:
+        return max(0.0, (1.0 - p) / 0.12)
+    return 1.0
 
 
 def animated_svg(base: str, frame_index: int) -> str:
@@ -52,10 +60,12 @@ def animated_svg(base: str, frame_index: int) -> str:
         x = float(x0) + math.sin(p * math.pi * 2) * float(drift)
         y = float(y0) + p * FALL_TRAVEL
         rot = float(rot0) + p * float(spin)
+        op = 0.9 * fall_opacity(p)
         return (
             f'<g data-fall="1" data-x0="{x0}" data-y0="{y0}" data-rot0="{rot0}" '
             f'data-scale="{scale}" data-phase="{leaf_phase}" data-drift="{drift}" '
-            f'data-spin="{spin}" transform="translate({x:.2f} {y:.2f}) rotate({rot:.2f}) scale({scale})">'
+            f'data-spin="{spin}" opacity="{op:.3f}" '
+            f'transform="translate({x:.2f} {y:.2f}) rotate({rot:.2f}) scale({scale})">'
         )
 
     svg = SWAY_RE.sub(sway, base)
@@ -79,7 +89,7 @@ def main() -> None:
 
     frames = [render_frame(animated_svg(original, i)) for i in range(FRAME_COUNT)]
     thumbnails = [frame.resize((200, 80), Image.Resampling.LANCZOS) for frame in frames]
-    contact_sheet = Image.new("RGB", (200 * 8, 80 * 5))
+    contact_sheet = Image.new("RGB", (200 * 8, 80 * 6))
     for index, thumbnail in enumerate(thumbnails):
         contact_sheet.paste(thumbnail, ((index % 8) * 200, (index // 8) * 80))
     palette = contact_sheet.quantize(colors=COLORS, method=Image.Quantize.FASTOCTREE)

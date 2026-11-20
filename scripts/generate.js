@@ -118,19 +118,20 @@ const seedDots=Array.from({length:56},(_,i)=>{
  const fill=i%5===0?'#D7BD78':(i%3===0?'#A8C4A4':'#D6DCCB');
  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${(0.12+(i%4)*0.07).toFixed(2)}"/>`;
 }).join('');
-// Falling leaves — staggered phases for a continuous gentle shower.
-const fallFills=['#5F8F6E','#7FA88A','#8EA68C','#A6B39B','#C58E6A','#D7BD78'];
-const fallingLeaves=Array.from({length:22},(_,i)=>{
- const x=(48+i*51+(i%3)*17)%1120+40;
- const yStart=-30-(i%5)*18;
- const s=(0.32+(i%5)*0.08).toFixed(2);
- const rot=(-50+i*17)%360;
- const phase=(i*0.137)%1;
- const drift=(18+(i%4)*8)*(i%2===0?1:-1);
- const spin=(40+(i%5)*12)*(i%2===0?1:-1);
+// Falling leaves — clear vertical fall on the open left/center (away from grove rings).
+const fallFills=['#7FA88A','#A6B39B','#C58E6A','#D7BD78','#8EA68C','#B7A17A'];
+const fallLeaf=(fill)=>`<path d="M0-22C-9-6-10 8 0 22 10 8 9-6 0-22Z" fill="${fill}"/><path d="M0-18V16" stroke="#F1EBDD" stroke-opacity=".45" stroke-width="1"/>`;
+const fallingLeaves=Array.from({length:14},(_,i)=>{
+ // Stay left of the grove emblem so motion never reads as orbiting the rings.
+ const x=55+i*48+(i%2)*14;
+ const yStart=-40-(i%4)*22;
+ const s=(0.55+(i%4)*0.08).toFixed(2);
+ const rot=-25+(i%7)*8;
+ const phase=(i*0.071)%1;
+ const drift=(5+(i%3)*3)*(i%2===0?1:-1); // gentle side sway only
+ const spin=(12+(i%4)*4)*(i%2===0?1:-1);  // soft tumble
  const fill=fallFills[i%fallFills.length];
- const stroke=i%3===0?'#E0B18C':'#C5D6C4';
- return `<g data-fall="1" data-x0="${x}" data-y0="${yStart}" data-rot0="${rot}" data-scale="${s}" data-phase="${phase.toFixed(3)}" data-drift="${drift}" data-spin="${spin}" transform="translate(${x} ${yStart}) rotate(${rot}) scale(${s})">${leafMark(fill,stroke)}</g>`;
+ return `<g data-fall="1" data-x0="${x}" data-y0="${yStart}" data-rot0="${rot}" data-scale="${s}" data-phase="${phase.toFixed(3)}" data-drift="${drift}" data-spin="${spin}" opacity="0.85" transform="translate(${x} ${yStart}) rotate(${rot}) scale(${s})">${fallLeaf(fill)}</g>`;
 }).join('');
 const groundFerns=Array.from({length:10},(_,i)=>{
  const x=70+i*110,y=430+(i%2)*8;
@@ -141,9 +142,9 @@ const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" vi
 <title id="heroTitle">StarLord — Cedar &amp; Stone nature banner</title>
 <defs>
  <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C1611"/><stop offset=".4" stop-color="#15241C"/><stop offset="1" stop-color="#0F221C"/></linearGradient>
- <radialGradient id="dawnGlow" cx="22%" cy="30%" r="48%"><stop stop-color="#D4A574" stop-opacity=".38"/><stop offset=".55" stop-color="#C58E6A" stop-opacity=".12"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
- <radialGradient id="mossGlow" cx="82%" cy="55%" r="42%"><stop stop-color="#5F8F6E" stop-opacity=".34"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
- <radialGradient id="mistSoft" cx="50%" cy="80%" r="55%"><stop stop-color="#C5D6C4" stop-opacity=".10"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
+ <radialGradient id="dawnGlow" cx="18%" cy="28%" r="42%"><stop stop-color="#D4A574" stop-opacity=".22"/><stop offset=".6" stop-color="#C58E6A" stop-opacity=".08"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
+ <radialGradient id="mossGlow" cx="88%" cy="42%" r="36%"><stop stop-color="#5F8F6E" stop-opacity=".26"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
+ <linearGradient id="mistSoft" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#C5D6C4" stop-opacity="0"/><stop offset=".75" stop-color="#C5D6C4" stop-opacity=".06"/><stop offset="1" stop-color="#C5D6C4" stop-opacity=".1"/></linearGradient>
  <linearGradient id="heroEdge"><stop stop-color="#C58E6A"/><stop offset=".45" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
  <linearGradient id="sunCore"><stop stop-color="#F1EBDD"/><stop offset="1" stop-color="#D7BD78"/></linearGradient>
 </defs>
@@ -159,11 +160,10 @@ ${groundFerns}
 
 <!-- Nature grove emblem -->
 <g transform="translate(900 230)">
- <circle r="176" fill="none" stroke="#7FA88A" stroke-opacity=".18" stroke-width="1.4"/>
- <circle r="138" fill="none" stroke="#C58E6A" stroke-opacity=".32" stroke-width="1.5"/>
- <circle r="96" fill="#5F8F6E" fill-opacity=".10" stroke="#A8C4A4" stroke-opacity=".45"/>
+ <circle r="118" fill="none" stroke="#7FA88A" stroke-opacity=".16" stroke-width="1.2"/>
+ <circle r="88" fill="#5F8F6E" fill-opacity=".10" stroke="#A8C4A4" stroke-opacity=".4"/>
  <circle r="58" fill="url(#sunCore)" fill-opacity=".92"/>
- <circle r="72" fill="none" stroke="#E5D9BD" stroke-opacity=".28"/>
+ <circle r="70" fill="none" stroke="#E5D9BD" stroke-opacity=".22"/>
 
  <g data-leaf="sage" data-px="-4" data-py="-8" transform="rotate(0 -4 -8)">
   <path d="M-4-8C-48-80-35-124 12-145 35-87 22-44-4-8Z" fill="#7FA88A" fill-opacity=".88" stroke="#C5D6C4" stroke-width="1.6"/>
@@ -192,8 +192,7 @@ ${groundFerns}
  <path d="M74 196H210" stroke="#C58E6A" stroke-width="3.2"/>
  <text x="72" y="244" font-family="Georgia,Times New Roman,serif" font-size="26" fill="#E4E1D4">Grown from real problems into living software.</text>
  <text x="74" y="292" font-family="Arial,sans-serif" font-size="16" letter-spacing="1.4" fill="#AFC0B0">STUDENT DEVELOPER  ·  HYDERABAD  ·  BUILDING IN THE OPEN</text>
- <g transform="translate(74 360)" opacity=".9">${leafMark('#7FA88A','#C5D6C4')}<g transform="translate(28 6) rotate(55) scale(.7)">${leafMark('#C58E6A','#E0B18C')}</g><g transform="translate(52 2) rotate(-40) scale(.55)">${leafMark('#D7BD78','#EDE7D8')}</g></g>
- <text x="150" y="372" font-family="Consolas,monospace" font-size="12" letter-spacing="2.4" fill="#A6B39F">BUILD THOUGHTFULLY  /  KEEP GROWING</text>
+ <text x="74" y="372" font-family="Consolas,monospace" font-size="12" letter-spacing="2.4" fill="#A6B39F">BUILD THOUGHTFULLY  /  KEEP GROWING</text>
 </g>
 <rect x="16" y="16" width="1168" height="448" rx="22" fill="none" stroke="url(#heroEdge)" stroke-opacity=".62" stroke-width="1.6"/>
 </svg>`;
