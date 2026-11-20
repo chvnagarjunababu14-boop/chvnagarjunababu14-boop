@@ -79,7 +79,7 @@ const readme=[
 '<img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>',
 '',
 '<h2 align="center">✦ &nbsp; SELECTED WORK</h2>',
-'<sub>A selection of public builds across mobile, developer tools, security and community.</sub>',
+'<sub>'+featured.length+' public projects · spanning mobile, developer tools, security and community.</sub>',
 '',
 projectCards,
 '',
