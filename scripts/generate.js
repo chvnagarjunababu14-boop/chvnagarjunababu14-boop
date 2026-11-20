@@ -1,4 +1,4 @@
-// Cedar & Stone — optimised editorial portfolio. Public repository data only.
+// Cedar & Stone — editorial GitHub profile. Public repository data only.
 async function main(){
 const fs=await import('node:fs/promises');
 const username=process.env.GITHUB_USERNAME||'chvnagarjunababu14-boop';
@@ -25,9 +25,7 @@ try{
  allLangs=cached.languages||[];
 }
 
-const langs=allLangs.slice(0,8);
-const totals=Object.fromEntries(allLangs);
-const palette={TypeScript:'#7FA88A',JavaScript:'#D7BD78',Python:'#6F9EAE',Java:'#D3A16F',Rust:'#C98260',Kotlin:'#A8899C',CSS:'#8C9BB0',HTML:'#CE9277',Go:'#85ADA6',C:'#9AA39A','C++':'#C88791',PHP:'#9B91B5',Shell:'#A6B18D',SQL:'#C49D69',PLpgSQL:'#A7B18D'};
+const palette={TypeScript:'#7FA88A',JavaScript:'#D7BD78',Python:'#6F9EAE',Java:'#D3A16F',Rust:'#C98260',Kotlin:'#A8899C',CSS:'#8C9BB0',HTML:'#CE9277',Go:'#85ADA6',C:'#9AA39A','C++':'#C88791',PHP:'#9B91B5',Shell:'#A6B18D',SQL:'#C49D69',PLpgSQL:'#A7B18D',Android:'#7FA88A',Tauri:'#C58E6A',Web:'#86AAA2',PostgreSQL:'#A7B18D'};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const stars=repos.reduce((n,r)=>n+r.stargazers_count,0);
 const followers=Number(profile.followers)||0;
@@ -53,290 +51,265 @@ const projectNames={'safeher':'SafeHer-Next','store-point':'StorePoint','devcata
 const projectTags={'knox':'Rust / Tauri','safeher':'Kotlin','store-point':'TypeScript','devcatalyst-community-crm':'TypeScript','quantumshield-india':'TypeScript / Python','fresh-circle':'TypeScript','feed-hyderabad':'TypeScript'};
 const projectTagLists={'knox':['Rust','Tauri'],'safeher':['Kotlin','Android'],'store-point':['TypeScript','POS'],'devcatalyst-community-crm':['TypeScript','CRM'],'quantumshield-india':['TypeScript','Python'],'fresh-circle':['TypeScript'],'feed-hyderabad':['TypeScript']};
 
-const leafMark=(fill,stroke)=>`<path d="M0-36C-18-8-20 14 0 36 20 14 18-8 0-36Z" fill="${fill}" stroke="${stroke}" stroke-width="1.2"/>`;
-const tinyLeaf=(x,y,rot,fill,op=0.55)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="${fill}" opacity="${op}"/></g>`;
+const tinyLeaf=(x,y,rot,fill,op=0.45)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><path d="M0-12C-7-2-7 7 0 14 7 7 7-2 0-12Z" fill="${fill}" opacity="${op}"/></g>`;
+const wrapLines=(text,maxLen,maxLines)=>{
+ const words=String(text).split(/\s+/),lines=[];let line='';
+ for(const word of words){if(line&&(line+' '+word).length>maxLen){lines.push(line);line=word;}else line=(line+' '+word).trim();}
+ if(line)lines.push(line);
+ const visible=lines.slice(0,maxLines);
+ if(lines.length>maxLines)visible[maxLines-1]=visible[maxLines-1].replace(/[.,;:]?$/,'')+'…';
+ return visible;
+};
+const pillWidth=label=>Math.max(88,Math.round(26+String(label).length*7.6));
 
-// --- Classic 2×2 Cedar & Stone featured project cards ---
+// --- Featured project cards (classic 2×2) ---
 const projectArts=featured.map((r,i)=>{
  const color=colors[i%colors.length],langColor=palette[r.language]||color,bg=cardBgs[i%cardBgs.length];
  const key=slug(r.name);
  const labelName=projectNames[key]||r.name;
  const rawName=labelName.length>25?labelName.slice(0,24)+'…':labelName;
  const displayName=esc(rawName);
- const titleSize=Math.min(42,Math.max(30,540/(rawName.length*.56)));
- const summary=projectSummaries[key]||r.description||('A '+(r.language||'software')+' project from my public repositories.');
- const words=String(summary).split(/\s+/),lines=[];let line='';
- for(const word of words){if(line&&(line+' '+word).length>38){lines.push(line);line=word;}else line=(line+' '+word).trim();}
- if(line)lines.push(line);
- const visibleLines=lines.slice(0,3);if(lines.length>3)visibleLines[2]=visibleLines[2].replace(/[.,;:]?$/,'')+'…';
- const descSvg=visibleLines.map((line,j)=>`<tspan x="48" dy="${j===0?0:24}">${esc(line)}</tspan>`).join('');
- const lang=esc(projectTags[key]||r.language||'Multi-stack');
+ const titleSize=Math.min(40,Math.max(30,520/(rawName.length*0.55)));
+ const summary=projectSummaries[key]||r.description||((r.language||'Software')+' project from public repositories.');
+ const visibleLines=wrapLines(summary,38,3);
+ const descSvg=visibleLines.map((line,j)=>`<tspan x="48" dy="${j===0?0:22}">${esc(line)}</tspan>`).join('');
+ const lang=projectTags[key]||r.language||'Multi';
+ const badgeW=pillWidth(lang)+24;
  const updated=new Date(r.updated_at).toISOString().slice(0,10);
  const repoStars=r.stargazers_count;
  const keyword=(r.name+' '+summary).toLowerCase();
  const motif=keyword.includes('safe')
-  ? `<g transform="translate(685 158)"><circle r="112" fill="none" stroke="${color}" stroke-opacity=".18" stroke-width="1.5"/><path d="M0-84L66-58V8C66 52 29 85 0 102-29 85-66 52-66 8V-58Z" fill="${color}" fill-opacity=".13" stroke="${color}" stroke-width="3"/><path d="M-28 0L-8 20 35-28" fill="none" stroke="#F1EBDD" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>`
+  ? `<g transform="translate(700 158)"><circle r="100" fill="none" stroke="${color}" stroke-opacity=".16" stroke-width="1.4"/><path d="M0-76L58-52V6C58 46 26 76 0 90-26 76-58 46-58 6V-52Z" fill="${color}" fill-opacity=".12" stroke="${color}" stroke-width="2.6"/><path d="M-24 0L-6 18 30-24" fill="none" stroke="#F1EBDD" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>`
   :keyword.includes('knox')||keyword.includes('rust')
-  ? `<g transform="translate(685 164)"><g stroke="${color}" stroke-width="4" fill="none"><path d="M-82-50L0-84 80-38 67 54 0 85-75 45Z"/><path d="M-82-50L-18 0 80-38M-18 0L67 54M-18 0L0 85"/></g><circle cx="-18" cy="0" r="19" fill="${langColor}" stroke="#EDE7D8" stroke-width="2"/></g>`
+  ? `<g transform="translate(700 164)"><g stroke="${color}" stroke-width="3.4" fill="none"><path d="M-74-44L0-74 72-34 60 48 0 76-68 40Z"/><path d="M-74-44L-16 0 72-34M-16 0L60 48M-16 0L0 76"/></g><circle cx="-16" cy="0" r="16" fill="${langColor}" stroke="#EDE7D8" stroke-width="1.8"/></g>`
   :keyword.includes('store')||keyword.includes('retail')
-  ? `<g transform="translate(685 165)"><path d="M-104-48L-78-93H78L104-48V-24H-104Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><rect x="-83" y="-24" width="166" height="116" rx="10" fill="${color}" fill-opacity=".08" stroke="${color}" stroke-width="3"/></g>`
+  ? `<g transform="translate(700 165)"><path d="M-92-42L-70-84H70L92-42V-20H-92Z" fill="${color}" fill-opacity=".14" stroke="${color}" stroke-width="2.6"/><rect x="-74" y="-20" width="148" height="100" rx="8" fill="${color}" fill-opacity=".07" stroke="${color}" stroke-width="2.6"/></g>`
   :keyword.includes('crm')||keyword.includes('catalyst')
-  ? `<g transform="translate(685 162)"><circle cx="-45" cy="-35" r="25" fill="${color}"/><circle cx="45" cy="-35" r="25" fill="${langColor}"/><circle cy="-65" r="28" fill="#E9E4D7"/><path d="M-90 78V43C-90 12-65 0-45 0S0 12 0 43V78ZM0 78V43C0 12 25 0 45 0S90 12 90 43V78Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/></g>`
-  : `<g transform="translate(685 164)"><circle r="104" fill="none" stroke="${color}" stroke-opacity=".35"/><path d="M-58-10L0-76 58-10 0 76Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><circle r="17" fill="#EDE7D8"/></g>`;
+  ? `<g transform="translate(700 160)"><circle cx="-40" cy="-30" r="22" fill="${color}"/><circle cx="40" cy="-30" r="22" fill="${langColor}"/><circle cy="-58" r="24" fill="#E9E4D7"/><path d="M-80 70V38C-80 10-58 0-40 0S0 10 0 38V70ZM0 70V38C0 10 22 0 40 0S80 10 80 38V70Z" fill="${color}" fill-opacity=".14" stroke="${color}" stroke-width="2.6"/></g>`
+  : `<g transform="translate(700 164)"><circle r="92" fill="none" stroke="${color}" stroke-opacity=".3"/><path d="M-50-8L0-66 50-8 0 66Z" fill="${color}" fill-opacity=".14" stroke="${color}" stroke-width="2.6"/><circle r="14" fill="#EDE7D8"/></g>`;
  const gid='c'+i;
- const art=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img"><defs><linearGradient id="${gid}Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="${color}" stop-opacity=".22"/></linearGradient><linearGradient id="${gid}Line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="${color}" stop-opacity=".85"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".4"/></linearGradient></defs><rect width="900" height="320" rx="22" fill="url(#${gid}Bg)"/><rect x="8" y="8" width="884" height="304" rx="16" fill="none" stroke="#D9D2C2" stroke-opacity=".16"/><path d="M0 276Q220 236 440 278T900 252" fill="none" stroke="url(#${gid}Line)" stroke-opacity=".28" stroke-width="1.6"/>${tinyLeaf(820,40,-28,color,0.35)}${tinyLeaf(848,62,18,'#7FA88A',0.4)}<path d="M48 52H112" stroke="${color}" stroke-width="3"/><text x="48" y="40" font-family="Georgia,serif" font-size="16" letter-spacing="2.2" fill="${color}">${lang.toUpperCase()}  /  SELECTED WORK</text><text x="48" y="119" font-family="Georgia,Times New Roman,serif" font-size="${titleSize}" font-weight="700" fill="#F1EBDD">${displayName}</text><text x="48" y="148" font-family="Arial,sans-serif" font-size="24" fill="#C5CEC1">${descSvg}</text><rect x="48" y="226" width="180" height="36" rx="17" fill="${langColor}" fill-opacity=".15" stroke="${langColor}" stroke-opacity=".6"/><text x="138" y="249" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#EDE7D8">${lang}</text><text x="48" y="286" font-family="Consolas,monospace" font-size="15" letter-spacing=".5" fill="#AEBBAA">★ ${repoStars}   ·   UPDATED ${updated}</text>${motif}<text x="850" y="296" text-anchor="end" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="${color}">VIEW PROJECT ↗</text></svg>`;
+ const art=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" role="img">
+<defs>
+ <linearGradient id="${gid}Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="${color}" stop-opacity=".18"/></linearGradient>
+ <linearGradient id="${gid}Line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="${color}" stop-opacity=".7"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".25"/></linearGradient>
+</defs>
+<rect width="900" height="300" rx="18" fill="url(#${gid}Bg)"/>
+<rect x="1" y="1" width="898" height="298" rx="17" fill="none" stroke="#D9D2C2" stroke-opacity=".14"/>
+<path d="M0 258Q220 228 450 258T900 236" fill="none" stroke="url(#${gid}Line)" stroke-opacity=".28" stroke-width="1.4"/>
+${tinyLeaf(842,36,-24,color,0.32)}
+<text x="48" y="42" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2" fill="${color}">${esc(lang).toUpperCase()}  ·  SELECTED WORK</text>
+<text x="48" y="108" font-family="Georgia,Times New Roman,serif" font-size="${titleSize}" font-weight="700" fill="#F1EBDD">${displayName}</text>
+<text x="48" y="140" font-family="Arial,sans-serif" font-size="18" fill="#B7C2B6">${descSvg}</text>
+<rect x="48" y="214" width="${badgeW}" height="30" rx="15" fill="${langColor}" fill-opacity=".14" stroke="${langColor}" stroke-opacity=".5"/>
+<text x="${48+badgeW/2}" y="234" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">${esc(lang)}</text>
+<text x="48" y="272" font-family="Consolas,monospace" font-size="13" fill="#9AAB98">★ ${repoStars}  ·  ${updated}</text>
+${motif}
+<text x="852" y="272" text-anchor="end" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="${color}">VIEW PROJECT ↗</text>
+</svg>`;
  return {r,key,labelName,art};
 });
 
-const projectCards=projectArts.map(p=>{
- const label=p.labelName;
- return `<a href="${p.r.html_url}"><img src="./assets/projects/${slug(p.r.name)}.svg" width="100%" alt="${esc(label)} — featured project card"/></a>`;
-}).reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[])
+const projectCards=projectArts.map(p=>`<a href="${p.r.html_url}"><img src="./assets/projects/${slug(p.r.name)}.svg" width="100%" alt="${esc(p.labelName)} — featured project card"/></a>`)
+ .reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[])
  .map(row=>`<p align="center">${row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')}</p>`)
  .join('\n');
 
 const moreWorkBlock=moreWork.length
- ? `<p align="center"><sub>Also growing: ${moreWork.map(r=>{const label=projectNames[slug(r.name)]||r.name;return `<a href="${r.html_url}">${esc(label)}</a>`;}).join(' · ')}</sub></p>`
+ ? `<p align="center"><sub>Also: ${moreWork.map(r=>{const label=projectNames[slug(r.name)]||r.name;return `<a href="${r.html_url}">${esc(label)}</a>`;}).join(' · ')}</sub></p>`
  : '';
 
-// Nav — order matches page flow while keeping required destinations
+// Nav
 const navItems=[
- {id:'about',number:'01',label:'ABOUT',color:'#C58E6A'},
- {id:'selected-work',number:'02',label:'SELECTED WORK',color:'#91B8A8'},
- {id:'toolkit',number:'03',label:'TOOLKIT',color:'#D7BD78'},
- {id:'snapshot',number:'04',label:'SNAPSHOT',color:'#7FA88A'}
+ {id:'about',number:'01',label:'About',color:'#C58E6A'},
+ {id:'selected-work',number:'02',label:'Work',color:'#91B8A8'},
+ {id:'toolkit',number:'03',label:'Toolkit',color:'#D7BD78'},
+ {id:'snapshot',number:'04',label:'Snapshot',color:'#7FA88A'}
 ];
-const navSvgs=navItems.map(item=>({...item,svg:`<svg xmlns="http://www.w3.org/2000/svg" width="280" height="64" viewBox="0 0 280 64"><defs><linearGradient id="n${item.id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#1A2E24"/></linearGradient></defs><rect x="1" y="1" width="278" height="62" rx="12" fill="url(#n${item.id})" stroke="#6F8F72" stroke-opacity=".55" stroke-width="1.5"/><rect x="1" y="12" width="5" height="40" rx="2.5" fill="${item.color}"/><text x="20" y="26" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.6" fill="${item.color}">${item.number}</text><text x="20" y="48" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#F1EBDD">${item.label}</text></svg>`}));
-const navCards=navSvgs.map(item=>`<a href="#${item.id}"><img src="./assets/nav-${item.id}.svg" width="23%" alt="${item.number} ${item.label} section navigation"/></a>`).join(' ');
+const navSvgs=navItems.map(item=>({...item,svg:`<svg xmlns="http://www.w3.org/2000/svg" width="260" height="56" viewBox="0 0 260 56">
+<rect x="0.75" y="0.75" width="258.5" height="54.5" rx="12" fill="#14241C" stroke="#6F8F72" stroke-opacity=".4"/>
+<rect x="0.75" y="14" width="4" height="28" rx="2" fill="${item.color}"/>
+<text x="20" y="24" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.8" fill="${item.color}">${item.number}</text>
+<text x="20" y="42" font-family="Georgia,serif" font-size="16" fill="#F1EBDD">${item.label}</text>
+</svg>`}));
+const navCards=navSvgs.map(item=>`<a href="#${item.id}"><img src="./assets/nav-${item.id}.svg" width="22%" alt="${item.number} ${item.label} section navigation"/></a>`).join(' ');
 
-// Compact About — single panel + short prose
-const aboutHeader=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="210" viewBox="0 0 1200 210" role="img">
+// About
+const aboutHeader=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="176" viewBox="0 0 1200 176" role="img">
 <defs>
- <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#1A2E24"/></linearGradient>
- <linearGradient id="aboutRule" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity="0"/></linearGradient>
+ <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#182822"/></linearGradient>
 </defs>
-<rect width="1200" height="210" rx="20" fill="url(#aboutBg)"/>
-<rect x=".5" y=".5" width="1199" height="209" rx="19.5" fill="none" stroke="#6F8F72" stroke-opacity=".45"/>
-${tinyLeaf(1100,36,-25,'#7FA88A',0.5)}${tinyLeaf(1134,52,35,'#C58E6A',0.45)}
-<text x="44" y="42" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">01 / ABOUT</text>
-<path d="M44 58H280" stroke="url(#aboutRule)" stroke-width="2"/>
-<text x="44" y="100" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">Venkata Nagarjuna Babu Chitturi</text>
-<text x="44" y="132" font-family="Arial,sans-serif" font-size="16" fill="#D7BD78">StarLord · Student developer · Hyderabad</text>
-<text x="44" y="168" font-family="Arial,sans-serif" font-size="16" fill="#C5CEC1">Android apps · Full-stack web · Developer tools · Security, AI &amp; community platforms</text>
-<text x="44" y="192" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">I learn by building in public — ship early, refine carefully, keep growing.</text>
+<rect width="1200" height="176" rx="16" fill="url(#aboutBg)"/>
+<rect x="0.75" y="0.75" width="1198.5" height="174.5" rx="15.25" fill="none" stroke="#6F8F72" stroke-opacity=".38"/>
+${tinyLeaf(1148,34,-20,'#7FA88A',0.4)}
+<text x="40" y="38" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">01  /  ABOUT</text>
+<path d="M40 52H220" stroke="#C58E6A" stroke-opacity=".55" stroke-width="1.5"/>
+<text x="40" y="94" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">Venkata Nagarjuna Babu Chitturi</text>
+<text x="40" y="126" font-family="Arial,sans-serif" font-size="15" fill="#D7BD78">StarLord · Student developer · Hyderabad</text>
+<text x="40" y="154" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">Android · full-stack web · developer tools · security &amp; community platforms</text>
 </svg>`;
-
 const aboutSection=`<img src="./assets/about-header.svg" width="100%" alt="About Venkata Nagarjuna Babu Chitturi / StarLord — student developer in Hyderabad"/>`;
 
-const workHeader=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="110" viewBox="0 0 1200 110">
-<defs>
-<linearGradient id="workBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#172A24"/></linearGradient>
-<linearGradient id="workEdge"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".2"/></linearGradient>
-</defs>
-<rect x="1" y="1" width="1198" height="108" rx="18" fill="url(#workBg)" stroke="url(#workEdge)" stroke-opacity=".55"/>
-<rect x="1" y="16" width="6" height="78" rx="3" fill="#B47D58"/>
-${tinyLeaf(1120,34,-20,'#7FA88A',0.45)}
-<text x="36" y="40" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">02 / SELECTED WORK</text>
-<text x="36" y="78" font-family="Georgia,serif" font-size="32" font-weight="700" fill="#F1EBDD">Featured projects</text>
-<text x="340" y="78" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">${featured.length} featured · ${repos.length} public · Android, tools, security &amp; community</text>
+// Work header
+const workHeader=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="88" viewBox="0 0 1200 88">
+<rect x="0.75" y="0.75" width="1198.5" height="86.5" rx="14" fill="#14241C" stroke="#6F8F72" stroke-opacity=".38"/>
+<rect x="0.75" y="18" width="4" height="52" rx="2" fill="#C58E6A"/>
+<text x="36" y="36" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">02  /  SELECTED WORK</text>
+<text x="36" y="66" font-family="Georgia,serif" font-size="26" fill="#F1EBDD">Featured projects</text>
+<text x="280" y="66" font-family="Arial,sans-serif" font-size="14" fill="#9AAB98">${featured.length} featured · ${repos.length} public</text>
 </svg>`;
 
-// Grove board — toolkit + snapshot + explore as one visual system (SMIL from SKILL.md)
+// Toolkit — languages / platforms / domains
+const noiseLangs=new Set(['CSS','HTML','Shell','Batchfile','Makefile','PowerShell','Dockerfile','Procfile','MDX']);
+const meaningfulLangs=allLangs.filter(([n])=>!noiseLangs.has(n));
 const langSet=new Set(allLangs.map(([n])=>n));
 const tagSet=new Set(Object.values(projectTagLists).flat());
-const langItems=allLangs.map(([n])=>n).filter(n=>!['CSS','HTML','Shell'].includes(n)).slice(0,7);
-const platformItems=['Android','Tauri','Web','SQL'].filter(x=>{
+const displayLang=n=>n==='PLpgSQL'?'SQL':n;
+const langItems=meaningfulLangs.map(([n])=>displayLang(n)).slice(0,7);
+const platformItems=['Android','Tauri','Web','PostgreSQL'].filter(x=>{
  if(x==='Android')return tagSet.has('Android');
  if(x==='Tauri')return tagSet.has('Tauri');
  if(x==='Web')return langSet.has('TypeScript')||langSet.has('JavaScript')||langSet.has('HTML')||langSet.has('CSS');
- if(x==='SQL')return langSet.has('PLpgSQL')||langSet.has('SQL');
+ if(x==='PostgreSQL')return langSet.has('PLpgSQL')||langSet.has('SQL');
  return false;
 });
-const focusItems=[
- tagSet.has('Android')?'Mobile Safety':null,
- tagSet.has('Tauri')?'Agent Memory':null,
- tagSet.has('POS')?'Retail Systems':null,
- tagSet.has('CRM')?'Community CRM':null,
- projectTagLists['quantumshield-india']?'Security Education':null,
- (projectTagLists['feed-hyderabad']||projectTagLists['fresh-circle'])?'Local Impact':null
+const domainItems=[
+ tagSet.has('Android')?'Safety':null,
+ tagSet.has('Tauri')?'Desktop':null,
+ tagSet.has('POS')?'Retail':null,
+ tagSet.has('CRM')?'Community':null,
+ projectTagLists['quantumshield-india']?'Security':null,
+ (projectTagLists['feed-hyderabad']||projectTagLists['fresh-circle'])?'Civic':null
 ].filter(Boolean).slice(0,5);
 const categories=[
  {title:'Languages',items:langItems},
  {title:'Platforms',items:platformItems},
- {title:'Focus',items:focusItems}
+ {title:'Domains',items:domainItems}
 ].filter(c=>c.items.length);
 
-const pillW=name=>Math.max(92,Math.round(28+String(name).length*8.1));
 const stackRows=categories.map((cat,ci)=>{
- const y=78+ci*62;
- let x=208;
+ const y=74+ci*56;
+ let x=196;
  const pills=cat.items.map((name,ni)=>{
   const color=palette[name]||colors[ni%colors.length];
-  const w=pillW(name);
-  const px=x;x+=w+12;
-  return `<g>
-   <rect x="${px}" y="${y-18}" width="${w}" height="36" rx="18" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-opacity=".55">
-    <animate attributeName="fill-opacity" values=".14;.2;.14" dur="${3.2+ni*0.35}s" repeatCount="indefinite"/>
-   </rect>
-   <text x="${px+w/2}" y="${y+5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">${esc(name)}</text>
-  </g>`;
+  const w=pillWidth(name);
+  const px=x;x+=w+10;
+  return `<rect x="${px}" y="${y-16}" width="${w}" height="32" rx="16" fill="${color}" fill-opacity=".13" stroke="${color}" stroke-opacity=".45"/><text x="${px+w/2}" y="${y+5}" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#E8E2D4">${esc(name)}</text>`;
  }).join('');
- return `<text x="40" y="${y+5}" font-family="Georgia,serif" font-size="17" fill="#D7BD78">${esc(cat.title)}</text>
- <path d="M40 ${y+18}H190" stroke="#7FA88A" stroke-opacity=".22" stroke-width="1"/>
- ${pills}`;
+ return `<text x="40" y="${y+5}" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="0.6" fill="#D7BD78">${esc(cat.title.toUpperCase())}</text>${pills}`;
 }).join('');
-const stackH=92+categories.length*62+18;
+const stackH=88+categories.length*56;
 const stackSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${stackH}" viewBox="0 0 1200 ${stackH}" role="img">
-<defs>
- <linearGradient id="stackPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#122018"/><stop offset=".55" stop-color="#172A22"/><stop offset="1" stop-color="#14241C"/></linearGradient>
- <linearGradient id="stackEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
- <radialGradient id="stackGlow" cx="92%" cy="18%" r="28%"><stop stop-color="#7FA88A" stop-opacity=".18"/><stop offset="1" stop-color="#122018" stop-opacity="0"/></radialGradient>
-</defs>
-<rect x="4" y="4" width="1192" height="${stackH-8}" rx="20" fill="url(#stackPanel)" stroke="url(#stackEdge)" stroke-opacity=".55" stroke-width="1.5"/>
-<rect x="4" y="4" width="1192" height="${stackH-8}" rx="20" fill="url(#stackGlow)"/>
-<rect x="4" y="18" width="6" height="${stackH-36}" rx="3" fill="#C58E6A"/>
-<g transform="translate(1128 42)">
- <g>
-  <animateTransform attributeName="transform" type="rotate" values="-12;10;-12" dur="5.5s" repeatCount="indefinite"/>
-  <path d="M0-16C-9-4-9 8 0 18 9 8 9-4 0-16Z" fill="#7FA88A" opacity=".55"/>
- </g>
-</g>
-${tinyLeaf(1162,58,22,'#C58E6A',0.4)}
-<text x="36" y="38" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">03 / TOOLKIT</text>
-<text x="168" y="38" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#F1EBDD">Skills in one place</text>
-<text x="1160" y="38" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">VERIFIED FROM PUBLIC CODE</text>
-<path d="M36 52H420" stroke="#C58E6A" stroke-opacity=".45" stroke-width="1.6"/>
+<rect x="0.75" y="0.75" width="1198.5" height="${stackH-1.5}" rx="16" fill="#14241C" stroke="#6F8F72" stroke-opacity=".38"/>
+<text x="40" y="36" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">03  /  TOOLKIT</text>
+<text x="1160" y="36" text-anchor="end" font-family="Arial,sans-serif" font-size="12" fill="#8FA08E">From public repositories</text>
+<path d="M40 50H260" stroke="#C58E6A" stroke-opacity=".45" stroke-width="1.4"/>
 ${stackRows}
 </svg>`;
 
+// Snapshot
 const metricItems=[
- {value:repos.length,label:'PUBLIC PROJECTS',color:'#C58E6A'},
+ {value:repos.length,label:'PUBLIC',color:'#C58E6A'},
  {value:featured.length,label:'FEATURED',color:'#91B8A8'},
- {value:allLangs.length,label:'LANGUAGES',color:'#7FA88A'},
+ {value:meaningfulLangs.length,label:'LANGUAGES',color:'#7FA88A'},
  {value:stars,label:'STARS',color:'#D7BD78'},
  {value:followers,label:'FOLLOWERS',color:'#A8899C'}
 ];
-const metricsSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 0 1200 150" role="img">
-<defs>
- <linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".5" stop-color="#172A22"/><stop offset="1" stop-color="#14241C"/></linearGradient>
- <linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
-</defs>
-<rect x="4" y="4" width="1192" height="142" rx="20" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".55" stroke-width="1.5"/>
-<rect x="4" y="18" width="6" height="114" rx="3" fill="#7FA88A"/>
-<text x="36" y="34" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">04 / SNAPSHOT</text>
-<text x="170" y="34" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#F1EBDD">Public GitHub at a glance</text>
-<text x="1160" y="34" text-anchor="end" font-family="Consolas,monospace" font-size="11" fill="#93A492">PUBLIC DATA ONLY</text>
+const metricsSvg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="132" viewBox="0 0 1200 132" role="img">
+<rect x="0.75" y="0.75" width="1198.5" height="130.5" rx="16" fill="#14241C" stroke="#6F8F72" stroke-opacity=".38"/>
+<text x="40" y="34" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">04  /  SNAPSHOT</text>
+<text x="1160" y="34" text-anchor="end" font-family="Arial,sans-serif" font-size="12" fill="#8FA08E">Public GitHub data</text>
 ${metricItems.map((m,i)=>{
  const x=120+i*220;
- return `<g>
-  <text x="${x}" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">${m.value}
-   <animate attributeName="opacity" values="1;.82;1" dur="${2.8+i*0.25}s" repeatCount="indefinite"/>
-  </text>
-  <text x="${x}" y="118" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.4" fill="${m.color}">${m.label}</text>
-  ${i<metricItems.length-1?`<path d="M${x+110} 62V122" stroke="#7FA88A" stroke-opacity=".18"/>`:''}
- </g>`;
+ return `<text x="${x}" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">${m.value}</text>
+<text x="${x}" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.6" fill="${m.color}">${m.label}</text>
+${i<metricItems.length-1?`<path d="M${x+110} 58V112" stroke="#6F8F72" stroke-opacity=".28"/>`:''}`;
 }).join('')}
 </svg>`;
 
-const footerCta=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="128" viewBox="0 0 1200 128" role="img">
-<defs>
- <linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#122018"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
- <linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
- <radialGradient id="footerGlow" cx="90%" cy="50%" r="22%"><stop stop-color="#7FA88A" stop-opacity=".2"/><stop offset="1" stop-color="#122018" stop-opacity="0"/></radialGradient>
-</defs>
-<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62" stroke-width="1.5"/>
-<rect x="4" y="4" width="1192" height="120" rx="20" fill="url(#footerGlow)"/>
-<rect x="4" y="22" width="6" height="84" rx="3" fill="#B47D58"/>
-<g transform="translate(1048 64)" opacity=".5">
- <g>
-  <animateTransform attributeName="transform" type="rotate" values="-8;12;-8" dur="6s" repeatCount="indefinite"/>
-  <path d="M0-22C-12-6-12 10 0 26 12 10 12-6 0-22Z" fill="#7FA88A"/>
- </g>
-</g>
-<text x="36" y="42" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">EXPLORE THE GROVE</text>
-<text x="36" y="82" font-family="Georgia,serif" font-size="30" font-weight="700" fill="#F1EBDD">All public repositories</text>
-<text x="420" y="82" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">${featured.length} featured · ${repos.length} public · private work stays private</text>
-<circle cx="1130" cy="64" r="28" fill="#7FA88A" fill-opacity=".12" stroke="#7FA88A" stroke-opacity=".55">
- <animate attributeName="stroke-opacity" values=".4;.7;.4" dur="2.8s" repeatCount="indefinite"/>
-</circle>
-<path d="M1118 64H1140M1132 54L1142 64 1132 74" fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+// Footer CTA
+const footerCta=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="100" viewBox="0 0 1200 100" role="img">
+<rect x="0.75" y="0.75" width="1198.5" height="98.5" rx="16" fill="#14241C" stroke="#6F8F72" stroke-opacity=".42"/>
+<rect x="0.75" y="20" width="4" height="60" rx="2" fill="#C58E6A"/>
+<text x="36" y="38" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">REPOSITORIES</text>
+<text x="36" y="70" font-family="Georgia,serif" font-size="24" fill="#F1EBDD">Browse all public work</text>
+<text x="340" y="70" font-family="Arial,sans-serif" font-size="14" fill="#9AAB98">${featured.length} featured · ${repos.length} public</text>
+<circle cx="1136" cy="50" r="22" fill="none" stroke="#7FA88A" stroke-opacity=".5"/>
+<path d="M1126 50H1144M1136 42L1146 50 1136 58" fill="none" stroke="#D7BD78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
 
-// --- Nature hero (preserved falling-leaf animation markers) ---
+// Nature hero (falling-leaf markers preserved for GIF)
 const brandName=esc(profile.name||'StarLord');
-const seedDots=Array.from({length:56},(_,i)=>{
- const x=(i*137.3)%1160+20,y=(i*71.9)%440+20,r=i%7===0?2.2:1;
- const fill=i%5===0?'#D7BD78':(i%3===0?'#A8C4A4':'#D6DCCB');
- return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${(0.12+(i%4)*0.07).toFixed(2)}"/>`;
+const seedDots=Array.from({length:36},(_,i)=>{
+ const x=(i*149.7)%1140+30,y=(i*83.1)%400+30,r=i%6===0?1.8:0.9;
+ const fill=i%4===0?'#D7BD78':(i%3===0?'#A8C4A4':'#C5D0C0');
+ return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${(0.1+(i%3)*0.06).toFixed(2)}"/>`;
 }).join('');
 const fallFills=['#7FA88A','#A6B39B','#C58E6A','#D7BD78','#8EA68C','#B7A17A'];
-const fallLeaf=(fill)=>`<path d="M0-22C-9-6-10 8 0 22 10 8 9-6 0-22Z" fill="${fill}"/><path d="M0-18V16" stroke="#F1EBDD" stroke-opacity=".45" stroke-width="1"/>`;
-const fallingLeaves=Array.from({length:14},(_,i)=>{
- const x=55+i*48+(i%2)*14;
- const yStart=-40-(i%4)*22;
- const s=(0.55+(i%4)*0.08).toFixed(2);
- const rot=-25+(i%7)*8;
- const phase=(i*0.071)%1;
- const drift=(5+(i%3)*3)*(i%2===0?1:-1);
- const spin=(12+(i%4)*4)*(i%2===0?1:-1);
- const fill=fallFills[i%fallFills.length];
- return `<g data-fall="1" data-x0="${x}" data-y0="${yStart}" data-rot0="${rot}" data-scale="${s}" data-phase="${phase.toFixed(3)}" data-drift="${drift}" data-spin="${spin}" opacity="0.85" transform="translate(${x} ${yStart}) rotate(${rot}) scale(${s})">${fallLeaf(fill)}</g>`;
+const fallLeaf=fill=>`<path d="M0-20C-8-5-9 7 0 20 9 7 8-5 0-20Z" fill="${fill}"/><path d="M0-16V14" stroke="#F1EBDD" stroke-opacity=".4" stroke-width="1"/>`;
+const fallingLeaves=Array.from({length:12},(_,i)=>{
+ const x=60+i*52+(i%2)*12;
+ const yStart=-36-(i%4)*18;
+ const s=(0.52+(i%4)*0.07).toFixed(2);
+ const rot=-22+(i%7)*7;
+ const phase=((i*0.071)%1).toFixed(3);
+ const drift=(4+(i%3)*3)*(i%2===0?1:-1);
+ const spin=(10+(i%4)*3)*(i%2===0?1:-1);
+ return `<g data-fall="1" data-x0="${x}" data-y0="${yStart}" data-rot0="${rot}" data-scale="${s}" data-phase="${phase}" data-drift="${drift}" data-spin="${spin}" opacity="0.82" transform="translate(${x} ${yStart}) rotate(${rot}) scale(${s})">${fallLeaf(fallFills[i%fallFills.length])}</g>`;
 }).join('');
-const groundFerns=Array.from({length:10},(_,i)=>{
- const x=70+i*110,y=430+(i%2)*8;
- return `<g transform="translate(${x} ${y})" opacity=".55"><path d="M0 0C-6-28 4-48 0-72" fill="none" stroke="#7FA88A" stroke-width="1.6"/><path d="M0-18C-16-22-22-12-8-8M0-36C16-40 22-28 8-24M0-54C-14-58-18-48-6-44" fill="none" stroke="#A8C4A4" stroke-width="1.3"/></g>`;
+const groundFerns=Array.from({length:8},(_,i)=>{
+ const x=90+i*130,y=428+(i%2)*6;
+ return `<g transform="translate(${x} ${y})" opacity=".42"><path d="M0 0C-5-24 3-42 0-62" fill="none" stroke="#7FA88A" stroke-width="1.4"/><path d="M0-16C-14-20-18-10-6-8M0-32C14-36 18-26 6-22M0-48C-12-52-16-42-4-40" fill="none" stroke="#A8C4A4" stroke-width="1.2"/></g>`;
 }).join('');
 
-const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="heroTitle">
-<title id="heroTitle">StarLord — Cedar &amp; Stone nature banner</title>
+const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="heroTitle">
+<title id="heroTitle">StarLord — Cedar &amp; Stone</title>
 <defs>
- <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C1611"/><stop offset=".4" stop-color="#15241C"/><stop offset="1" stop-color="#0F221C"/></linearGradient>
- <radialGradient id="dawnGlow" cx="18%" cy="28%" r="42%"><stop stop-color="#D4A574" stop-opacity=".22"/><stop offset=".6" stop-color="#C58E6A" stop-opacity=".08"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
- <radialGradient id="mossGlow" cx="88%" cy="42%" r="36%"><stop stop-color="#5F8F6E" stop-opacity=".26"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
- <linearGradient id="mistSoft" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#C5D6C4" stop-opacity="0"/><stop offset=".75" stop-color="#C5D6C4" stop-opacity=".06"/><stop offset="1" stop-color="#C5D6C4" stop-opacity=".1"/></linearGradient>
- <linearGradient id="heroEdge"><stop stop-color="#C58E6A"/><stop offset=".45" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
+ <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C1611"/><stop offset=".45" stop-color="#15241C"/><stop offset="1" stop-color="#0F221C"/></linearGradient>
+ <radialGradient id="dawnGlow" cx="16%" cy="26%" r="40%"><stop stop-color="#D4A574" stop-opacity=".18"/><stop offset=".65" stop-color="#C58E6A" stop-opacity=".06"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
+ <radialGradient id="mossGlow" cx="90%" cy="40%" r="34%"><stop stop-color="#5F8F6E" stop-opacity=".22"/><stop offset="1" stop-color="#0C1611" stop-opacity="0"/></radialGradient>
+ <linearGradient id="mistSoft" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#C5D6C4" stop-opacity="0"/><stop offset="1" stop-color="#C5D6C4" stop-opacity=".08"/></linearGradient>
+ <linearGradient id="heroEdge"><stop stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient>
  <linearGradient id="sunCore"><stop stop-color="#F1EBDD"/><stop offset="1" stop-color="#D7BD78"/></linearGradient>
 </defs>
-<rect width="1200" height="480" rx="28" fill="url(#heroBg)"/>
-<rect width="1200" height="480" rx="28" fill="url(#dawnGlow)"/>
-<rect width="1200" height="480" rx="28" fill="url(#mossGlow)"/>
-<rect width="1200" height="480" rx="28" fill="url(#mistSoft)"/>
-<g id="falling-leaves" opacity=".78">${fallingLeaves}</g>
+<rect width="1200" height="440" rx="22" fill="url(#heroBg)"/>
+<rect width="1200" height="440" rx="22" fill="url(#dawnGlow)"/>
+<rect width="1200" height="440" rx="22" fill="url(#mossGlow)"/>
+<rect width="1200" height="440" rx="22" fill="url(#mistSoft)"/>
+<g id="falling-leaves" opacity=".74">${fallingLeaves}</g>
 <g>${seedDots}</g>
 ${groundFerns}
-<path d="M0 390Q180 350 360 392T720 370T1200 400" fill="none" stroke="#7FA88A" stroke-opacity=".2" stroke-width="1.5"/>
-<path d="M0 410Q220 375 440 412T880 388T1200 418" fill="none" stroke="#C58E6A" stroke-opacity=".14" stroke-width="1.2"/>
-<g transform="translate(900 230)">
- <circle r="118" fill="none" stroke="#7FA88A" stroke-opacity=".16" stroke-width="1.2"/>
- <circle r="88" fill="#5F8F6E" fill-opacity=".10" stroke="#A8C4A4" stroke-opacity=".4"/>
- <circle r="58" fill="url(#sunCore)" fill-opacity=".92"/>
- <circle r="70" fill="none" stroke="#E5D9BD" stroke-opacity=".22"/>
+<path d="M0 360Q200 328 400 362T800 348T1200 368" fill="none" stroke="#7FA88A" stroke-opacity=".18" stroke-width="1.3"/>
+<path d="M0 378Q240 348 480 380T960 360T1200 384" fill="none" stroke="#C58E6A" stroke-opacity=".12" stroke-width="1.1"/>
+<g transform="translate(920 210)">
+ <circle r="104" fill="none" stroke="#7FA88A" stroke-opacity=".14" stroke-width="1.1"/>
+ <circle r="78" fill="#5F8F6E" fill-opacity=".09" stroke="#A8C4A4" stroke-opacity=".35"/>
+ <circle r="50" fill="url(#sunCore)" fill-opacity=".92"/>
+ <circle r="60" fill="none" stroke="#E5D9BD" stroke-opacity=".18"/>
  <g data-leaf="sage" data-px="-4" data-py="-8" transform="rotate(0 -4 -8)">
-  <path d="M-4-8C-48-80-35-124 12-145 35-87 22-44-4-8Z" fill="#7FA88A" fill-opacity=".88" stroke="#C5D6C4" stroke-width="1.6"/>
-  <path d="M-4-8L10-121" stroke="#EDE7D8" stroke-opacity=".75" stroke-width="2"/>
+  <path d="M-4-8C-42-70-30-108 10-126 30-76 18-38-4-8Z" fill="#7FA88A" fill-opacity=".88" stroke="#C5D6C4" stroke-width="1.4"/>
+  <path d="M-4-8L8-105" stroke="#EDE7D8" stroke-opacity=".7" stroke-width="1.8"/>
  </g>
  <g data-leaf="copper" data-px="-4" data-py="-8" transform="rotate(0 -4 -8)">
-  <path d="M-4-8C-72-25-106 5-102 55-50 61-15 35-4-8Z" fill="#C58E6A" fill-opacity=".88" stroke="#E0B18C" stroke-width="1.6"/>
-  <path d="M-4-8L-80 35" stroke="#EDE7D8" stroke-opacity=".75" stroke-width="2"/>
+  <path d="M-4-8C-62-22-92 4-88 48-44 52-14 30-4-8Z" fill="#C58E6A" fill-opacity=".88" stroke="#E0B18C" stroke-width="1.4"/>
+  <path d="M-4-8L-70 30" stroke="#EDE7D8" stroke-opacity=".7" stroke-width="1.8"/>
  </g>
- <g data-leaf="gold" data-px="18" data-py="-20" transform="rotate(0 18 -20)">
-  <path d="M18-20C48-70 88-78 118-58 78-28 42-18 18-20Z" fill="#D7BD78" fill-opacity=".82" stroke="#EDE7D8" stroke-width="1.3"/>
-  <path d="M18-20L95-55" stroke="#F1EBDD" stroke-opacity=".65" stroke-width="1.6"/>
+ <g data-leaf="gold" data-px="16" data-py="-18" transform="rotate(0 16 -18)">
+  <path d="M16-18C42-60 76-68 102-50 68-26 36-16 16-18Z" fill="#D7BD78" fill-opacity=".82" stroke="#EDE7D8" stroke-width="1.2"/>
+  <path d="M16-18L82-48" stroke="#F1EBDD" stroke-opacity=".6" stroke-width="1.4"/>
  </g>
- <g data-leaf="moss" data-px="-20" data-py="12" transform="rotate(0 -20 12)">
-  <path d="M-20 12C-70 8-98 42-88 82-42 72-22 42-20 12Z" fill="#5F8F6E" fill-opacity=".8" stroke="#A8C4A4" stroke-width="1.3"/>
-  <path d="M-20 12L-75 58" stroke="#EDE7D8" stroke-opacity=".55" stroke-width="1.5"/>
+ <g data-leaf="moss" data-px="-18" data-py="10" transform="rotate(0 -18 10)">
+  <path d="M-18 10C-60 6-86 36-76 72-36 62-18 36-18 10Z" fill="#5F8F6E" fill-opacity=".8" stroke="#A8C4A4" stroke-width="1.2"/>
+  <path d="M-18 10L-66 50" stroke="#EDE7D8" stroke-opacity=".5" stroke-width="1.3"/>
  </g>
 </g>
 <g>
- <text x="72" y="72" font-family="Arial,sans-serif" font-size="13" letter-spacing="4.5" fill="#C5BDA8">CEDAR &amp; STONE  ·  ${new Date().getUTCFullYear()}</text>
- <text x="68" y="168" font-family="Georgia,Times New Roman,serif" font-size="86" font-weight="700" fill="#F1EBDD">${brandName}</text>
- <path d="M74 196H210" stroke="#C58E6A" stroke-width="3.2"/>
- <text x="72" y="244" font-family="Georgia,Times New Roman,serif" font-size="26" fill="#E4E1D4">Grown from real problems into living software.</text>
- <text x="74" y="292" font-family="Arial,sans-serif" font-size="16" letter-spacing="1.4" fill="#AFC0B0">STUDENT DEVELOPER  ·  HYDERABAD  ·  BUILDING IN THE OPEN</text>
- <text x="74" y="372" font-family="Consolas,monospace" font-size="12" letter-spacing="2.4" fill="#A6B39F">BUILD THOUGHTFULLY  /  KEEP GROWING</text>
+ <text x="64" y="64" font-family="Arial,sans-serif" font-size="12" letter-spacing="3.8" fill="#C5BDA8">CEDAR &amp; STONE  ·  ${new Date().getUTCFullYear()}</text>
+ <text x="60" y="156" font-family="Georgia,Times New Roman,serif" font-size="78" font-weight="700" fill="#F1EBDD">${brandName}</text>
+ <path d="M66 180H188" stroke="#C58E6A" stroke-width="2.8"/>
+ <text x="64" y="222" font-family="Georgia,Times New Roman,serif" font-size="22" fill="#E4E1D4">Software grown from real problems.</text>
+ <text x="64" y="266" font-family="Arial,sans-serif" font-size="14" letter-spacing="1.5" fill="#AFC0B0">STUDENT DEVELOPER  ·  HYDERABAD  ·  BUILDING IN PUBLIC</text>
 </g>
-<rect x="16" y="16" width="1168" height="448" rx="22" fill="none" stroke="url(#heroEdge)" stroke-opacity=".62" stroke-width="1.6"/>
+<rect x="12" y="12" width="1176" height="416" rx="16" fill="none" stroke="url(#heroEdge)" stroke-opacity=".55" stroke-width="1.4"/>
 </svg>`;
 
 const mapRepo=r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,updated_at:r.updated_at,url:r.html_url});
@@ -360,16 +333,16 @@ projectCards,
 moreWorkBlock,
 '',
 '<a id="toolkit"></a>',
-'<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — languages, platforms and focus areas from public code"/>',
+'<img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — languages, platforms and domains from public code"/>',
 '',
 '<a id="snapshot"></a>',
 '<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub snapshot: public projects, featured work, languages, stars and followers"/>',
 '',
 `<p align="center"><sub>${featured.length} featured · ${repos.length} public projects · Android, tools, security and community.</sub></p>`,
 '',
-`<p align="center"><a href="https://github.com/${username}?tab=repositories"><img src="./assets/portfolio-footer.svg" width="100%" alt="Explore all public repositories"/></a></p>`,
+`<p align="center"><a href="https://github.com/${username}?tab=repositories"><img src="./assets/portfolio-footer.svg" width="100%" alt="Browse all public repositories"/></a></p>`,
 '',
-'<p align="center"><sub>A living grove of public work · Automatically refreshed · Private repositories stay private</sub></p>',
+'<p align="center"><sub>Refreshed from public GitHub data · Private repositories stay private</sub></p>',
 '',
 '</div>'
 ].join('\n');
@@ -386,14 +359,14 @@ await Promise.all(navSvgs.map(item=>write('assets/nav-'+item.id+'.svg',item.svg)
 await Promise.all(projectArts.map(p=>write(`assets/projects/${slug(p.r.name)}.svg`,p.art)));
 await write('assets/solar-data.json',JSON.stringify({
  username,
- theme:'cedar-stone-optimised',
+ theme:'cedar-stone',
  profile:{login:profile.login,name:profile.name,avatar_url:profile.avatar_url,followers:followers,public_repos:profile.public_repos},
  featuredRepositories:featured.map(mapRepo),
  publicRepositories:repos.map(mapRepo),
  languages:allLangs,
  totalStars:stars
 },null,2));
-console.log(`Cedar & Stone optimised profile: ${featured.length} featured (2×2) / ${moreWork.length} secondary / ${repos.length} public / ${langs.length} languages${offline?' (offline cache)':''}.`);
+console.log(`Cedar & Stone profile: ${featured.length} featured / ${moreWork.length} secondary / ${repos.length} public / ${allLangs.length} languages${offline?' (offline cache)':''}.`);
 async function write(path,content){await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
