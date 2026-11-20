@@ -18,5 +18,6 @@
 <h2 align="center">📊 &nbsp; GITHUB ANALYTICS</h2>
 <img src="./assets/profile-analytics.svg" width="100%" alt="Locally generated GitHub repository analytics"/>
 
-<p align="center"><sub>✨ Auto-generated from public GitHub data · Private repositories excluded</sub></p>
+<p align="center"><sub>Built with curiosity · Refreshed from public GitHub data · Private repositories are never displayed</sub></p>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop">GitHub profile</a> &nbsp;·&nbsp; <a href="https://github.com/chvnagarjunababu14-boop?tab=repositories">All repositories</a></p>
 </div>
