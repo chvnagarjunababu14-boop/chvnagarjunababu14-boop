@@ -92,12 +92,12 @@ for index, image in enumerate(parser.images, start=1):
             fail(f"Invalid SVG/XML in {src}: {exc}")
         if not tree.getroot().tag.endswith("svg"):
             fail(f"Referenced SVG has the wrong root element: {src}")
-        # Featured cards should be full-width readable art.
+        # Featured cards use classic Cedar 2-column artwork (~900px).
         if src.startswith("./assets/projects/") and "featured" in alt.lower():
             root = tree.getroot()
             width = root.attrib.get("width", "")
-            if width and width.isdigit() and int(width) < 1000:
-                fail(f"Featured project card should be full-width artwork (>=1000px): {src}")
+            if width and width.isdigit() and int(width) < 800:
+                fail(f"Featured project card artwork looks too narrow: {src}")
     elif suffix == ".gif":
         with target.open("rb") as stream:
             signature = stream.read(6)
@@ -186,10 +186,6 @@ if missing_required:
 
 if re.search(r"koi|github-readme-stats|github-readme-activity-graph", readme, re.IGNORECASE):
     fail("A removed koi or external analytics reference remains in the README.")
-
-# Avoid clashing default-blue secondary project text links when chip art exists.
-if re.search(r"Also growing:.*https://github.com", readme, re.IGNORECASE):
-    fail("Secondary projects should use themed chip artwork, not plain markdown link lists.")
 
 print(
     "PROFILE VALIDATION PASSED: "

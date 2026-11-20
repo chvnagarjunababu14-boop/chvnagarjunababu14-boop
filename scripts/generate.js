@@ -50,101 +50,53 @@ const projectSummaries={
  'fresh-circle':'Matches nearby produce vendors and buyers, with stock visibility and surplus discounts.'
 };
 const projectNames={'safeher':'SafeHer-Next','store-point':'StorePoint','devcatalyst-community-crm':'DevCatalyst CRM','quantumshield-india':'QuantumShield India','feed-hyderabad':'Feed Hyderabad','fresh-circle':'FreshLink'};
-const projectTags={'knox':['Rust','Tauri'],'safeher':['Kotlin','Android'],'store-point':['TypeScript','POS'],'devcatalyst-community-crm':['TypeScript','CRM'],'quantumshield-india':['TypeScript','Python'],'fresh-circle':['TypeScript'],'feed-hyderabad':['TypeScript']};
-const projectStatus={'safeher':'Featured','knox':'Active','store-point':'Active','devcatalyst-community-crm':'Featured'};
+const projectTags={'knox':'Rust / Tauri','safeher':'Kotlin','store-point':'TypeScript','devcatalyst-community-crm':'TypeScript','quantumshield-india':'TypeScript / Python','fresh-circle':'TypeScript','feed-hyderabad':'TypeScript'};
+const projectTagLists={'knox':['Rust','Tauri'],'safeher':['Kotlin','Android'],'store-point':['TypeScript','POS'],'devcatalyst-community-crm':['TypeScript','CRM'],'quantumshield-india':['TypeScript','Python'],'fresh-circle':['TypeScript'],'feed-hyderabad':['TypeScript']};
 
 const leafMark=(fill,stroke)=>`<path d="M0-36C-18-8-20 14 0 36 20 14 18-8 0-36Z" fill="${fill}" stroke="${stroke}" stroke-width="1.2"/>`;
 const tinyLeaf=(x,y,rot,fill,op=0.55)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="${fill}" opacity="${op}"/></g>`;
-const wrapLines=(text,maxChars,maxLines)=>{
- const words=String(text).split(/\s+/);const lines=[];let line='';
- for(const word of words){if(line&&(line+' '+word).length>maxChars){lines.push(line);line=word;}else line=(line+' '+word).trim();}
- if(line)lines.push(line);
- const visible=lines.slice(0,maxLines);
- if(lines.length>maxLines)visible[maxLines-1]=visible[maxLines-1].replace(/[.,;:]?$/,'')+'…';
- return visible;
-};
 
-function motifFor(keyword,color,langColor){
- if(keyword.includes('safe'))return `<g transform="translate(0 0)"><circle r="70" fill="none" stroke="${color}" stroke-opacity=".2"/><path d="M0-52L40-36V6C40 34 18 54 0 64-18 54-40 34-40 6V-36Z" fill="${color}" fill-opacity=".14" stroke="${color}" stroke-width="3"/><path d="M-18 2L-4 16 24-14" fill="none" stroke="#F1EBDD" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g>`;
- if(keyword.includes('knox')||keyword.includes('rust'))return `<g><g stroke="${color}" stroke-width="3.5" fill="none"><path d="M-52-30L0-52 50-24 42 34 0 54-48 28Z"/><path d="M-52-30L-12 0 50-24M-12 0L42 34M-12 0L0 54"/></g><circle cx="-12" cy="0" r="12" fill="${langColor}" stroke="#EDE7D8" stroke-width="2"/></g>`;
- if(keyword.includes('store')||keyword.includes('retail'))return `<g><path d="M-60-28L-44-54H44L60-28V-12H-60Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><rect x="-48" y="-12" width="96" height="68" rx="8" fill="${color}" fill-opacity=".08" stroke="${color}" stroke-width="3"/><path d="M-28 8H28M-28 28H16" stroke="#EDE7D8" stroke-opacity=".8" stroke-width="5" stroke-linecap="round"/></g>`;
- if(keyword.includes('crm')||keyword.includes('catalyst'))return `<g><circle cx="-28" cy="-18" r="16" fill="${color}"/><circle cx="28" cy="-18" r="16" fill="${langColor}"/><circle cy="-38" r="18" fill="#E9E4D7"/><path d="M-56 48V24C-56 4-40-4-28-4S0 4 0 24V48ZM0 48V24C0 4 16-4 28-4S56 4 56 24V48Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/></g>`;
- if(keyword.includes('quantum')||keyword.includes('cyber'))return `<g><rect x="-42" y="-42" width="84" height="84" rx="14" fill="${color}" fill-opacity=".1" stroke="${color}" stroke-width="3"/><g fill="none" stroke="${langColor}" stroke-width="3"><ellipse rx="34" ry="14" transform="rotate(35)"/><ellipse rx="34" ry="14" transform="rotate(-35)"/></g><circle r="8" fill="#EDE7D8"/></g>`;
- if(keyword.includes('feed')||keyword.includes('food'))return `<g><path d="M-54-8H54L42 48H-42Z" fill="${color}" fill-opacity=".12" stroke="${color}" stroke-width="3"/><path d="M-34-8L-16-42H16L34-8" fill="none" stroke="${color}" stroke-width="4"/><path d="M0-58C-16-36-16-24 0-16 16-24 16-36 0-58Z" fill="${color}"/></g>`;
- if(keyword.includes('fresh')||keyword.includes('produce'))return `<g><circle r="62" fill="none" stroke="${color}" stroke-opacity=".25"/><path d="M-2 52C-10 4 6-32 48-54 52-10 32 28-2 52Z" fill="${color}" fill-opacity=".35" stroke="${color}" stroke-width="3"/><path d="M-2 52C-44 40-60 8-50-32-14-26 8 0-2 52Z" fill="${langColor}" fill-opacity=".28" stroke="${langColor}" stroke-width="3"/></g>`;
- return `<g><circle r="58" fill="none" stroke="${color}" stroke-opacity=".35"/><path d="M-34-6L0-44 34-6 0 44Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><circle r="10" fill="#EDE7D8"/></g>`;
-}
-
-// --- Full-width featured project cards (readable at GitHub README width) ---
+// --- Classic 2×2 Cedar & Stone featured project cards ---
 const projectArts=featured.map((r,i)=>{
  const color=colors[i%colors.length],langColor=palette[r.language]||color,bg=cardBgs[i%cardBgs.length];
  const key=slug(r.name);
  const labelName=projectNames[key]||r.name;
- const displayName=esc(labelName);
+ const rawName=labelName.length>25?labelName.slice(0,24)+'…':labelName;
+ const displayName=esc(rawName);
+ const titleSize=Math.min(42,Math.max(30,540/(rawName.length*.56)));
  const summary=projectSummaries[key]||r.description||('A '+(r.language||'software')+' project from my public repositories.');
- const lines=wrapLines(summary,52,3);
- const descSvg=lines.map((line,j)=>`<tspan x="44" dy="${j===0?0:28}">${esc(line)}</tspan>`).join('');
- const tags=projectTags[key]||[r.language||'Code'];
- const status=projectStatus[key]||'Public';
+ const words=String(summary).split(/\s+/),lines=[];let line='';
+ for(const word of words){if(line&&(line+' '+word).length>38){lines.push(line);line=word;}else line=(line+' '+word).trim();}
+ if(line)lines.push(line);
+ const visibleLines=lines.slice(0,3);if(lines.length>3)visibleLines[2]=visibleLines[2].replace(/[.,;:]?$/,'')+'…';
+ const descSvg=visibleLines.map((line,j)=>`<tspan x="48" dy="${j===0?0:24}">${esc(line)}</tspan>`).join('');
+ const lang=esc(projectTags[key]||r.language||'Multi-stack');
  const updated=new Date(r.updated_at).toISOString().slice(0,10);
- const motif=motifFor((r.name+' '+summary).toLowerCase(),color,langColor);
+ const repoStars=r.stargazers_count;
+ const keyword=(r.name+' '+summary).toLowerCase();
+ const motif=keyword.includes('safe')
+  ? `<g transform="translate(685 158)"><circle r="112" fill="none" stroke="${color}" stroke-opacity=".18" stroke-width="1.5"/><path d="M0-84L66-58V8C66 52 29 85 0 102-29 85-66 52-66 8V-58Z" fill="${color}" fill-opacity=".13" stroke="${color}" stroke-width="3"/><path d="M-28 0L-8 20 35-28" fill="none" stroke="#F1EBDD" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>`
+  :keyword.includes('knox')||keyword.includes('rust')
+  ? `<g transform="translate(685 164)"><g stroke="${color}" stroke-width="4" fill="none"><path d="M-82-50L0-84 80-38 67 54 0 85-75 45Z"/><path d="M-82-50L-18 0 80-38M-18 0L67 54M-18 0L0 85"/></g><circle cx="-18" cy="0" r="19" fill="${langColor}" stroke="#EDE7D8" stroke-width="2"/></g>`
+  :keyword.includes('store')||keyword.includes('retail')
+  ? `<g transform="translate(685 165)"><path d="M-104-48L-78-93H78L104-48V-24H-104Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><rect x="-83" y="-24" width="166" height="116" rx="10" fill="${color}" fill-opacity=".08" stroke="${color}" stroke-width="3"/></g>`
+  :keyword.includes('crm')||keyword.includes('catalyst')
+  ? `<g transform="translate(685 162)"><circle cx="-45" cy="-35" r="25" fill="${color}"/><circle cx="45" cy="-35" r="25" fill="${langColor}"/><circle cy="-65" r="28" fill="#E9E4D7"/><path d="M-90 78V43C-90 12-65 0-45 0S0 12 0 43V78ZM0 78V43C0 12 25 0 45 0S90 12 90 43V78Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/></g>`
+  : `<g transform="translate(685 164)"><circle r="104" fill="none" stroke="${color}" stroke-opacity=".35"/><path d="M-58-10L0-76 58-10 0 76Z" fill="${color}" fill-opacity=".16" stroke="${color}" stroke-width="3"/><circle r="17" fill="#EDE7D8"/></g>`;
  const gid='c'+i;
- const tagPills=tags.slice(0,3).map((tag,ti)=>{
-  const tx=44+ti*118;
-  const fill=ti===0?langColor:color;
-  return `<rect x="${tx}" y="198" width="108" height="32" rx="16" fill="${fill}" fill-opacity=".16" stroke="${fill}" stroke-opacity=".55"/><text x="${tx+54}" y="219" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">${esc(tag)}</text>`;
- }).join('');
- const art=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280" role="img">
-<defs>
- <linearGradient id="${gid}Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="${color}" stop-opacity=".2"/></linearGradient>
- <linearGradient id="${gid}Edge"><stop stop-color="${color}"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".45"/></linearGradient>
-</defs>
-<rect width="1200" height="280" rx="22" fill="url(#${gid}Bg)"/>
-<rect x="1" y="1" width="1198" height="278" rx="21" fill="none" stroke="url(#${gid}Edge)" stroke-opacity=".55"/>
-<rect x="1" y="24" width="6" height="232" rx="3" fill="${color}"/>
-<text x="44" y="48" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.2" fill="${color}">0${i+1} / FEATURED PROJECT</text>
-<text x="44" y="102" font-family="Georgia,Times New Roman,serif" font-size="40" font-weight="700" fill="#F1EBDD">${displayName}</text>
-<text x="44" y="148" font-family="Arial,sans-serif" font-size="20" fill="#C5CEC1">${descSvg}</text>
-${tagPills}
-<rect x="44" y="246" width="92" height="22" rx="11" fill="${color}" fill-opacity=".18" stroke="${color}" stroke-opacity=".5"/>
-<text x="90" y="262" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#EDE7D8">${esc(status)}</text>
-<text x="152" y="262" font-family="Consolas,monospace" font-size="13" fill="#AEBBAA">★ ${r.stargazers_count}  ·  Updated ${updated}</text>
-<text x="780" y="262" font-family="Arial,sans-serif" font-size="14" letter-spacing="1.2" fill="${color}">VIEW REPOSITORY ↗</text>
-<g transform="translate(980 128)">${motif}</g>
-</svg>`;
+ const art=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img"><defs><linearGradient id="${gid}Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="${color}" stop-opacity=".22"/></linearGradient><linearGradient id="${gid}Line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="${color}" stop-opacity=".85"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".4"/></linearGradient></defs><rect width="900" height="320" rx="22" fill="url(#${gid}Bg)"/><rect x="8" y="8" width="884" height="304" rx="16" fill="none" stroke="#D9D2C2" stroke-opacity=".16"/><path d="M0 276Q220 236 440 278T900 252" fill="none" stroke="url(#${gid}Line)" stroke-opacity=".28" stroke-width="1.6"/>${tinyLeaf(820,40,-28,color,0.35)}${tinyLeaf(848,62,18,'#7FA88A',0.4)}<path d="M48 52H112" stroke="${color}" stroke-width="3"/><text x="48" y="40" font-family="Georgia,serif" font-size="16" letter-spacing="2.2" fill="${color}">${lang.toUpperCase()}  /  SELECTED WORK</text><text x="48" y="119" font-family="Georgia,Times New Roman,serif" font-size="${titleSize}" font-weight="700" fill="#F1EBDD">${displayName}</text><text x="48" y="148" font-family="Arial,sans-serif" font-size="24" fill="#C5CEC1">${descSvg}</text><rect x="48" y="226" width="180" height="36" rx="17" fill="${langColor}" fill-opacity=".15" stroke="${langColor}" stroke-opacity=".6"/><text x="138" y="249" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#EDE7D8">${lang}</text><text x="48" y="286" font-family="Consolas,monospace" font-size="15" letter-spacing=".5" fill="#AEBBAA">★ ${repoStars}   ·   UPDATED ${updated}</text>${motif}<text x="850" y="296" text-anchor="end" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="${color}">VIEW PROJECT ↗</text></svg>`;
  return {r,key,labelName,art};
 });
 
-const projectCards=projectArts.map(p=>`<p align="center"><a href="${p.r.html_url}"><img src="./assets/projects/${slug(p.r.name)}.svg" width="100%" alt="${esc(p.labelName)} — featured project card"/></a></p>`).join('\n');
+const projectCards=projectArts.map(p=>{
+ const label=p.labelName;
+ return `<a href="${p.r.html_url}"><img src="./assets/projects/${slug(p.r.name)}.svg" width="100%" alt="${esc(label)} — featured project card"/></a>`;
+}).reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[])
+ .map(row=>`<p align="center">${row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')}</p>`)
+ .join('\n');
 
-// Secondary project chips (theme-matched, not default blue links)
-const moreChips=moreWork.map((r,i)=>{
- const key=slug(r.name);
- const label=projectNames[key]||r.name;
- const color=colors[(i+1)%colors.length];
- const lang=r.language||'Code';
- const blurb=wrapLines(projectSummaries[key]||r.description||lang,34,2);
- const gid='m'+i;
- const art=`<svg xmlns="http://www.w3.org/2000/svg" width="380" height="120" viewBox="0 0 380 120" role="img">
-<defs><linearGradient id="${gid}Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="${color}" stop-opacity=".18"/></linearGradient></defs>
-<rect width="380" height="120" rx="16" fill="url(#${gid}Bg)" stroke="#6F8F72" stroke-opacity=".45"/>
-<rect x="1" y="18" width="4" height="84" rx="2" fill="${color}"/>
-${tinyLeaf(340,28,-25,color,0.5)}
-<text x="22" y="40" font-family="Georgia,serif" font-size="20" font-weight="700" fill="#F1EBDD">${esc(label)}</text>
-<text x="22" y="68" font-family="Arial,sans-serif" font-size="13" fill="#AFC0B0">${esc(blurb[0]||'')}</text>
-<text x="22" y="88" font-family="Arial,sans-serif" font-size="13" fill="#8FA392">${esc(blurb[1]||lang)}</text>
-<text x="22" y="108" font-family="Consolas,monospace" font-size="12" fill="${color}">${esc(lang)}  ·  Open ↗</text>
-</svg>`;
- return {r,key,label,art};
-});
-const moreChipRows=[];
-for(let i=0;i<moreChips.length;i+=3){
- const slice=moreChips.slice(i,i+3);
- const imgs=slice.map(c=>`<a href="${c.r.html_url}"><img src="./assets/projects/${c.key}.svg" width="31%" alt="${esc(c.label)} project"/></a>`).join(' &nbsp; ');
- moreChipRows.push(`<p align="center">${imgs}</p>`);
-}
-const moreWorkBlock=moreChips.length
- ? `<p align="center"><sub>Also in the grove</sub></p>\n${moreChipRows.join('\n')}`
+const moreWorkBlock=moreWork.length
+ ? `<p align="center"><sub>Also growing: ${moreWork.map(r=>{const label=projectNames[slug(r.name)]||r.name;return `<a href="${r.html_url}">${esc(label)}</a>`;}).join(' · ')}</sub></p>`
  : '';
 
 // Nav — order matches page flow while keeping required destinations
@@ -191,7 +143,7 @@ ${tinyLeaf(1120,34,-20,'#7FA88A',0.45)}
 
 // Categorised toolkit using verified language stats + known project tags
 const langSet=new Set(allLangs.map(([n])=>n));
-const tagSet=new Set(Object.values(projectTags).flat());
+const tagSet=new Set(Object.values(projectTagLists).flat());
 const categories=[
  {title:'Programming Languages',items:['TypeScript','Kotlin','Python','Rust','JavaScript','Java','PLpgSQL'].filter(x=>langSet.has(x)||tagSet.has(x))},
  {title:'Frontend & Mobile',items:['Android','TypeScript','JavaScript','CSS','HTML','Kotlin'].filter((x,i,a)=>a.indexOf(x)===i&&(langSet.has(x)||tagSet.has(x)||x==='Android'))},
@@ -362,7 +314,6 @@ await write('assets/work-header.svg',workHeader);
 await write('assets/portfolio-footer.svg',footerCta);
 await Promise.all(navSvgs.map(item=>write('assets/nav-'+item.id+'.svg',item.svg)));
 await Promise.all(projectArts.map(p=>write(`assets/projects/${slug(p.r.name)}.svg`,p.art)));
-await Promise.all(moreChips.map(c=>write(`assets/projects/${c.key}.svg`,c.art)));
 await write('assets/solar-data.json',JSON.stringify({
  username,
  theme:'cedar-stone-optimised',
@@ -372,7 +323,7 @@ await write('assets/solar-data.json',JSON.stringify({
  languages:allLangs,
  totalStars:stars
 },null,2));
-console.log(`Cedar & Stone optimised profile: ${featured.length} featured / ${moreChips.length} secondary / ${repos.length} public / ${langs.length} languages${offline?' (offline cache)':''}.`);
+console.log(`Cedar & Stone optimised profile: ${featured.length} featured (2×2) / ${moreWork.length} secondary / ${repos.length} public / ${langs.length} languages${offline?' (offline cache)':''}.`);
 async function write(path,content){await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

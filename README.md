@@ -12,13 +12,10 @@
 <a id="selected-work"></a>
 <img src="./assets/work-header.svg" width="100%" alt="Selected work — featured projects"/>
 
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" width="100%" alt="SafeHer-Next — featured project card"/></a></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" width="100%" alt="Knox — featured project card"/></a></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" width="100%" alt="StorePoint — featured project card"/></a></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" width="100%" alt="DevCatalyst CRM — featured project card"/></a></p>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" width="47%" alt="SafeHer-Next — featured project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" width="47%" alt="Knox — featured project card"/></a></p>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" width="47%" alt="StorePoint — featured project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" width="47%" alt="DevCatalyst CRM — featured project card"/></a></p>
 
-<p align="center"><sub>Also in the grove</sub></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India"><img src="./assets/projects/quantumshield-india.svg" width="31%" alt="QuantumShield India project"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle"><img src="./assets/projects/fresh-circle.svg" width="31%" alt="FreshLink project"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-"><img src="./assets/projects/feed-hyderabad.svg" width="31%" alt="Feed Hyderabad project"/></a></p>
+<p align="center"><sub>Also growing: <a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India">QuantumShield India</a> · <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle">FreshLink</a> · <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-">Feed Hyderabad</a></sub></p>
 
 <a id="toolkit"></a>
 <img src="./assets/tech-stack-v2.svg" width="100%" alt="Toolkit — verified languages and technologies"/>
