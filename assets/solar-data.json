@@ -37,14 +37,6 @@
   },
   "publicRepositories": [
     {
-      "name": "chvnagarjunababu14-boop",
-      "description": null,
-      "language": "Python",
-      "stars": 0,
-      "updated_at": "2026-11-19T14:06:02Z",
-      "url": "https://github.com/chvnagarjunababu14-boop/chvnagarjunababu14-boop"
-    },
-    {
       "name": "Knox",
       "description": null,
       "language": "TypeScript",
@@ -112,7 +104,7 @@
     ],
     [
       "Python",
-      574018
+      560475
     ],
     [
       "Rust",
