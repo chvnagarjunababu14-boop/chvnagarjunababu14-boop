@@ -50,13 +50,21 @@ parser.close()
 if not parser.images:
     fail("No images were found in README.md.")
 
-if ("A Little About Me" not in readme and "roots, craft" not in readme.lower()) or "Venkata Nagarjuna Babu Chitturi" not in readme:
+if "Venkata Nagarjuna Babu Chitturi" not in readme:
     fail("The personal introduction section is missing or incomplete.")
 if "StarLord" not in readme:
     fail("The StarLord brand identity is missing from the README.")
 for anchor in ("about", "snapshot", "toolkit", "selected-work"):
     if f'id="{anchor}"' not in readme or f'href="#{anchor}"' not in readme:
         fail(f"Profile navigation is missing the {anchor} section anchor.")
+
+# Optimised structure: About should appear before Selected Work.
+about_pos = readme.find('id="about"')
+work_pos = readme.find('id="selected-work"')
+toolkit_pos = readme.find('id="toolkit"')
+snapshot_pos = readme.find('id="snapshot"')
+if not (0 <= about_pos < work_pos < toolkit_pos < snapshot_pos):
+    fail("README section order must be About → Selected Work → Toolkit → Snapshot.")
 
 checked: list[Path] = []
 for index, image in enumerate(parser.images, start=1):
@@ -84,6 +92,12 @@ for index, image in enumerate(parser.images, start=1):
             fail(f"Invalid SVG/XML in {src}: {exc}")
         if not tree.getroot().tag.endswith("svg"):
             fail(f"Referenced SVG has the wrong root element: {src}")
+        # Featured cards should be full-width readable art.
+        if src.startswith("./assets/projects/") and "featured" in alt.lower():
+            root = tree.getroot()
+            width = root.attrib.get("width", "")
+            if width and width.isdigit() and int(width) < 1000:
+                fail(f"Featured project card should be full-width artwork (>=1000px): {src}")
     elif suffix == ".gif":
         with target.open("rb") as stream:
             signature = stream.read(6)
@@ -116,11 +130,17 @@ project_images = [
     image["src"] for image in parser.images
     if image.get("src", "").startswith("./assets/projects/")
 ]
-if len(project_images) != len(featured):
+featured_images = [
+    image for image in parser.images
+    if image.get("src", "").startswith("./assets/projects/") and "featured" in image.get("alt", "").lower()
+]
+if len(featured_images) != len(featured):
     fail(
-        f"README shows {len(project_images)} project images, "
+        f"README shows {len(featured_images)} featured project images, "
         f"but solar-data.json contains {len(featured)} featured projects."
     )
+if len(project_images) < len(featured):
+    fail("README is missing project artwork for the featured set.")
 
 hrefs = set(parser.links)
 missing_links = [
@@ -152,8 +172,6 @@ required_assets = {
     "./assets/profile-metrics.svg",
     "./assets/tech-stack-v2.svg",
     "./assets/about-header.svg",
-    "./assets/about-divider.svg",
-    "./assets/about-signoff.svg",
     "./assets/work-header.svg",
     "./assets/portfolio-footer.svg",
     "./assets/nav-about.svg",
@@ -168,6 +186,10 @@ if missing_required:
 
 if re.search(r"koi|github-readme-stats|github-readme-activity-graph", readme, re.IGNORECASE):
     fail("A removed koi or external analytics reference remains in the README.")
+
+# Avoid clashing default-blue secondary project text links when chip art exists.
+if re.search(r"Also growing:.*https://github.com", readme, re.IGNORECASE):
+    fail("Secondary projects should use themed chip artwork, not plain markdown link lists.")
 
 print(
     "PROFILE VALIDATION PASSED: "

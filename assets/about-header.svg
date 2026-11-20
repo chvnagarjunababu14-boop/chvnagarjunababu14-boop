@@ -1,13 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="190" viewBox="0 0 1200 190" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="210" viewBox="0 0 1200 210" role="img">
 <defs>
  <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#1A2E24"/></linearGradient>
  <linearGradient id="aboutRule" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity="0"/></linearGradient>
 </defs>
-<rect width="1200" height="190" rx="20" fill="url(#aboutBg)"/>
-<rect x=".5" y=".5" width="1199" height="189" rx="19.5" fill="none" stroke="#6F8F72" stroke-opacity=".45"/>
-<g transform="translate(1080 40) rotate(-25)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#7FA88A" opacity="0.5"/></g><g transform="translate(1115 58) rotate(40)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#C58E6A" opacity="0.45"/></g><g transform="translate(1145 36) rotate(-10)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#D7BD78" opacity="0.4"/></g>
-<text x="48" y="48" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">01 / A LITTLE ABOUT ME</text>
-<path d="M48 68H320" stroke="url(#aboutRule)" stroke-width="2"/>
-<text x="48" y="120" font-family="Georgia,serif" font-size="42" font-weight="700" fill="#F1EBDD">Roots, craft &amp; curiosity</text>
-<text x="48" y="156" font-family="Arial,sans-serif" font-size="16" fill="#AFC0B0">Student · developer · builder · lifelong learner</text>
+<rect width="1200" height="210" rx="20" fill="url(#aboutBg)"/>
+<rect x=".5" y=".5" width="1199" height="209" rx="19.5" fill="none" stroke="#6F8F72" stroke-opacity=".45"/>
+<g transform="translate(1100 36) rotate(-25)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#7FA88A" opacity="0.5"/></g><g transform="translate(1134 52) rotate(35)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#C58E6A" opacity="0.45"/></g>
+<text x="44" y="42" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.4" fill="#C58E6A">01 / ABOUT</text>
+<path d="M44 58H280" stroke="url(#aboutRule)" stroke-width="2"/>
+<text x="44" y="100" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#F1EBDD">Venkata Nagarjuna Babu Chitturi</text>
+<text x="44" y="132" font-family="Arial,sans-serif" font-size="16" fill="#D7BD78">StarLord · Student developer · Hyderabad</text>
+<text x="44" y="168" font-family="Arial,sans-serif" font-size="16" fill="#C5CEC1">Android apps · Full-stack web · Developer tools · Security, AI &amp; community platforms</text>
+<text x="44" y="192" font-family="Arial,sans-serif" font-size="15" fill="#AFC0B0">I learn by building in public — ship early, refine carefully, keep growing.</text>
 </svg>
