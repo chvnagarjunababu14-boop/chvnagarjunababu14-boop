@@ -46,6 +46,9 @@ parser.close()
 if not parser.images:
     fail("No images were found in README.md.")
 
+if "A Little About Me" not in readme or "Venkata Nagarjuna Babu Chitturi" not in readme:
+    fail("The personal introduction section is missing or incomplete.")
+
 checked: list[Path] = []
 for index, image in enumerate(parser.images, start=1):
     src = image.get("src", "").strip()
