@@ -76,14 +76,14 @@ const dots=Array.from({length:100},(_,i)=>{const x=(i*137.5)%1160+10,y=(i*79.3)%
 const hero='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050716"/><stop offset=".48" stop-color="#11112c"/><stop offset="1" stop-color="#071b2b"/></linearGradient><radialGradient id="nebula"><stop stop-color="#9b4dff" stop-opacity=".55"/><stop offset="1" stop-color="#9b4dff" stop-opacity="0"/></radialGradient><radialGradient id="cyan"><stop stop-color="#14d9ff" stop-opacity=".32"/><stop offset="1" stop-color="#14d9ff" stop-opacity="0"/></radialGradient><filter id="blur"><feGaussianBlur stdDeviation="30"/></filter><linearGradient id="edge"><stop stop-color="#ff4fd8"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><rect width="1200" height="500" rx="30" fill="url(#bg)"/><circle cx="250" cy="130" r="300" fill="url(#nebula)" filter="url(#blur)"/><circle cx="1020" cy="380" r="290" fill="url(#cyan)" filter="url(#blur)"/><g>'+dots+'</g><g transform="translate(890 190)"><circle r="150" fill="none" stroke="#8273ff" stroke-opacity=".15" stroke-width="2"/><circle r="108" fill="none" stroke="#8b5cf6" stroke-opacity=".25" stroke-width="2"/><circle r="70" fill="#6f50ff" fill-opacity=".13" stroke="#b69aff" stroke-opacity=".5"/><circle r="36" fill="#c5b8ff" fill-opacity=".9"/><circle r="48" fill="#b09aff" fill-opacity=".15"/><circle cx="105" cy="-110" r="9" fill="#22d3ee"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="15s" repeatCount="indefinite"/></circle><circle cx="-70" cy="125" r="6" fill="#f472b6"><animate attributeName="opacity" values=".3;1;.3" dur="3s" repeatCount="indefinite"/></circle></g><g><text x="70" y="72" font-family="Arial,sans-serif" font-size="16" letter-spacing="6" fill="#9eb6ed">PERSONAL DEVELOPER UNIVERSE / '+new Date().getUTCFullYear()+'</text><text x="70" y="162" font-family="Arial,sans-serif" font-size="76" font-weight="700" fill="#f5f2ff">'+esc(profile.name||username)+'</text><text x="70" y="212" font-family="Arial,sans-serif" font-size="28" fill="#d8e3ff">Ideas into code. Curiosity into creations.</text><text x="70" y="260" font-family="Arial,sans-serif" font-size="19" fill="#a9b7db">'+esc(profile.bio||'Developer · Builder · Explorer')+'</text><g transform="translate(70 315)"><rect width="220" height="54" rx="27" fill="#8b5cf6" fill-opacity=".22" stroke="#b49cff"/><text x="110" y="34" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#f3eaff">✦ Explore My Work</text></g><text x="70" y="435" font-family="Arial,sans-serif" font-size="13" letter-spacing="4" fill="#8093c2">BUILD / EXPERIMENT / LEARN / REPEAT</text></g><rect x="18" y="18" width="1164" height="464" rx="24" fill="none" stroke="url(#edge)" stroke-opacity=".55" stroke-width="2"/></svg>';
 const readme=[
 '<div align="center">',
-'<img src="./assets/profile-universe.svg" width="100%" alt="Neon developer universe banner"/>',
+'<img src="./assets/profile-universe.svg" width="100%" alt="'+esc(profile.name||username)+' — neon developer universe banner"/>',
 '',
 '<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile metrics: public projects, stars, languages and followers"/>',
 '',
 '<img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>',
 '',
 '<h2 align="center">✦ &nbsp; SELECTED PROJECTS</h2>',
-'<sub>'+featured.length+' public projects · updated automatically from GitHub</sub>',
+'<sub>'+featured.length+' public projects · sorted by stars and recent activity · refreshed automatically</sub>',
 '',
 projectCards,
 '',
@@ -92,8 +92,8 @@ projectCards,
 '<h2 align="center">📊 &nbsp; GITHUB ANALYTICS</h2>',
 '<img src="./assets/profile-analytics.svg" width="100%" alt="Locally generated GitHub repository analytics"/>',
 '',
-'<p align="center"><sub>Built with curiosity · Refreshed from public GitHub data · Private repositories are never displayed</sub></p>',
-'<p align="center"><a href="https://github.com/'+username+'">GitHub profile</a> &nbsp;·&nbsp; <a href="https://github.com/'+username+'?tab=repositories">All repositories</a></p>',
+'<p align="center"><sub>Built with curiosity · Automatically refreshed from public GitHub data · Private repositories are excluded</sub></p>',
+'<p align="center"><a href="https://github.com/'+username+'">GitHub profile ↗</a></p>',
 '</div>'
 ].join('\n');
 await write('README.md',readme);
