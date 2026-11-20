@@ -31,30 +31,30 @@
    </rect>
    <text x="375" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Kotlin</text>
   </g><g>
-   <rect x="433" y="60" width="92" height="36" rx="18" fill="#C98260" fill-opacity=".16" stroke="#C98260" stroke-opacity=".55">
+   <rect x="433" y="60" width="92" height="36" rx="18" fill="#6F9EAE" fill-opacity=".16" stroke="#6F9EAE" stroke-opacity=".55">
     <animate attributeName="fill-opacity" values=".14;.2;.14" dur="3.9000000000000004s" repeatCount="indefinite"/>
    </rect>
-   <text x="479" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Rust</text>
+   <text x="479" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Python</text>
   </g><g>
-   <rect x="537" y="60" width="92" height="36" rx="18" fill="#A7B18D" fill-opacity=".16" stroke="#A7B18D" stroke-opacity=".55">
+   <rect x="537" y="60" width="92" height="36" rx="18" fill="#C98260" fill-opacity=".16" stroke="#C98260" stroke-opacity=".55">
     <animate attributeName="fill-opacity" values=".14;.2;.14" dur="4.25s" repeatCount="indefinite"/>
    </rect>
-   <text x="583" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">PLpgSQL</text>
+   <text x="583" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Rust</text>
   </g><g>
-   <rect x="641" y="60" width="92" height="36" rx="18" fill="#D3A16F" fill-opacity=".16" stroke="#D3A16F" stroke-opacity=".55">
+   <rect x="641" y="60" width="92" height="36" rx="18" fill="#A7B18D" fill-opacity=".16" stroke="#A7B18D" stroke-opacity=".55">
     <animate attributeName="fill-opacity" values=".14;.2;.14" dur="4.6s" repeatCount="indefinite"/>
    </rect>
-   <text x="687" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Java</text>
+   <text x="687" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">PLpgSQL</text>
   </g><g>
-   <rect x="745" y="60" width="92" height="36" rx="18" fill="#6F9EAE" fill-opacity=".16" stroke="#6F9EAE" stroke-opacity=".55">
+   <rect x="745" y="60" width="109" height="36" rx="18" fill="#D7BD78" fill-opacity=".16" stroke="#D7BD78" stroke-opacity=".55">
     <animate attributeName="fill-opacity" values=".14;.2;.14" dur="4.95s" repeatCount="indefinite"/>
    </rect>
-   <text x="791" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Python</text>
+   <text x="799.5" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">JavaScript</text>
   </g><g>
-   <rect x="849" y="60" width="101" height="36" rx="18" fill="#D7BD78" fill-opacity=".16" stroke="#D7BD78" stroke-opacity=".55">
+   <rect x="866" y="60" width="92" height="36" rx="18" fill="#D3A16F" fill-opacity=".16" stroke="#D3A16F" stroke-opacity=".55">
     <animate attributeName="fill-opacity" values=".14;.2;.14" dur="5.3s" repeatCount="indefinite"/>
    </rect>
-   <text x="899.5" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Batchfile</text>
+   <text x="912" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#EDE7D8">Java</text>
   </g><text x="40" y="145" font-family="Georgia,serif" font-size="17" fill="#D7BD78">Platforms</text>
  <path d="M40 158H190" stroke="#7FA88A" stroke-opacity=".22" stroke-width="1"/>
  <g>
