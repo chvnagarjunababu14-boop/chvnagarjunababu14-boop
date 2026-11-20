@@ -1,12 +1,39 @@
 {
   "username": "chvnagarjunababu14-boop",
-  "theme": "solar-system-gitskins-quality",
   "profile": {
     "login": "chvnagarjunababu14-boop",
-    "name": "StarLord",
+    "id": 240295208,
+    "node_id": "U_kgDODlKdKA",
     "avatar_url": "https://avatars.githubusercontent.com/u/240295208?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/chvnagarjunababu14-boop",
+    "html_url": "https://github.com/chvnagarjunababu14-boop",
+    "followers_url": "https://api.github.com/users/chvnagarjunababu14-boop/followers",
+    "following_url": "https://api.github.com/users/chvnagarjunababu14-boop/following{/other_user}",
+    "gists_url": "https://api.github.com/users/chvnagarjunababu14-boop/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/chvnagarjunababu14-boop/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/chvnagarjunababu14-boop/subscriptions",
+    "organizations_url": "https://api.github.com/users/chvnagarjunababu14-boop/orgs",
+    "repos_url": "https://api.github.com/users/chvnagarjunababu14-boop/repos",
+    "events_url": "https://api.github.com/users/chvnagarjunababu14-boop/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/chvnagarjunababu14-boop/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false,
+    "name": "StarLord",
+    "company": null,
+    "blog": "",
+    "location": null,
+    "email": "chvnagarjunababu14@gmail.com",
+    "hireable": null,
+    "bio": null,
+    "twitter_username": null,
+    "public_repos": 8,
+    "public_gists": 0,
     "followers": 2,
-    "public_repos": 8
+    "following": 7,
+    "created_at": "2025-10-26T10:09:52Z",
+    "updated_at": "2026-11-20T09:06:05Z"
   },
   "featuredRepositories": [
     {
@@ -14,7 +41,6 @@
       "description": "SafeHer — a privacy-first Android personal safety app built with Kotlin and Jetpack Compose.",
       "language": "Kotlin",
       "stars": 3,
-      "forks": 0,
       "updated_at": "2026-10-29T11:00:40Z",
       "url": "https://github.com/chvnagarjunababu14-boop/SafeHer"
     },
@@ -23,7 +49,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-11-01T07:29:26Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Knox"
     },
@@ -32,7 +57,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-30T06:02:25Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Store-Point"
     },
@@ -41,7 +65,6 @@
       "description": " Community Registration and CRM platform built for the DevCatalyst OSS recruitment task",
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-29T15:41:22Z",
       "url": "https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"
     }
@@ -52,7 +75,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-11-01T07:29:26Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Knox"
     },
@@ -61,7 +83,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-30T06:02:25Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Store-Point"
     },
@@ -70,7 +91,6 @@
       "description": " Community Registration and CRM platform built for the DevCatalyst OSS recruitment task",
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-29T15:41:22Z",
       "url": "https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"
     },
@@ -79,7 +99,6 @@
       "description": "SafeHer — a privacy-first Android personal safety app built with Kotlin and Jetpack Compose.",
       "language": "Kotlin",
       "stars": 3,
-      "forks": 0,
       "updated_at": "2026-10-29T11:00:40Z",
       "url": "https://github.com/chvnagarjunababu14-boop/SafeHer"
     },
@@ -88,7 +107,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-18T16:10:01Z",
       "url": "https://github.com/chvnagarjunababu14-boop/QuantumShield-India"
     },
@@ -97,7 +115,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-10T09:34:47Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Fresh-Circle"
     },
@@ -106,7 +123,6 @@
       "description": null,
       "language": "TypeScript",
       "stars": 0,
-      "forks": 0,
       "updated_at": "2026-10-10T09:28:27Z",
       "url": "https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-"
     }
@@ -153,81 +169,5 @@
       200
     ]
   ],
-  "orbitLanguages": [
-    {
-      "name": "TypeScript",
-      "pct": 57.59578058904312,
-      "label": "58%",
-      "color": "#3178C6",
-      "domain": "Web Architecture & Full-Stack Products",
-      "moons": [
-        "Knox",
-        "Store-Point"
-      ]
-    },
-    {
-      "name": "Kotlin",
-      "pct": 22.166237356669242,
-      "label": "22%",
-      "color": "#7F52FF",
-      "domain": "Android & Privacy-Minded Mobile",
-      "moons": [
-        "SafeHer"
-      ]
-    },
-    {
-      "name": "Python",
-      "pct": 8.553262188789676,
-      "label": "9%",
-      "color": "#3776AB",
-      "domain": "Learning Systems & Experiments",
-      "moons": []
-    },
-    {
-      "name": "Rust",
-      "pct": 8.390353809530422,
-      "label": "8%",
-      "color": "#DEA584",
-      "domain": "Developer Tools & Agent Memory",
-      "moons": []
-    },
-    {
-      "name": "PLpgSQL",
-      "pct": 1.2396450169188173,
-      "label": "1%",
-      "color": "#336791",
-      "domain": "Data Layer & Persistence",
-      "moons": []
-    }
-  ],
-  "weekCounts": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    2,
-    6,
-    12,
-    0,
-    9
-  ],
-  "totalStars": 3,
-  "totalForks": 0
+  "totalStars": 3
 }

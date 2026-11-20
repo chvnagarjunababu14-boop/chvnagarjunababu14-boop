@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="176" viewBox="0 0 1200 176">
+<defs>
+<linearGradient id="workBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#18251F"/><stop offset="1" stop-color="#172725"/></linearGradient>
+<linearGradient id="workEdge"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#8EA68C"/><stop offset="1" stop-color="#8EA68C" stop-opacity=".2"/></linearGradient>
+</defs>
+<rect x="1" y="1" width="1198" height="174" rx="18" fill="url(#workBg)" stroke="url(#workEdge)" stroke-opacity=".58" stroke-width="1.5"/>
+<rect x="1" y="18" width="6" height="140" rx="3" fill="#B47D58"/>
+<text x="42" y="45" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">04 / THE THINGS I BUILD</text>
+<text x="42" y="101" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#F1EBDD">Selected Work</text>
+<text x="44" y="137" font-family="Arial,sans-serif" font-size="17" fill="#AFC0B0">Four projects that best show how I think and ship.</text>
+<g transform="translate(1038 88)">
+<rect x="-94" y="-54" width="68" height="68" rx="12" fill="#8EA68C" fill-opacity=".10" stroke="#8EA68C" stroke-opacity=".75" stroke-width="2"/>
+<rect x="-13" y="-54" width="68" height="68" rx="12" fill="#B47D58" fill-opacity=".10" stroke="#B47D58" stroke-opacity=".75" stroke-width="2"/>
+<rect x="-94" y="27" width="68" height="52" rx="12" fill="#D7BD78" fill-opacity=".09" stroke="#D7BD78" stroke-opacity=".68" stroke-width="2"/>
+<rect x="-13" y="27" width="68" height="52" rx="12" fill="#8EA68C" fill-opacity=".08" stroke="#8EA68C" stroke-opacity=".55" stroke-width="2"/>
+<g fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-78-30L-60-43-42-30-60-17Z"/>
+<path d="M6-31Q21-47 39-31Q21-15 6-31Z"/>
+<path d="M-79 44H-43M-79 55H-52M-79 66H-61"/>
+<path d="M6 54L17 43 28 54 39 43"/>
+</g>
+<circle cx="21" cy="-31" r="4" fill="#D7BD78"/>
+</g>
+</svg>

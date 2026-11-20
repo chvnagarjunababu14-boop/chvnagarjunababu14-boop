@@ -54,14 +54,9 @@ if "A Little About Me" not in readme or "Venkata Nagarjuna Babu Chitturi" not in
     fail("The personal introduction section is missing or incomplete.")
 if "StarLord" not in readme:
     fail("The StarLord brand identity is missing from the README.")
-for heading in (
-    "The Moons — Featured Repositories",
-    "The Planets — Planetary System",
-    "Solar Log — Revolutions",
-    "Transmission Channels",
-):
-    if heading not in readme:
-        fail(f"Profile is missing the '{heading}' section.")
+for anchor in ("about", "snapshot", "toolkit", "selected-work"):
+    if f'id="{anchor}"' not in readme or f'href="#{anchor}"' not in readme:
+        fail(f"Profile navigation is missing the {anchor} section anchor.")
 
 checked: list[Path] = []
 for index, image in enumerate(parser.images, start=1):
@@ -154,10 +149,17 @@ if (
 
 required_assets = {
     "./assets/profile-universe.gif",
-    "./assets/solar-about.svg",
+    "./assets/profile-metrics.svg",
     "./assets/tech-stack-v2.svg",
-    "./assets/solar-log.svg",
+    "./assets/about-header.svg",
+    "./assets/about-divider.svg",
+    "./assets/about-signoff.svg",
+    "./assets/work-header.svg",
     "./assets/portfolio-footer.svg",
+    "./assets/nav-about.svg",
+    "./assets/nav-snapshot.svg",
+    "./assets/nav-toolkit.svg",
+    "./assets/nav-selected-work.svg",
 }
 actual_sources = {image.get("src", "") for image in parser.images}
 missing_required = sorted(required_assets - actual_sources)

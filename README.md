@@ -1,93 +1,43 @@
 <div align="center">
+<img src="./assets/profile-universe.gif" width="100%" alt="StarLord — Cedar & Stone banner with gently swaying leaves"/>
+<p align="center"><a href="#about"><img src="./assets/nav-about.svg" width="22%" alt="01 ABOUT section navigation"/></a> &nbsp; <a href="#snapshot"><img src="./assets/nav-snapshot.svg" width="22%" alt="02 SNAPSHOT section navigation"/></a> &nbsp; <a href="#toolkit"><img src="./assets/nav-toolkit.svg" width="22%" alt="03 TOOLKIT section navigation"/></a> &nbsp; <a href="#selected-work"><img src="./assets/nav-selected-work.svg" width="22%" alt="04 SELECTED WORK section navigation"/></a></p>
+<a id="about"></a>
+<img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
 
-<!-- SOLAR SYSTEM ORBITS HERO -->
-<img src="./assets/profile-universe.gif" alt="StarLord solar system: languages as planets, projects as moons" width="100%"/>
+<div align="left">
+<p>Hey, I’m <strong>Venkata Nagarjuna Babu Chitturi</strong> — known online as <strong>StarLord</strong>. I’m a student developer focused on turning real problems into polished, usable software.</p>
 
-<br/>
-<sub><i>I am the sun; my languages are the planets and my projects their moons.</i></sub>
-<br/><br/>
+<p>I spend most of my time on <strong>Android apps</strong>, <strong>full-stack web products</strong>, and <strong>developer tools</strong>. On the side I explore security, AI, and community platforms — always with a bias toward shipping something people can actually open and use.</p>
 
-<!-- THE SUN (ABOUT CARD) -->
-<img src="./assets/solar-about.svg" alt="A Little About Me — Venkata Nagarjuna Babu Chitturi / StarLord" width="100%"/>
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
 
+<h3>Where I Focus</h3>
+<p><strong>Android</strong> — privacy-minded mobile tools with clear UX.<br/>
+<strong>Full-stack web</strong> — practical products for retail, food systems, and student communities.<br/>
+<strong>Developer tools</strong> — workflows and agents that keep context while you build.</p>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>How I Work</h3>
+<p>I learn by building in public: start with a sharp problem, ship an early version, then refine. Curious collaborators and hard feedback welcome.</p>
+
+<img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
 </div>
 
----
+<a id="snapshot"></a>
+<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile snapshot: public projects, stars, languages and featured work"/>
 
-## 🌕 The Moons — Featured Repositories
+<a id="toolkit"></a>
+<img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>
 
-<table border="0" width="100%">
-<tr>
-<td width="50%" valign="top"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" alt="SafeHer-Next" width="100%"/></a></td>
-<td width="50%" valign="top"><a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" alt="Knox" width="100%"/></a></td>
-</tr>
-<tr>
-<td width="50%" valign="top"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" alt="StorePoint" width="100%"/></a></td>
-<td width="50%" valign="top"><a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" alt="DevCatalyst CRM" width="100%"/></a></td>
-</tr>
-</table>
+<a id="selected-work"></a>
+<img src="./assets/work-header.svg" width="100%" alt="Selected work — projects shaped by curiosity"/>
+<sub>4 featured · 7 public projects · Android, tools, security and community.</sub>
 
-<p align="center"><sub>Also in orbit: <a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India">QuantumShield India</a> · <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle">FreshLink</a> · <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-">Feed Hyderabad</a></sub></p>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" width="47%" alt="SafeHer-Next project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" width="47%" alt="Knox project card"/></a></p>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" width="47%" alt="StorePoint project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" width="47%" alt="DevCatalyst CRM project card"/></a></p>
+<p align="center"><sub>Also in progress: <a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India">QuantumShield India</a> · <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle">FreshLink</a> · <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-">Feed Hyderabad</a></sub></p>
 
-<p align="center"><sub>4 featured · 7 public projects · Android, tools, security and community.</sub></p>
-
----
-
-## 🪐 The Planets — Planetary System & Tech Stack
-
-<div align="center">
-<img src="./assets/tech-stack-v2.svg" alt="Planetary System — Languages & Tech Stack" width="100%"/>
-</div>
-
-<details>
-<summary><b>Orbital Distance & Evidence Index</b></summary>
-<br/>
-
-| Orbit | Celestial Body | Domain | Verified Repositories |
-|---|---|---|---|
-| **Orbit 1** | **TypeScript** (Inner) | Web Architecture &amp; Full-Stack Products | [`Knox`](https://github.com/chvnagarjunababu14-boop/Knox), [`StorePoint`](https://github.com/chvnagarjunababu14-boop/Store-Point) |
-| **Orbit 2** | **Kotlin** (Orbit 2) | Android &amp; Privacy-Minded Mobile | [`SafeHer-Next`](https://github.com/chvnagarjunababu14-boop/SafeHer) |
-| **Orbit 3** | **Python** (Orbit 3) | Learning Systems &amp; Experiments | _exploring_ |
-| **Orbit 4** | **Rust** (Orbit 4) | Developer Tools &amp; Agent Memory | _exploring_ |
-| **Orbit 5** | **PLpgSQL** (Outer) | Data Layer &amp; Persistence | _exploring_ |
-
-</details>
-
----
-
-## 📡 Solar Log — Revolutions & Telemetry
-
-<div align="center">
-<img src="./assets/solar-log.svg" alt="Orbit Log — 26 weeks of public signal" width="100%"/>
-</div>
-
-### Verified Experience & Orbit Logs
-- **Student Developer** — *Hyderabad* `[Building in public]`
-  - Shipping Android apps, full-stack products, and developer tools people can actually use.
-- **Focus Systems** — *SafeHer · Knox · StorePoint · DevCatalyst*
-  - Privacy-minded mobile, agent memory, retail POS, and campus community CRM.
-- **Exploration Orbits** — *QuantumShield · FreshLink · Feed Hyderabad*
-  - Security/quantum learning, produce markets, and surplus-food logistics.
-
-### Signals & Credentials
-- ★ **SafeHer-Next** — privacy-first Android safety app with SOS + guardian alerts
-- 🛰 **Knox** — Rust knowledge graph preserving decisions for AI coding agents
-- 🛰 **StorePoint** — offline-first retail POS with inventory and branch analytics
-- 📍 Based in **Hyderabad** · open to collaboration with fellow builders
-
----
-
-## ☀️ Transmission Channels
-
-<div align="center">
-<a href="https://github.com/chvnagarjunababu14-boop">
-<img src="./assets/portfolio-footer.svg" alt="Solar Transmission — open a channel" width="100%"/>
-</a>
-<br/><br/>
-<p>
-  <a href="https://github.com/chvnagarjunababu14-boop">GitHub</a> ·
-  <a href="mailto:chvnagarjunababu14@gmail.com">Email</a> ·
-  <a href="https://github.com/chvnagarjunababu14-boop?tab=repositories">All repositories</a>
-</p>
-<sub>Solar System · planets are languages, moons are projects, comets are recent pushes · automatically refreshed</sub>
+<p align="center"><a href="https://github.com/chvnagarjunababu14-boop?tab=repositories"><img src="./assets/portfolio-footer.svg" width="100%" alt="Explore all repositories — browse every public project and experiment"/></a></p>
+<p align="center"><sub>A living collection of public work · Automatically refreshed · Private repositories stay private</sub></p>
 </div>

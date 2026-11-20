@@ -1,429 +1,192 @@
-// StarLord Solar System — GitSkins-quality custom profile. Public GitHub data only.
+// Cedar & Stone — editorial portfolio generator. Public repository data only.
 async function main(){
-const fs=await import('node:fs/promises');
 const username=process.env.GITHUB_USERNAME||'chvnagarjunababu14-boop';
-const headers={Accept:'application/vnd.github+json','User-Agent':'starlord-solar-profile'};
+const headers={Accept:'application/vnd.github+json','User-Agent':'cedar-stone-profile'};
 if(process.env.GITHUB_TOKEN)headers.Authorization='Bearer '+process.env.GITHUB_TOKEN;
 async function api(url){const r=await fetch(url,{headers});if(!r.ok)throw new Error('GitHub API '+r.status+' at '+url);return r.json();}
-function hydrateRepo(r){return{name:r.name,description:r.description||null,language:r.language||null,stargazers_count:r.stars??r.stargazers_count??0,forks_count:r.forks??r.forks_count??0,updated_at:r.updated_at,html_url:r.url||r.html_url,private:false,archived:false,languages_url:null};}
-let profile,repos,allLangs,weekCountsCached=null,offline=false;
-try{
- profile=await api('https://api.github.com/users/'+username);
- const all=await api('https://api.github.com/users/'+username+'/repos?type=public&sort=updated&per_page=100');
- repos=all.filter(r=>!r.private&&!r.archived&&r.name.toLowerCase()!==username.toLowerCase()).slice(0,100);
- const langmaps=await Promise.all(repos.map(async r=>{try{return await api(r.languages_url);}catch{return r.language?{[r.language]:1}:{};}}));
- const totals={};langmaps.forEach(m=>Object.entries(m).forEach(([k,v])=>totals[k]=(totals[k]||0)+v));
- if(!Object.keys(totals).length)repos.forEach(r=>{if(r.language)totals[r.language]=(totals[r.language]||0)+1;});
- allLangs=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
-}catch(err){
- console.warn('Live GitHub fetch failed ('+err.message+'); regenerating from assets/solar-data.json');
- const cached=JSON.parse(await fs.readFile('assets/solar-data.json','utf8'));
- offline=true;
- profile=cached.profile;
- repos=(cached.publicRepositories||[]).map(hydrateRepo);
- allLangs=cached.languages||[];
- weekCountsCached=cached.weekCounts||null;
-}
-const langs=allLangs.slice(0,5);
-const totals=Object.fromEntries(allLangs);
-const palette={TypeScript:'#3178C6',JavaScript:'#F7DF1E',Python:'#3776AB',Java:'#F59E0B',Rust:'#DEA584',Kotlin:'#7F52FF',CSS:'#1572B6',HTML:'#E34F26',Go:'#00ADD8',C:'#94A3B8','C++':'#F472B6',PHP:'#A78BFA',Shell:'#A3E635',SQL:'#F59E0B',PLpgSQL:'#336791'};
+const profile=await api('https://api.github.com/users/'+username);
+const all=await api('https://api.github.com/users/'+username+'/repos?type=public&sort=updated&per_page=100');
+const repos=all.filter(r=>!r.private&&!r.archived&&r.name.toLowerCase()!==username.toLowerCase()).slice(0,100);
+const langmaps=await Promise.all(repos.map(r=>api(r.languages_url)));
+const totals={};langmaps.forEach(m=>Object.entries(m).forEach(([k,v])=>totals[k]=(totals[k]||0)+v));
+const allLangs=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+const langs=allLangs.slice(0,8);
+const palette={TypeScript:'#91B8A8',JavaScript:'#D7BD78',Python:'#83AABB',Java:'#D3A16F',Rust:'#C98260',Kotlin:'#B994A8',CSS:'#8C9BB0',HTML:'#CE9277',Go:'#85ADA6',C:'#9AA39A','C++':'#C88791',PHP:'#9B91B5',Ruby:'#B77E7A',Dart:'#82AFA9',Shell:'#A6B18D',SQL:'#C49D69',PLpgSQL:'#A7B18D',Swift:'#D18F72'};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const stars=repos.reduce((n,r)=>n+r.stargazers_count,0);
-const forks=repos.reduce((n,r)=>n+(r.forks_count||0),0);
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const featuredPriority=['safeher','knox','store-point','devcatalyst-community-crm'];
 const ranked=[...repos].sort((a,b)=>(b.stargazers_count-a.stargazers_count)||new Date(b.updated_at)-new Date(a.updated_at));
 const featured=[];
 for(const key of featuredPriority){const hit=ranked.find(r=>slug(r.name)===key);if(hit)featured.push(hit);}
 for(const r of ranked){if(featured.length>=4)break;if(!featured.includes(r))featured.push(r);}
 const moreWork=ranked.filter(r=>!featured.includes(r));
+const colors=['#C58E6A','#8FA99A','#D1B675','#A6B39B','#88A9A4','#BE8E89','#B7A17A'];
+const cardBgs=['#17241F','#172326','#22251D','#1C2822','#192A2B','#29221F','#23271F'];
 const projectSummaries={
- 'safeher':['Privacy-first Android safety app with SOS and guardian alerts.','Emergency check-ins, trusted contacts, and calm UX under pressure.'],
- 'knox':['Rust knowledge graph that keeps project decisions for AI agents.','Desktop-ready memory vault for durable coding context.'],
- 'store-point':['Offline-first retail POS with barcode checkout and inventory.','Multi-branch analytics for shops that cannot rely on the cloud.'],
- 'devcatalyst-community-crm':['Student-club CRM for projects, events, and recruitment.','Member directory and workflows built for campus builders.'],
- 'quantumshield-india':['Learning site for cybersecurity and quantum tech basics.','Lessons plus a sample quiz for early exploration.'],
- 'feed-hyderabad':['Connects surplus restaurant food with nearby NGOs.','Location-aware matching for less waste, more meals.'],
- 'fresh-circle':['FreshLink matches nearby produce vendors and buyers.','Stock visibility with surplus discount discovery.']
+ 'safeher':'Privacy-first Android safety app with emergency SOS, check-ins and trusted guardian alerts.',
+ 'knox':'Rust-based knowledge graph preserving project decisions and context for AI coding agents.',
+ 'store-point':'Offline-first retail POS with barcode checkout, inventory and multi-branch analytics.',
+ 'devcatalyst-community-crm':'Student-club CRM for projects, events, recruitment and member directory.',
+ 'quantumshield-india':'Early learning site for cybersecurity and quantum tech, with lessons and a sample quiz.',
+ 'feed-hyderabad':'Location-based platform connecting restaurants with surplus food to nearby NGOs.',
+ 'fresh-circle':'FreshLink matches nearby produce vendors and buyers, with stock and surplus discounts.'
 };
-const projectNames={'safeher':'SafeHer-Next','store-point':'StorePoint','devcatalyst-community-crm':'DevCatalyst CRM','quantumshield-india':'QuantumShield India','feed-hyderabad':'Feed Hyderabad','fresh-circle':'FreshLink'};
-const projectTags={'safeher':['Kotlin','Android'],'knox':['Rust','Tauri'],'store-point':['TypeScript','POS'],'devcatalyst-community-crm':['TypeScript','CRM'],'quantumshield-india':['TypeScript','Python'],'feed-hyderabad':['TypeScript'],'fresh-circle':['TypeScript']};
-const domainByLang={
- TypeScript:'Web Architecture & Full-Stack Products',
- Kotlin:'Android & Privacy-Minded Mobile',
- Python:'Learning Systems & Experiments',
- Rust:'Developer Tools & Agent Memory',
- JavaScript:'Interface Experiments',
- Java:'Backend Exploration',
- PLpgSQL:'Data Layer & Persistence',
- CSS:'Visual Systems',
- HTML:'Markup & Structure'
+const projectNames={
+ 'safeher':'SafeHer-Next',
+ 'store-point':'StorePoint',
+ 'devcatalyst-community-crm':'DevCatalyst CRM',
+ 'quantumshield-india':'QuantumShield India',
+ 'feed-hyderabad':'Feed Hyderabad',
+ 'fresh-circle':'FreshLink'
 };
-const totalLanguageBytes=Object.values(totals).reduce((s,n)=>s+n,0)||1;
-const abbr={TypeScript:'TS',JavaScript:'JS',Python:'PY',Kotlin:'KT',Rust:'RS',PLpgSQL:'SQL',Java:'JV',CSS:'CSS',HTML:'HTML',Go:'GO'};
-function langBadge(name,color,size=24){
- const a=abbr[name]||String(name).slice(0,2).toUpperCase();
- const r=size/2;const fs=size<=20?8:10;
- const textFill=['#F7DF1E','#DEA584','#86EFAC'].includes(color)?'#0B1225':'#F8FAFC';
- return `<circle r="${r+3}" fill="${color}" fill-opacity=".28"/><circle r="${r}" fill="${color}"/><circle r="${r}" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1.2"/><text y="${fs*0.35}" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="${fs}" font-weight="800" fill="${textFill}">${esc(a)}</text>`;
-}
-
-let avatarDataUri='';
-try{
- const avatarUrl=(profile.avatar_url||'')+(profile.avatar_url?.includes('?')?'&':'?')+'s=160';
- const ar=await fetch(avatarUrl,{headers:{'User-Agent':'starlord-solar-profile'}});
- if(ar.ok){const buf=Buffer.from(await ar.arrayBuffer());const mime=ar.headers.get('content-type')||'image/png';avatarDataUri=`data:${mime};base64,${buf.toString('base64')}`;}
-}catch{}
-
-const weekMs=7*24*3600*1000;
-const now=Date.now();
-const weeks=26;
-let weekCounts=Array.from({length:weeks},()=>0);
-if(weekCountsCached&&weekCountsCached.length===weeks){
- weekCounts=weekCountsCached.slice();
-}else{
- let publicEvents=[];
- if(!offline){try{publicEvents=await api('https://api.github.com/users/'+username+'/events/public?per_page=100');}catch{}}
- for(const ev of publicEvents){
-  if(!ev||!ev.created_at)continue;
-  const age=now-new Date(ev.created_at).getTime();
-  const w=Math.floor(age/weekMs);
-  if(w>=0&&w<weeks)weekCounts[weeks-1-w]+=1;
- }
- if(weekCounts.every(n=>n===0)){
-  for(const r of repos){
-   const age=now-new Date(r.updated_at).getTime();
-   const w=Math.floor(age/weekMs);
-   if(w>=0&&w<weeks)weekCounts[weeks-1-w]+=1;
-  }
- }
-}
-const recentPushes=repos.slice(0,2).map((r,i)=>({name:r.name,updated:r.updated_at,phase:i*0.45}));
-
-const orbitLangs=langs.map(([name,bytes],i)=>{
- const pct=bytes/totalLanguageBytes*100;
- const label=pct>0&&pct<1?'<1%':`${Math.round(pct)}%`;
- const related=repos.filter(r=>(r.language||'')===name).slice(0,2);
- // Wider, calmer rings with even spacing (reference-style neat ellipses).
- return {name,color:palette[name]||'#38BDF8',pct,label,rx:130+i*42,ry:48+i*14,start:i*(360/Math.max(langs.length,1))+18,size:12,moons:related,domain:domainByLang[name]||'Software Systems'};
+const projectTags={'knox':'Rust / Tauri','safeher':'Kotlin','store-point':'TypeScript','devcatalyst-community-crm':'TypeScript','quantumshield-india':'TypeScript / Python','fresh-circle':'TypeScript','feed-hyderabad':'TypeScript'};
+const projectArts=featured.map((r,i)=>{
+ const color=colors[i%colors.length],langColor=palette[r.language]||color,bg=cardBgs[i%cardBgs.length];
+ const labelName=projectNames[slug(r.name)]||r.name;const rawName=labelName.length>25?labelName.slice(0,24)+'…':labelName,displayName=esc(rawName),titleSize=Math.min(42,Math.max(30,540/(rawName.length*.56)));
+ const summary=projectSummaries[slug(r.name)]||r.description||('A '+(r.language||'software')+' project from my public repositories.');
+ const words=String(summary).split(/\s+/),lines=[];let line='';
+ for(const word of words){if(line&&(line+' '+word).length>38){lines.push(line);line=word;}else line=(line+' '+word).trim();}
+ if(line)lines.push(line);
+ const visibleLines=lines.slice(0,3);if(lines.length>3)visibleLines[2]=visibleLines[2].replace(/[.,;:]?$/,'')+'…';const descSvg=visibleLines.map((line,j)=>'<tspan x="48" dy="'+(j===0?0:24)+'">'+esc(line)+'</tspan>').join('');
+ const lang=esc(projectTags[slug(r.name)]||r.language||'Multi-stack'),updated=new Date(r.updated_at).toISOString().slice(0,10),repoStars=r.stargazers_count;
+ const keyword=(r.name+' '+summary).toLowerCase();
+ const motif=keyword.includes('safe')?
+ '<g transform="translate(685 158)"><circle r="112" fill="none" stroke="'+color+'" stroke-opacity=".18" stroke-width="1.5"/><path d="M0-84L66-58V8C66 52 29 85 0 102-29 85-66 52-66 8V-58Z" fill="'+color+'" fill-opacity=".13" stroke="'+color+'" stroke-width="3"/><path d="M-28 0L-8 20 35-28" fill="none" stroke="#F1EBDD" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M-92 88Q0 126 92 88" fill="none" stroke="'+color+'" stroke-opacity=".35"/></g>'
+ :keyword.includes('feed')||keyword.includes('food')||keyword.includes('hyderabad')?
+ '<g transform="translate(685 162)"><path d="M-94-15H94L72 84H-72Z" fill="'+color+'" fill-opacity=".10" stroke="'+color+'" stroke-width="3"/><path d="M-62-15L-31-74H31L62-15" fill="none" stroke="'+color+'" stroke-width="5"/><path d="M-42 18H42M-42 45H29" stroke="#E8E3D6" stroke-opacity=".85" stroke-width="7" stroke-linecap="round"/><path d="M0-100C-25-67-27-49 0-37 27-49 25-67 0-100Z" fill="'+color+'"/><path d="M0-81V-50" stroke="#F1EBDD" stroke-width="4"/></g>'
+ :keyword.includes('fresh')||keyword.includes('produce')||keyword.includes('circle')?
+ '<g transform="translate(685 165)"><circle r="106" fill="none" stroke="'+color+'" stroke-opacity=".25"/><path d="M-5 88C-17 5 10-55 82-91 89-17 57 48-5 88Z" fill="'+color+'" fill-opacity=".35" stroke="'+color+'" stroke-width="3"/><path d="M-5 88C-76 67-105 11-88-55-26-45 13 0-5 88Z" fill="'+langColor+'" fill-opacity=".30" stroke="'+langColor+'" stroke-width="3"/><path d="M-5 88L51-56M-5 88L-69-28" stroke="#EDE7D8" stroke-opacity=".8" stroke-width="3"/><path d="M-115 106Q0 132 115 106" fill="none" stroke="'+color+'" stroke-opacity=".4"/></g>'
+ :keyword.includes('store')||keyword.includes('point of sale')||keyword.includes('retail')||keyword.includes('inventory')?
+ '<g transform="translate(685 165)"><path d="M-104-48L-78-93H78L104-48V-24H-104Z" fill="'+color+'" fill-opacity=".16" stroke="'+color+'" stroke-width="3"/><rect x="-83" y="-24" width="166" height="116" rx="10" fill="'+color+'" fill-opacity=".08" stroke="'+color+'" stroke-width="3"/><path d="M-49-24V92M49-24V92" stroke="'+color+'" stroke-opacity=".35"/><circle cx="-32" cy="105" r="13" fill="'+color+'"/><circle cx="32" cy="105" r="13" fill="'+color+'"/><path d="M-45 18H45M-45 45H26" stroke="#EDE7D8" stroke-opacity=".8" stroke-width="7" stroke-linecap="round"/></g>'
+ :keyword.includes('quantum')||keyword.includes('cyber')?
+ '<g transform="translate(685 165)"><rect x="-72" y="-72" width="144" height="144" rx="22" fill="'+color+'" fill-opacity=".10" stroke="'+color+'" stroke-width="3"/><g stroke="'+color+'" stroke-width="4"><path d="M-105-42H-72M-105 0H-72M-105 42H-72M72-42H105M72 0H105M72 42H105M-42-105V-72M0-105V-72M42-105V-72M-42 72V105M0 72V105M42 72V105"/></g><g fill="none" stroke="'+langColor+'" stroke-width="4"><ellipse rx="56" ry="24" transform="rotate(35)"/><ellipse rx="56" ry="24" transform="rotate(-35)"/><ellipse rx="56" ry="24" transform="rotate(90)"/></g><circle r="12" fill="#EDE7D8"/></g>'
+ :keyword.includes('crm')||keyword.includes('community')||keyword.includes('catalyst')?
+ '<g transform="translate(685 162)"><circle cx="-45" cy="-35" r="25" fill="'+color+'"/><circle cx="45" cy="-35" r="25" fill="'+langColor+'"/><circle cy="-65" r="28" fill="#E9E4D7"/><path d="M-90 78V43C-90 12-65 0-45 0S0 12 0 43V78ZM0 78V43C0 12 25 0 45 0S90 12 90 43V78Z" fill="'+color+'" fill-opacity=".16" stroke="'+color+'" stroke-width="3"/><path d="M-37 78V21C-37-15 0-22 0-22S37-15 37 21V78Z" fill="'+langColor+'" fill-opacity=".2" stroke="'+langColor+'" stroke-width="3"/></g>'
+ :keyword.includes('knox')||keyword.includes('knowledge graph')||keyword.includes('rust')||keyword.includes('desktop')?
+ '<g transform="translate(685 164)"><g stroke="'+color+'" stroke-width="4" fill="none"><path d="M-82-50L0-84 80-38 67 54 0 85-75 45Z"/><path d="M-82-50L-18 0 80-38M-18 0L67 54M-18 0L0 85"/></g><g fill="'+langColor+'" stroke="#EDE7D8" stroke-width="2"><circle cx="-82" cy="-50" r="14"/><circle cx="0" cy="-84" r="14"/><circle cx="80" cy="-38" r="14"/><circle cx="67" cy="54" r="14"/><circle cx="0" cy="85" r="14"/><circle cx="-75" cy="45" r="14"/><circle cx="-18" cy="0" r="19"/></g></g>'
+ :'<g transform="translate(685 164)"><circle r="104" fill="none" stroke="'+color+'" stroke-opacity=".35"/><circle r="70" fill="none" stroke="'+langColor+'" stroke-width="2" stroke-dasharray="3 9"/><path d="M-58-10L0-76 58-10 0 76Z" fill="'+color+'" fill-opacity=".16" stroke="'+color+'" stroke-width="3"/><circle r="17" fill="#EDE7D8"/></g>';
+ const starsText='★ '+repoStars+'   ·   UPDATED '+updated;
+ const gid='c'+i;
+ const art='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320"><defs><linearGradient id="'+gid+'Bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+color+'" stop-opacity=".24"/></linearGradient><linearGradient id="'+gid+'Line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="'+color+'" stop-opacity=".85"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".45"/></linearGradient></defs><rect width="900" height="320" rx="20" fill="url(#'+gid+'Bg)"/><rect x="8" y="8" width="884" height="304" rx="15" fill="none" stroke="#D9D2C2" stroke-opacity=".14"/><path d="M0 276Q220 236 440 278T900 252" fill="none" stroke="url(#'+gid+'Line)" stroke-opacity=".24" stroke-width="1.5"/><path d="M48 52H112" stroke="'+color+'" stroke-width="3"/><text x="48" y="40" font-family="Georgia,serif" font-size="16" letter-spacing="2.2" fill="'+color+'">'+lang.toUpperCase()+'  /  SELECTED WORK</text><text x="48" y="119" font-family="Georgia,Times New Roman,serif" font-size="'+titleSize+'" font-weight="700" fill="#F1EBDD">'+displayName+'</text><text x="48" y="148" font-family="Arial,sans-serif" font-size="24" fill="#C5CEC1">'+descSvg+'</text><rect x="48" y="226" width="180" height="36" rx="17" fill="'+langColor+'" fill-opacity=".15" stroke="'+langColor+'" stroke-opacity=".6"/><text x="138" y="249" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#EDE7D8">'+lang+'</text><text x="48" y="286" font-family="Consolas,monospace" font-size="15" letter-spacing=".5" fill="#AEBBAA">'+starsText+'</text>'+motif+'<text x="850" y="296" text-anchor="end" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="'+color+'">VIEW PROJECT ↗</text></svg>';
+ return {r,i,color,art};
 });
-
-// --- Phase 1: Hero widget (vibrant GitSkins-style solar system) ---
-const cx=440,cy=248;
-const starColors=['#F8FAFC','#FDE68A','#93C5FD','#F9A8D4','#A5F3FC'];
-const starsBg=Array.from({length:110},(_,i)=>{
- const x=(i*97.3)%840+20,y=(i*61.7)%470+20;
- const big=i%9===0;const r=big?1.8:(i%3===0?1.1:0.55);
- const fill=starColors[i%starColors.length];
- const op=big?0.95:(0.35+(i%5)*0.1);
- return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op.toFixed(2)}"/>`;
-}).join('');
-const orbitTracks=orbitLangs.map(p=>[
- `<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="${p.color}" stroke-opacity="0.38" stroke-width="2.4"/>`,
- `<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.1" stroke-dasharray="4 6"/>`
-].join('')).join('');
-const cometSvg=recentPushes.map((c,i)=>{
- const y=100+i*78;const x0=40+i*48;
- return `<g id="comet-${i}" data-comet="1" data-y="${y}" data-x0="${x0}" data-span="580" data-phase="${c.phase}" transform="translate(${x0} ${y})">
-  <path d="M0 0H48" stroke="url(#cometTail)" stroke-width="2.2" stroke-linecap="round"/>
-  <circle cx="52" cy="0" r="3.2" fill="#FFE082"/>
-  <circle cx="52" cy="0" r="6" fill="#FFA726" fill-opacity=".35"/>
- </g>`;
-}).join('');
-const orbitPlanets=orbitLangs.map((p,i)=>{
- const short=esc(p.name.length>11?p.name.slice(0,10)+'…':p.name);
- const rad=p.start*Math.PI/180;
- const x=cx+p.rx*Math.cos(rad);
- const y=cy+p.ry*Math.sin(rad);
- const moonDots=p.moons.slice(0,2).map((m,mi)=>{
-  const mang=mi*180+20;const mr=24+mi*3;
-  const mx=(Math.cos(mang*Math.PI/180)*mr).toFixed(1);
-  const my=(Math.sin(mang*Math.PI/180)*mr).toFixed(1);
-  return `<circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="4.5" fill="#F8FAFC" opacity=".22"/><circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="2.2" fill="#F8FAFC" opacity=".98"/>`;
- }).join('');
- const labelTop=22;
- return `<g id="planet-${i}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${p.rx}" data-ry="${p.ry}" data-angle="${p.start}" data-speed="1" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
-   <circle r="26" fill="${p.color}" fill-opacity=".18"/>
-   <circle r="20" fill="${p.color}" fill-opacity=".12"/>
-   ${langBadge(p.name,p.color,24)}
-   <g class="moons" opacity=".95">${moonDots}</g>
-   <rect x="-40" y="${labelTop}" width="80" height="28" rx="6" fill="#060B1A" fill-opacity=".92" stroke="${p.color}" stroke-opacity=".55" stroke-width="1.2"/>
-   <text y="${labelTop+12}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#F8FAFC">${short}</text>
-   <text y="${labelTop+23}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="${p.color}">${esc(p.label)}</text>
- </g>`;
-}).join('');
-const avatarSun=avatarDataUri
- ? `<image href="${avatarDataUri}" x="-36" y="-36" width="72" height="72" clip-path="url(#sunClip)"/>`
- : `<circle r="28" fill="#FFD36A"/><text y="6" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#3A2A10">SL</text>`;
-const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="520" viewBox="0 0 880 520" fill="none" role="img" aria-labelledby="heroTitle">
-<title id="heroTitle">StarLord solar system — languages as planets, projects as moons</title>
-<defs>
- <linearGradient id="deepSpace" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#02040C"/><stop offset=".45" stop-color="#07102A"/><stop offset="1" stop-color="#0C1838"/></linearGradient>
- <radialGradient id="nebulaA" cx="18%" cy="22%" r="48%"><stop stop-color="#8B5CF6" stop-opacity=".42"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
- <radialGradient id="nebulaB" cx="86%" cy="78%" r="50%"><stop stop-color="#38BDF8" stop-opacity=".34"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
- <radialGradient id="nebulaC" cx="70%" cy="18%" r="38%"><stop stop-color="#FB923C" stop-opacity=".26"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
- <radialGradient id="sunCorona"><stop stop-color="#FFE082" stop-opacity="1"/><stop offset=".35" stop-color="#FFA726" stop-opacity=".75"/><stop offset=".7" stop-color="#FF7043" stop-opacity=".28"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
- <linearGradient id="cometTail" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#FFE082" stop-opacity="0"/><stop offset=".55" stop-color="#FFCC80" stop-opacity=".55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".95"/></linearGradient>
- <clipPath id="sunClip"><circle cx="0" cy="0" r="36"/></clipPath>
-</defs>
-<rect width="880" height="520" rx="18" fill="url(#deepSpace)"/>
-<rect width="880" height="520" rx="18" fill="url(#nebulaA)"/>
-<rect width="880" height="520" rx="18" fill="url(#nebulaB)"/>
-<rect width="880" height="520" rx="18" fill="url(#nebulaC)"/>
-<rect x=".5" y=".5" width="879" height="519" rx="17.5" stroke="#334155" stroke-opacity=".9"/>
-<text x="24" y="30" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">SOLAR SYSTEM · @${esc(profile.name||'StarLord').toUpperCase()}</text>
-<g id="starfield">${starsBg}</g>
-${cometSvg}
-${orbitTracks}
-<g transform="translate(${cx} ${cy})">
- <g id="sun-halo" data-sun="1"><circle r="78" fill="url(#sunCorona)"/></g>
- <g id="sun-core" data-sun="1">
-  <circle r="44" fill="#FFA726" fill-opacity=".2"/>
-  <circle r="40" fill="#0B1225" stroke="#FFE082" stroke-width="2.5"/>
-  ${avatarSun}
- </g>
- <text y="62" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="700" letter-spacing="1.6" fill="#FFE082">THE SUN // STARLORD</text>
-</g>
-${orbitPlanets}
-<text x="24" y="500" font-family="ui-monospace,monospace" font-size="10" fill="#94A3B8">starlord.solar</text>
-<text x="856" y="500" text-anchor="end" font-family="ui-monospace,monospace" font-size="10" fill="#94A3B8">planets = languages · moons = repos · comets = recent pushes</text>
-</svg>`;
-
-// --- Phase 2: THE SUN about card ---
+const projectCards=projectArts.map(p=>{const label=projectNames[slug(p.r.name)]||p.r.name;return '<a href="'+p.r.html_url+'"><img src="./assets/projects/'+slug(p.r.name)+'.svg" width="100%" alt="'+esc(label)+' project card"/></a>'}).reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[]).map(row=>'<p align="center">'+row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')+'</p>').join('\n');
+const moreWorkLine=moreWork.length
+ ? '<p align="center"><sub>Also in progress: '+moreWork.map(r=>{const label=projectNames[slug(r.name)]||r.name;return '<a href="'+r.html_url+'">'+esc(label)+'</a>';}).join(' · ')+'</sub></p>'
+ : '';
+const navItems=[
+ {id:'about',number:'01',label:'ABOUT',color:'#C58E6A'},
+ {id:'snapshot',number:'02',label:'SNAPSHOT',color:'#8EA68C'},
+ {id:'toolkit',number:'03',label:'TOOLKIT',color:'#D7BD78'},
+ {id:'selected-work',number:'04',label:'SELECTED WORK',color:'#91B8A8'}
+];
+const navSvgs=navItems.map(item=>({ ...item, svg:'<svg xmlns="http://www.w3.org/2000/svg" width="300" height="72" viewBox="0 0 300 72"><rect x="1" y="1" width="298" height="70" rx="12" fill="#18251F" stroke="#657765" stroke-opacity=".55" stroke-width="1.5"/><rect x="1" y="13" width="5" height="46" rx="2.5" fill="'+item.color+'"/><text x="22" y="28" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="'+item.color+'">'+item.number+' / SECTION</text><text x="22" y="53" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing=".8" fill="#F1EBDD">'+item.label+'</text><path d="M262 36H278M271 29L278 36 271 43" fill="none" stroke="'+item.color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' }));
+const navCards=navSvgs.map(item=>'<a href="#'+item.id+'"><img src="./assets/nav-'+item.id+'.svg" width="22%" alt="'+item.number+' '+item.label+' section navigation"/></a>').join(' &nbsp; ');
+const totalLanguageBytes=Object.values(totals).reduce((sum,n)=>sum+n,0);
+const metricItems=[
+ {value:repos.length,label:'PUBLIC PROJECTS',symbol:'✳',color:'#C58E6A'},
+ {value:stars,label:'TOTAL STARS',symbol:'★',color:'#D7BD78'},
+ {value:allLangs.length,label:'LANGUAGES',symbol:'⌘',color:'#91B8A8'},
+ {value:featured.length,label:'FEATURED WORK',symbol:'◎',color:'#B994A8'}
+];
+const metricsSvg='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="178" viewBox="0 0 1200 178"><defs><linearGradient id="metricBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#18251F"/><stop offset=".52" stop-color="#1C2B24"/><stop offset="1" stop-color="#172725"/></linearGradient><linearGradient id="metricEdge"><stop stop-color="#C58E6A"/><stop offset=".48" stop-color="#A7B69A"/><stop offset="1" stop-color="#86AAA2"/></linearGradient></defs><rect x="5" y="5" width="1190" height="168" rx="18" fill="url(#metricBg)" stroke="url(#metricEdge)" stroke-opacity=".48" stroke-width="1.4"/><text x="32" y="31" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2.2" fill="#C58E6A">02 / PROFILE AT A GLANCE</text><text x="1165" y="31" text-anchor="end" font-family="Consolas,monospace" font-size="11" letter-spacing="1" fill="#93A492">PUBLIC GITHUB DATA</text>'+metricItems.map((m,i)=>{const x=150+i*300;return (i?'<path d="M'+(i*300)+' 65V150" stroke="#B8C1B1" stroke-opacity=".18"/>':'')+'<circle cx="'+(x-51)+'" cy="108" r="25" fill="'+m.color+'" fill-opacity=".10" stroke="'+m.color+'" stroke-opacity=".54"/><text x="'+(x-51)+'" y="116" text-anchor="middle" font-family="Georgia,serif" font-size="25" fill="'+m.color+'">'+m.symbol+'</text><text x="'+(x-10)+'" y="114" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#F1EBDD">'+m.value+'</text><text x="'+(x-10)+'" y="139" font-family="Arial,sans-serif" font-size="11" letter-spacing="1.7" fill="#AAB8A8">'+m.label+'</text>';}).join('')+'</svg>';
+const stackItems=langs.map(([name,bytes],i)=>{const color=palette[name]||['#C58E6A','#91B8A8','#D7BD78','#B994A8'][i%4];const pct=totalLanguageBytes?bytes/totalLanguageBytes*100:0;const label=pct>0&&pct<1?'<1%':Math.round(pct)+'%';return {name,color,pct,label};});
+const maxPct=Math.max(1,...stackItems.map(x=>x.pct));
+const stackSvg='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="232" viewBox="0 0 1200 232"><defs><linearGradient id="stackPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#19271F"/><stop offset="1" stop-color="#172725"/></linearGradient><linearGradient id="stackEdge"><stop stop-color="#C58E6A"/><stop offset="1" stop-color="#91B8A8"/></linearGradient></defs><rect x="5" y="5" width="1190" height="222" rx="18" fill="url(#stackPanel)" stroke="url(#stackEdge)" stroke-opacity=".35"/><text x="32" y="39" font-family="Georgia,serif" font-size="18" font-weight="700" letter-spacing="1.3" fill="#C58E6A">03 / TOOLS &amp; LANGUAGES</text><text x="1165" y="38" text-anchor="end" font-family="Consolas,monospace" font-size="11" letter-spacing="1" fill="#93A492">TOP 8 · SHARE OF PUBLIC CODE</text>'+stackItems.map((item,i)=>{const col=i%4,row=Math.floor(i/4),x=24+col*294,y=64+row*80,w=280;const bar=Math.max(item.pct>0?3:0,190*item.pct/maxPct);return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="66" rx="11" fill="#101A18" stroke="#A9B7A5" stroke-opacity=".18"/><rect x="'+x+'" y="'+y+'" width="3" height="66" rx="1.5" fill="'+item.color+'"/><circle cx="'+(x+23)+'" cy="'+(y+24)+'" r="4" fill="'+item.color+'"/><text x="'+(x+37)+'" y="'+(y+29)+'" font-family="Arial,sans-serif" font-size="15" font-weight="600" fill="#EDE8DA">'+esc(item.name)+'</text><text x="'+(x+w-13)+'" y="'+(y+28)+'" text-anchor="end" font-family="Consolas,monospace" font-size="12" fill="'+item.color+'">'+esc(item.label)+'</text><rect x="'+(x+17)+'" y="'+(y+46)+'" width="246" height="4" rx="2" fill="#35443A"/><rect x="'+(x+17)+'" y="'+(y+46)+'" width="'+Math.min(246,bar)+'" height="4" rx="2" fill="'+item.color+'"/>';}).join('')+'</svg>';
+const dots=Array.from({length:82},(_,i)=>{const x=(i*149.7)%1140+22,y=(i*83.9)%455+22,r=i%9===0?2:1;return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="#D6DCCB" opacity="'+(.10+(i%4)*.08)+'"/>';}).join('');
 const brandName=esc(profile.name||'StarLord');
-const fullName='Venkata Nagarjuna Babu Chitturi';
-const aboutAvatar=avatarDataUri
- ? `<image href="${avatarDataUri}" x="-40" y="-40" width="80" height="80" clip-path="url(#aboutAvatarClip)"/>`
- : `<circle r="30" fill="#FFD36A"/><text y="6" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#3A2A10">SL</text>`;
-const aboutStars=Array.from({length:18},(_,i)=>{const x=(i*73.1)%860+10,y=(i*41.7)%170+10;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i%5===0?1.1:0.5}" fill="#E2E8F0" opacity="${0.12+(i%3)*0.04}"/>`;}).join('');
-const about=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="190" viewBox="0 0 880 190" fill="none">
+const hero='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480"><defs><linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111B17"/><stop offset=".52" stop-color="#1C2B22"/><stop offset="1" stop-color="#102321"/></linearGradient><radialGradient id="warmWash"><stop stop-color="#B47D58" stop-opacity=".30"/><stop offset="1" stop-color="#B47D58" stop-opacity="0"/></radialGradient><radialGradient id="sageWash"><stop stop-color="#8EA68C" stop-opacity=".23"/><stop offset="1" stop-color="#8EA68C" stop-opacity="0"/></radialGradient><linearGradient id="heroEdge"><stop stop-color="#C58E6A"/><stop offset=".48" stop-color="#A5B49A"/><stop offset="1" stop-color="#82A8A0"/></linearGradient></defs><rect width="1200" height="480" rx="26" fill="url(#heroBg)"/><circle cx="260" cy="160" r="330" fill="url(#warmWash)"/><circle cx="1000" cy="360" r="300" fill="url(#sageWash)"/><g>'+dots+'</g><path d="M640 0V480" stroke="#D5D8C9" stroke-opacity=".10"/><g transform="translate(900 218)"><circle r="164" fill="none" stroke="#91A993" stroke-opacity=".20" stroke-width="1.5"/><circle r="124" fill="none" stroke="#C58E6A" stroke-opacity=".38" stroke-width="1.5"/><circle r="83" fill="#91A993" fill-opacity=".08" stroke="#AFC0A8" stroke-opacity=".52"/><circle r="56" fill="#D7BD78" fill-opacity=".88"/><circle r="70" fill="none" stroke="#E5D9BD" stroke-opacity=".28" stroke-width="1"/><path d="M-4-8C-48-80-35-124 12-145 35-87 22-44-4-8Z" fill="#8EA68C" fill-opacity=".78" stroke="#B7C5A9" stroke-width="1.5"/><path d="M-4-8C-72-25-106 5-102 55-50 61-15 35-4-8Z" fill="#C58E6A" fill-opacity=".78" stroke="#E0B18C" stroke-width="1.5"/><path d="M-4-8L10-121M-4-8L-80 35" stroke="#EDE7D8" stroke-opacity=".72" stroke-width="2"/><circle cx="115" cy="-111" r="7" fill="#D7BD78"/><circle cx="-140" cy="77" r="5" fill="#B994A8"/></g><g><text x="72" y="76" font-family="Arial,sans-serif" font-size="14" letter-spacing="5" fill="#C5BDA8">BUILT IN PUBLIC  /  '+new Date().getUTCFullYear()+'</text><text x="68" y="180" font-family="Georgia,Times New Roman,serif" font-size="84" font-weight="700" fill="#F1EBDD">'+brandName+'</text><path d="M74 207H196" stroke="#C58E6A" stroke-width="3"/><text x="72" y="252" font-family="Georgia,Times New Roman,serif" font-size="26" fill="#E4E1D4">Android, full-stack apps &amp; developer tools.</text><text x="74" y="298" font-family="Arial,sans-serif" font-size="17" letter-spacing="1.2" fill="#AFC0B0">STUDENT DEVELOPER  ·  HYDERABAD</text><text x="74" y="404" font-family="Consolas,monospace" font-size="12" letter-spacing="3" fill="#A6B39F">BUILD THOUGHTFULLY  /  SHIP WHAT HELPS</text></g><rect x="18" y="18" width="1164" height="444" rx="21" fill="none" stroke="url(#heroEdge)" stroke-opacity=".6" stroke-width="1.5"/></svg>';
+const aboutSection=`<img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
+
+<div align="left">
+<p>Hey, I’m <strong>Venkata Nagarjuna Babu Chitturi</strong> — known online as <strong>StarLord</strong>. I’m a student developer focused on turning real problems into polished, usable software.</p>
+
+<p>I spend most of my time on <strong>Android apps</strong>, <strong>full-stack web products</strong>, and <strong>developer tools</strong>. On the side I explore security, AI, and community platforms — always with a bias toward shipping something people can actually open and use.</p>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>Where I Focus</h3>
+<p><strong>Android</strong> — privacy-minded mobile tools with clear UX.<br/>
+<strong>Full-stack web</strong> — practical products for retail, food systems, and student communities.<br/>
+<strong>Developer tools</strong> — workflows and agents that keep context while you build.</p>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>How I Work</h3>
+<p>I learn by building in public: start with a sharp problem, ship an early version, then refine. Curious collaborators and hard feedback welcome.</p>
+
+<img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
+</div>`;
+
+const workHeader=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="176" viewBox="0 0 1200 176">
 <defs>
- <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#060B1A"/><stop offset="1" stop-color="#0C1838"/></linearGradient>
- <radialGradient id="aboutNebula" cx="88%" cy="40%" r="40%"><stop stop-color="#F97316" stop-opacity=".2"/><stop offset="1" stop-color="#060B1A" stop-opacity="0"/></radialGradient>
- <radialGradient id="aboutSunCorona"><stop stop-color="#FFE082" stop-opacity=".95"/><stop offset=".45" stop-color="#FFA726" stop-opacity=".45"/><stop offset="1" stop-color="#030611" stop-opacity="0"/></radialGradient>
- <clipPath id="aboutAvatarClip"><circle cx="0" cy="0" r="40"/></clipPath>
+<linearGradient id="workBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#18251F"/><stop offset="1" stop-color="#172725"/></linearGradient>
+<linearGradient id="workEdge"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#8EA68C"/><stop offset="1" stop-color="#8EA68C" stop-opacity=".2"/></linearGradient>
 </defs>
-<rect width="880" height="190" rx="14" fill="url(#aboutBg)"/>
-<rect width="880" height="190" rx="14" fill="url(#aboutNebula)"/>
-<rect x=".5" y=".5" width="879" height="189" rx="13.5" stroke="#334155"/>
-${aboutStars}
-<text x="36" y="42" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">THE SUN</text>
-<text x="36" y="84" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="800" fill="#F8FAFC">${esc(fullName)}</text>
-<text x="36" y="112" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="13" fill="#CBD5E1">I turn real problems into polished software people can actually open and use.</text>
-<text x="36" y="148" font-family="ui-monospace,monospace" font-size="12" fill="#94A3B8">Hyderabad · Student Developer · ${profile.followers||0} followers · ${profile.public_repos||repos.length+1} repositories</text>
-<text x="36" y="170" font-family="ui-monospace,monospace" font-size="11" fill="#64748B">${brandName} · Android · Full-Stack · Developer Tools</text>
-<g transform="translate(790 95)">
- <circle r="58" fill="url(#aboutSunCorona)"/>
- <circle r="42" fill="#0B1225" stroke="#FFA726" stroke-width="2"/>
- ${aboutAvatar}
+<rect x="1" y="1" width="1198" height="174" rx="18" fill="url(#workBg)" stroke="url(#workEdge)" stroke-opacity=".58" stroke-width="1.5"/>
+<rect x="1" y="18" width="6" height="140" rx="3" fill="#B47D58"/>
+<text x="42" y="45" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">04 / THE THINGS I BUILD</text>
+<text x="42" y="101" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#F1EBDD">Selected Work</text>
+<text x="44" y="137" font-family="Arial,sans-serif" font-size="17" fill="#AFC0B0">Four projects that best show how I think and ship.</text>
+<g transform="translate(1038 88)">
+<rect x="-94" y="-54" width="68" height="68" rx="12" fill="#8EA68C" fill-opacity=".10" stroke="#8EA68C" stroke-opacity=".75" stroke-width="2"/>
+<rect x="-13" y="-54" width="68" height="68" rx="12" fill="#B47D58" fill-opacity=".10" stroke="#B47D58" stroke-opacity=".75" stroke-width="2"/>
+<rect x="-94" y="27" width="68" height="52" rx="12" fill="#D7BD78" fill-opacity=".09" stroke="#D7BD78" stroke-opacity=".68" stroke-width="2"/>
+<rect x="-13" y="27" width="68" height="52" rx="12" fill="#8EA68C" fill-opacity=".08" stroke="#8EA68C" stroke-opacity=".55" stroke-width="2"/>
+<g fill="none" stroke="#D7BD78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-78-30L-60-43-42-30-60-17Z"/>
+<path d="M6-31Q21-47 39-31Q21-15 6-31Z"/>
+<path d="M-79 44H-43M-79 55H-52M-79 66H-61"/>
+<path d="M6 54L17 43 28 54 39 43"/>
+</g>
+<circle cx="21" cy="-31" r="4" fill="#D7BD78"/>
 </g>
 </svg>`;
-
-// --- Phase 3: Compact moon cards ---
-const moonCards=featured.map((r,i)=>{
- const key=slug(r.name);const name=projectNames[key]||r.name;
- const lines=projectSummaries[key]||[r.description||'A public project from my orbit.','Built and iterated in the open.'];
- const tags=projectTags[key]||[r.language||'Code'];
- const lang=r.language||tags[0]||'Code';
- const color=palette[lang]||'#38BDF8';
- const previewMotif=key.includes('safe')
-  ? `<path d="M0-28L22-18V6C22 20 10 30 0 36-10 30-22 20-22 6V-18Z" fill="${color}" fill-opacity=".2" stroke="${color}" stroke-width="2"/><path d="M-10 0L-2 8 14-8" fill="none" stroke="#F8FAFC" stroke-width="3" stroke-linecap="round"/>`
-  : key.includes('knox')
-  ? `<g stroke="${color}" stroke-width="2" fill="none"><path d="M-24-14L0-26 24-10 18 18 0 28-22 14Z"/><circle cx="0" cy="0" r="5" fill="${color}"/></g>`
-  : key.includes('store')
-  ? `<rect x="-26" y="-18" width="52" height="40" rx="6" fill="${color}" fill-opacity=".18" stroke="${color}" stroke-width="2"/><path d="M-14-4H14M-14 8H6" stroke="#F8FAFC" stroke-width="3" stroke-linecap="round"/>`
-  : `<circle r="22" fill="${color}" fill-opacity=".15" stroke="${color}" stroke-width="2"/><circle cx="-10" cy="-6" r="7" fill="${color}"/><circle cx="10" cy="-6" r="7" fill="#94A3B8"/><circle cy="-16" r="8" fill="#E2E8F0"/>`;
- const art=`<svg xmlns="http://www.w3.org/2000/svg" width="430" height="150" viewBox="0 0 430 150" fill="none">
-<rect width="430" height="150" rx="10" fill="#091024"/>
-<rect x=".5" y=".5" width="429" height="149" rx="9.5" stroke="#1E2C4F"/>
-<text x="18" y="24" font-family="ui-monospace,monospace" font-size="10" font-weight="700" letter-spacing="1.2" fill="#FBBF24">MOON 0${i+1}.</text>
-<g transform="translate(392 28)">
- <ellipse rx="22" ry="10" transform="rotate(-28)" fill="none" stroke="#E2E8F0" stroke-opacity=".55" stroke-width="1.2"/>
- ${langBadge(lang,color,18)}
-</g>
-<text x="18" y="56" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="800" fill="#F8FAFC">${esc(name)}</text>
-<text x="18" y="80" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="11" fill="#94A3B8">${esc(lines[0])}</text>
-<text x="18" y="96" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="10" fill="#64748B">${esc(lines[1]||'')}</text>
-<g transform="translate(18 122)">
- <text y="0" font-family="ui-monospace,monospace" font-size="11" fill="#F8FAFC">★ ${r.stargazers_count}</text>
- <text x="58" y="0" font-family="ui-monospace,monospace" font-size="11" fill="#94A3B8">⑂ ${r.forks_count||0}</text>
- <g transform="translate(120 -10) scale(0.75)">${langBadge(lang,color,20)}</g>
- <text x="140" y="0" font-family="ui-monospace,monospace" font-size="11" fill="#CBD5E1">${esc(lang)}</text>
-</g>
-<g transform="translate(350 95)">${previewMotif}</g>
-</svg>`;
- return {r,name,art};
-});
-
-// --- Phase 4: Planets stack ---
-const maxPct=Math.max(1,...orbitLangs.map(p=>p.pct));
-const stackH=56+orbitLangs.length*44;
-const stackRows=orbitLangs.map((p,i)=>{
- const y=52+i*44;const bar=Math.max(12,420*(p.pct/maxPct));
- return `<g transform="translate(28 ${y})">
-  <g transform="translate(10 0)">${langBadge(p.name,p.color,20)}</g>
-  <text x="36" y="5" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="14" font-weight="700" fill="#F8FAFC">${esc(p.name)}</text>
-  <rect x="170" y="-8" width="520" height="12" rx="6" fill="#0D1733"/>
-  <rect x="170" y="-8" width="${bar}" height="12" rx="6" fill="${p.color}"/>
-  <text x="710" y="5" text-anchor="end" font-family="ui-monospace,monospace" font-size="12" fill="#94A3B8">${esc(p.label)}</text>
- </g>`;
-}).join('');
-const stack=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="${stackH}" viewBox="0 0 880 ${stackH}" fill="none">
-<defs><linearGradient id="stackBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#060B1A"/><stop offset="1" stop-color="#0C1838"/></linearGradient></defs>
-<rect width="880" height="${stackH}" rx="14" fill="url(#stackBg)"/>
-<rect x=".5" y=".5" width="879" height="${stackH-1}" rx="13.5" stroke="#334155"/>
-<text x="28" y="30" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">PLANETS</text>
-${stackRows}
-</svg>`;
-
-const evidenceRows=orbitLangs.map((p,i)=>{
- const links=p.moons.length
-  ? p.moons.map(r=>`[\`${esc(projectNames[slug(r.name)]||r.name)}\`](${r.html_url})`).join(', ')
-  : '_exploring_';
- const band=i===0?'Inner':i===orbitLangs.length-1?'Outer':`Orbit ${i+1}`;
- return `| **Orbit ${i+1}** | **${esc(p.name)}** (${band}) | ${esc(p.domain)} | ${links} |`;
-}).join('\n');
-
-// --- Phase 5: Orbit log + transmission ---
-const maxWeek=Math.max(1,...weekCounts);
-const cells=weekCounts.map((n,i)=>{
- const x=28+i*31;const intensity=n/maxWeek;
- const fill=n===0?'#0D1733':`rgba(251,191,36,${(0.25+intensity*0.75).toFixed(2)})`;
- return `<rect x="${x}" y="58" width="24" height="40" rx="4" fill="${fill}" stroke="#1E2C4F"/>`;
-}).join('');
-const log=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="130" viewBox="0 0 880 130" fill="none">
-<rect width="880" height="130" rx="12" fill="#091024"/>
-<rect x=".5" y=".5" width="879" height="129" rx="11.5" stroke="#1E2C4F"/>
-<text x="28" y="32" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">ORBIT LOG · ${weeks} WEEKS</text>
-<text x="852" y="32" text-anchor="end" font-family="ui-monospace,monospace" font-size="10" fill="#64748B">${repos.length} projects · ${stars} stars · ${allLangs.length} languages</text>
-${cells}
-<text x="28" y="118" font-family="ui-monospace,monospace" font-size="10" fill="#64748B">PUBLIC SIGNAL · PUSH / UPDATE INTENSITY</text>
-</svg>`;
-
-const footer=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="110" viewBox="0 0 880 110" fill="none">
-<rect width="880" height="110" rx="12" fill="#091024"/>
-<rect x=".5" y=".5" width="879" height="109" rx="11.5" stroke="#1E2C4F"/>
-<text x="28" y="36" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">TRANSMISSION</text>
-<text x="28" y="70" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="24" font-weight="800" fill="#F8FAFC">Open a channel</text>
-<text x="28" y="94" font-family="ui-monospace,monospace" font-size="11" fill="#94A3B8">GITHUB · EMAIL · BUILD WITH ME</text>
-<g transform="translate(820 55)"><circle r="26" fill="#FFA726" fill-opacity=".12" stroke="#FFA726"/><path d="M-8 0H10M4-8L12 0 4 8" fill="none" stroke="#FFA726" stroke-width="2.5" stroke-linecap="round"/></g>
-</svg>`;
-
-const moonTableRows=[];
-for(let i=0;i<moonCards.length;i+=2){
- const left=moonCards[i];const right=moonCards[i+1];
- const leftCell=`<td width="50%" valign="top"><a href="${left.r.html_url}"><img src="./assets/projects/${slug(left.r.name)}.svg" alt="${esc(left.name)}" width="100%"/></a></td>`;
- const rightCell=right?`<td width="50%" valign="top"><a href="${right.r.html_url}"><img src="./assets/projects/${slug(right.r.name)}.svg" alt="${esc(right.name)}" width="100%"/></a></td>`:'<td width="50%"></td>';
- moonTableRows.push(`<tr>\n${leftCell}\n${rightCell}\n</tr>`);
-}
-const moreLine=moreWork.length?`<p align="center"><sub>Also in orbit: ${moreWork.map(r=>`<a href="${r.html_url}">${esc(projectNames[slug(r.name)]||r.name)}</a>`).join(' · ')}</sub></p>`:'';
-
-const readme=`<div align="center">
-
-<!-- SOLAR SYSTEM ORBITS HERO -->
-<img src="./assets/profile-universe.gif" alt="StarLord solar system: languages as planets, projects as moons" width="100%"/>
-
-<br/>
-<sub><i>I am the sun; my languages are the planets and my projects their moons.</i></sub>
-<br/><br/>
-
-<!-- THE SUN (ABOUT CARD) -->
-<img src="./assets/solar-about.svg" alt="A Little About Me — Venkata Nagarjuna Babu Chitturi / StarLord" width="100%"/>
-
-</div>
-
----
-
-## 🌕 The Moons — Featured Repositories
-
-<table border="0" width="100%">
-${moonTableRows.join('\n')}
-</table>
-
-${moreLine}
-
-<p align="center"><sub>${featured.length} featured · ${repos.length} public projects · Android, tools, security and community.</sub></p>
-
----
-
-## 🪐 The Planets — Planetary System & Tech Stack
-
-<div align="center">
-<img src="./assets/tech-stack-v2.svg" alt="Planetary System — Languages & Tech Stack" width="100%"/>
-</div>
-
-<details>
-<summary><b>Orbital Distance & Evidence Index</b></summary>
-<br/>
-
-| Orbit | Celestial Body | Domain | Verified Repositories |
-|---|---|---|---|
-${evidenceRows}
-
-</details>
-
----
-
-## 📡 Solar Log — Revolutions & Telemetry
-
-<div align="center">
-<img src="./assets/solar-log.svg" alt="Orbit Log — ${weeks} weeks of public signal" width="100%"/>
-</div>
-
-### Verified Experience & Orbit Logs
-- **Student Developer** — *Hyderabad* \`[Building in public]\`
-  - Shipping Android apps, full-stack products, and developer tools people can actually use.
-- **Focus Systems** — *SafeHer · Knox · StorePoint · DevCatalyst*
-  - Privacy-minded mobile, agent memory, retail POS, and campus community CRM.
-- **Exploration Orbits** — *QuantumShield · FreshLink · Feed Hyderabad*
-  - Security/quantum learning, produce markets, and surplus-food logistics.
-
-### Signals & Credentials
-- ★ **SafeHer-Next** — privacy-first Android safety app with SOS + guardian alerts
-- 🛰 **Knox** — Rust knowledge graph preserving decisions for AI coding agents
-- 🛰 **StorePoint** — offline-first retail POS with inventory and branch analytics
-- 📍 Based in **Hyderabad** · open to collaboration with fellow builders
-
----
-
-## ☀️ Transmission Channels
-
-<div align="center">
-<a href="https://github.com/${username}">
-<img src="./assets/portfolio-footer.svg" alt="Solar Transmission — open a channel" width="100%"/>
-</a>
-<br/><br/>
-<p>
-  <a href="https://github.com/${username}">GitHub</a> ·
-  <a href="mailto:chvnagarjunababu14@gmail.com">Email</a> ·
-  <a href="https://github.com/${username}?tab=repositories">All repositories</a>
-</p>
-<sub>Solar System · planets are languages, moons are projects, comets are recent pushes · automatically refreshed</sub>
-</div>
-`;
-
-const mapRepo=r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,forks:r.forks_count||0,updated_at:r.updated_at,url:r.html_url});
+const footerCta="<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"142\" viewBox=\"0 0 1200 142\" role=\"img\" aria-labelledby=\"title desc\">\n<title id=\"title\">Explore all repositories</title>\n<desc id=\"desc\">A Cedar and Stone call to action to browse every public project and experiment.</desc>\n<defs>\n<linearGradient id=\"footerBg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop stop-color=\"#17241F\"/><stop offset=\".55\" stop-color=\"#1C2B24\"/><stop offset=\"1\" stop-color=\"#172725\"/></linearGradient>\n<linearGradient id=\"footerEdge\"><stop stop-color=\"#B47D58\"/><stop offset=\".5\" stop-color=\"#8EA68C\"/><stop offset=\"1\" stop-color=\"#8EA68C\" stop-opacity=\".35\"/></linearGradient>\n</defs>\n<rect x=\"1\" y=\"1\" width=\"1198\" height=\"140\" rx=\"18\" fill=\"url(#footerBg)\" stroke=\"url(#footerEdge)\" stroke-opacity=\".62\" stroke-width=\"1.5\"/>\n<rect x=\"1\" y=\"18\" width=\"6\" height=\"106\" rx=\"3\" fill=\"#B47D58\"/>\n<text x=\"42\" y=\"43\" font-family=\"Arial,sans-serif\" font-size=\"13\" font-weight=\"700\" letter-spacing=\"2.8\" fill=\"#C58E6A\">05 / THE FULL COLLECTION</text>\n<text x=\"42\" y=\"91\" font-family=\"Georgia,serif\" font-size=\"37\" font-weight=\"700\" fill=\"#F1EBDD\">Explore all repositories</text>\n<text x=\"44\" y=\"119\" font-family=\"Arial,sans-serif\" font-size=\"16\" fill=\"#AFC0B0\">Browse every public project, experiment and work in progress.</text>\n<circle cx=\"1110\" cy=\"71\" r=\"38\" fill=\"#8EA68C\" fill-opacity=\".09\" stroke=\"#8EA68C\" stroke-opacity=\".55\" stroke-width=\"1.5\"/>\n<path d=\"M1094 71H1124M1113 59L1125 71 1113 83\" fill=\"none\" stroke=\"#D7BD78\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>";
+const mapRepo=r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,updated_at:r.updated_at,url:r.html_url});
+const readme=[
+'<div align="center">',
+'<img src="./assets/profile-universe.gif" width="100%" alt="StarLord — Cedar & Stone banner with gently swaying leaves"/>',
+'<p align="center">'+navCards+'</p>',
+'<a id="about"></a>',
+aboutSection,
+'',
+'<a id="snapshot"></a>',
+'<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile snapshot: public projects, stars, languages and featured work"/>',
+'',
+'<a id="toolkit"></a>',
+'<img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>',
+'',
+'<a id="selected-work"></a>',
+'<img src="./assets/work-header.svg" width="100%" alt="Selected work — projects shaped by curiosity"/>',
+'<sub>'+featured.length+' featured · '+repos.length+' public projects · Android, tools, security and community.</sub>',
+'',
+projectCards,
+moreWorkLine,
+'',
+'<p align="center"><a href="https://github.com/'+username+'?tab=repositories"><img src="./assets/portfolio-footer.svg" width="100%" alt="Explore all repositories — browse every public project and experiment"/></a></p>',
+'<p align="center"><sub>A living collection of public work · Automatically refreshed · Private repositories stay private</sub></p>',
+'</div>'
+].join('\n');
 await write('README.md',readme);
 await write('assets/profile-universe.svg',hero);
 await write('assets/nebula-hero.svg',hero);
-await write('assets/solar-about.svg',about);
-await write('assets/tech-stack-v2.svg',stack);
-await write('assets/solar-log.svg',log);
-await write('assets/portfolio-footer.svg',footer);
-await Promise.all(moonCards.map(c=>write(`assets/projects/${slug(c.r.name)}.svg`,c.art)));
+await write('assets/profile-metrics.svg',metricsSvg);
+await write('assets/tech-stack-v2.svg',stackSvg);
+await write('assets/work-header.svg',workHeader);
+await write('assets/portfolio-footer.svg',footerCta);
+await Promise.all(navSvgs.map(item=>write('assets/nav-'+item.id+'.svg',item.svg)));
+await Promise.all(projectArts.map(p=>write('assets/projects/'+slug(p.r.name)+'.svg',p.art)));
 await write('assets/solar-data.json',JSON.stringify({
  username,
- theme:'solar-system-gitskins-quality',
- profile:{login:profile.login,name:profile.name,avatar_url:profile.avatar_url,followers:profile.followers,public_repos:profile.public_repos},
+ profile,
  featuredRepositories:featured.map(mapRepo),
  publicRepositories:repos.map(mapRepo),
  languages:allLangs,
- orbitLanguages:orbitLangs.map(p=>({name:p.name,pct:p.pct,label:p.label,color:p.color,domain:p.domain,moons:p.moons.map(m=>m.name)})),
- weekCounts,
- totalStars:stars,
- totalForks:forks
+ totalStars:stars
 },null,2));
-console.log(`StarLord solar system generated: ${featured.length} moons / ${repos.length} repos / ${orbitLangs.length} planets / ${weeks} week log${offline?' (offline cache)':''}.`);
-async function write(path,content){await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
+console.log('Cedar & Stone profile generated for '+featured.length+' featured / '+repos.length+' public repositories and '+langs.length+' languages.');
+async function write(path,content){const fs=await import('node:fs/promises');await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
