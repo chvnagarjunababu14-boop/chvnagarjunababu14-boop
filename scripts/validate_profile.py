@@ -128,6 +128,7 @@ required_assets = {
     "./assets/about-divider.svg",
     "./assets/about-signoff.svg",
     "./assets/work-header.svg",
+    "./assets/portfolio-footer.svg",
     "./assets/nav-about.svg",
     "./assets/nav-snapshot.svg",
     "./assets/nav-toolkit.svg",
