@@ -63,9 +63,9 @@ const totalLanguageBytes=Object.values(totals).reduce((s,n)=>s+n,0)||1;
 const abbr={TypeScript:'TS',JavaScript:'JS',Python:'PY',Kotlin:'KT',Rust:'RS',PLpgSQL:'SQL',Java:'JV',CSS:'CSS',HTML:'HTML',Go:'GO'};
 function langBadge(name,color,size=24){
  const a=abbr[name]||String(name).slice(0,2).toUpperCase();
- const half=size/2;const fs=size<=20?8:9;
+ const r=size/2;const fs=size<=20?8:10;
  const textFill=['#F7DF1E','#DEA584','#86EFAC'].includes(color)?'#0B1225':'#F8FAFC';
- return `<rect x="${-half}" y="${-half}" width="${size}" height="${size}" rx="5" fill="${color}"/><text y="${fs*0.35}" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="${fs}" font-weight="800" fill="${textFill}">${esc(a)}</text>`;
+ return `<circle r="${r+3}" fill="${color}" fill-opacity=".28"/><circle r="${r}" fill="${color}"/><circle r="${r}" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1.2"/><text y="${fs*0.35}" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="${fs}" font-weight="800" fill="${textFill}">${esc(a)}</text>`;
 }
 
 let avatarDataUri='';
@@ -108,15 +108,26 @@ const orbitLangs=langs.map(([name,bytes],i)=>{
  return {name,color:palette[name]||'#38BDF8',pct,label,rx:130+i*42,ry:48+i*14,start:i*(360/Math.max(langs.length,1))+18,size:12,moons:related,domain:domainByLang[name]||'Software Systems'};
 });
 
-// --- Phase 1: Hero widget ---
+// --- Phase 1: Hero widget (vibrant GitSkins-style solar system) ---
 const cx=440,cy=248;
-const starsBg=Array.from({length:64},(_,i)=>{const x=(i*97.3)%840+20,y=(i*61.7)%470+20,r=i%8===0?1.4:0.6;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#E2E8F0" opacity="${(0.10+(i%4)*0.05).toFixed(2)}"/>`;}).join('');
-const orbitTracks=orbitLangs.map(p=>`<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="2 8"/>`).join('');
+const starColors=['#F8FAFC','#FDE68A','#93C5FD','#F9A8D4','#A5F3FC'];
+const starsBg=Array.from({length:110},(_,i)=>{
+ const x=(i*97.3)%840+20,y=(i*61.7)%470+20;
+ const big=i%9===0;const r=big?1.8:(i%3===0?1.1:0.55);
+ const fill=starColors[i%starColors.length];
+ const op=big?0.95:(0.35+(i%5)*0.1);
+ return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${op.toFixed(2)}"/>`;
+}).join('');
+const orbitTracks=orbitLangs.map(p=>[
+ `<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="${p.color}" stroke-opacity="0.38" stroke-width="2.4"/>`,
+ `<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.1" stroke-dasharray="4 6"/>`
+].join('')).join('');
 const cometSvg=recentPushes.map((c,i)=>{
- const y=110+i*70;const x0=50+i*40;
- return `<g id="comet-${i}" data-comet="1" data-y="${y}" data-x0="${x0}" data-span="560" data-phase="${c.phase}" transform="translate(${x0} ${y})">
-  <path d="M0 0H36" stroke="#F8FAFC" stroke-opacity=".35" stroke-width="1.3" stroke-linecap="round"/>
-  <circle cx="40" cy="0" r="2" fill="#FFA726" fill-opacity=".85"/>
+ const y=100+i*78;const x0=40+i*48;
+ return `<g id="comet-${i}" data-comet="1" data-y="${y}" data-x0="${x0}" data-span="580" data-phase="${c.phase}" transform="translate(${x0} ${y})">
+  <path d="M0 0H48" stroke="url(#cometTail)" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="52" cy="0" r="3.2" fill="#FFE082"/>
+  <circle cx="52" cy="0" r="6" fill="#FFA726" fill-opacity=".35"/>
  </g>`;
 }).join('');
 const orbitPlanets=orbitLangs.map((p,i)=>{
@@ -125,48 +136,57 @@ const orbitPlanets=orbitLangs.map((p,i)=>{
  const x=cx+p.rx*Math.cos(rad);
  const y=cy+p.ry*Math.sin(rad);
  const moonDots=p.moons.slice(0,2).map((m,mi)=>{
-  const mang=mi*180+20;const mr=20+mi*2;
+  const mang=mi*180+20;const mr=24+mi*3;
   const mx=(Math.cos(mang*Math.PI/180)*mr).toFixed(1);
   const my=(Math.sin(mang*Math.PI/180)*mr).toFixed(1);
-  return `<circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="1.8" fill="#F8FAFC" opacity=".85"/>`;
+  return `<circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="4.5" fill="#F8FAFC" opacity=".22"/><circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="2.2" fill="#F8FAFC" opacity=".98"/>`;
  }).join('');
- const labelTop=16;
+ const labelTop=22;
  return `<g id="planet-${i}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${p.rx}" data-ry="${p.ry}" data-angle="${p.start}" data-speed="1" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
-   <circle r="16" fill="${p.color}" fill-opacity=".10"/>
-   ${langBadge(p.name,p.color,20)}
-   <g class="moons" opacity=".9">${moonDots}</g>
-   <rect x="-34" y="${labelTop}" width="68" height="24" rx="4" fill="#091024" fill-opacity=".9" stroke="#1E2C4F" stroke-opacity=".8"/>
-   <text y="${labelTop+10}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="#F8FAFC">${short}</text>
-   <text y="${labelTop+20}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7.5" fill="#94A3B8">${esc(p.label)}</text>
+   <circle r="26" fill="${p.color}" fill-opacity=".18"/>
+   <circle r="20" fill="${p.color}" fill-opacity=".12"/>
+   ${langBadge(p.name,p.color,24)}
+   <g class="moons" opacity=".95">${moonDots}</g>
+   <rect x="-40" y="${labelTop}" width="80" height="28" rx="6" fill="#060B1A" fill-opacity=".92" stroke="${p.color}" stroke-opacity=".55" stroke-width="1.2"/>
+   <text y="${labelTop+12}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#F8FAFC">${short}</text>
+   <text y="${labelTop+23}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="${p.color}">${esc(p.label)}</text>
  </g>`;
 }).join('');
 const avatarSun=avatarDataUri
- ? `<image href="${avatarDataUri}" x="-34" y="-34" width="68" height="68" clip-path="url(#sunClip)"/>`
- : `<circle r="26" fill="#FFD36A"/><text y="5" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#3A2A10">SL</text>`;
+ ? `<image href="${avatarDataUri}" x="-36" y="-36" width="72" height="72" clip-path="url(#sunClip)"/>`
+ : `<circle r="28" fill="#FFD36A"/><text y="6" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#3A2A10">SL</text>`;
 const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="520" viewBox="0 0 880 520" fill="none" role="img" aria-labelledby="heroTitle">
 <title id="heroTitle">StarLord solar system — languages as planets, projects as moons</title>
 <defs>
- <linearGradient id="deepSpace" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#030611"/><stop offset=".55" stop-color="#070B18"/><stop offset="1" stop-color="#0B1225"/></linearGradient>
- <radialGradient id="sunCorona"><stop stop-color="#FFA726" stop-opacity=".9"/><stop offset=".55" stop-color="#FF7043" stop-opacity=".28"/><stop offset="1" stop-color="#030611" stop-opacity="0"/></radialGradient>
- <clipPath id="sunClip"><circle cx="0" cy="0" r="34"/></clipPath>
+ <linearGradient id="deepSpace" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#02040C"/><stop offset=".45" stop-color="#07102A"/><stop offset="1" stop-color="#0C1838"/></linearGradient>
+ <radialGradient id="nebulaA" cx="18%" cy="22%" r="48%"><stop stop-color="#8B5CF6" stop-opacity=".42"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
+ <radialGradient id="nebulaB" cx="86%" cy="78%" r="50%"><stop stop-color="#38BDF8" stop-opacity=".34"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
+ <radialGradient id="nebulaC" cx="70%" cy="18%" r="38%"><stop stop-color="#FB923C" stop-opacity=".26"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
+ <radialGradient id="sunCorona"><stop stop-color="#FFE082" stop-opacity="1"/><stop offset=".35" stop-color="#FFA726" stop-opacity=".75"/><stop offset=".7" stop-color="#FF7043" stop-opacity=".28"/><stop offset="1" stop-color="#02040C" stop-opacity="0"/></radialGradient>
+ <linearGradient id="cometTail" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#FFE082" stop-opacity="0"/><stop offset=".55" stop-color="#FFCC80" stop-opacity=".55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".95"/></linearGradient>
+ <clipPath id="sunClip"><circle cx="0" cy="0" r="36"/></clipPath>
 </defs>
-<rect width="880" height="520" rx="16" fill="url(#deepSpace)"/>
-<rect x=".5" y=".5" width="879" height="519" rx="15.5" stroke="#1E2C4F"/>
-<text x="24" y="28" font-family="ui-monospace,monospace" font-size="11" letter-spacing="1.6" fill="#FBBF24">SOLAR SYSTEM · @${esc(profile.name||'StarLord').toUpperCase()}</text>
+<rect width="880" height="520" rx="18" fill="url(#deepSpace)"/>
+<rect width="880" height="520" rx="18" fill="url(#nebulaA)"/>
+<rect width="880" height="520" rx="18" fill="url(#nebulaB)"/>
+<rect width="880" height="520" rx="18" fill="url(#nebulaC)"/>
+<rect x=".5" y=".5" width="879" height="519" rx="17.5" stroke="#334155" stroke-opacity=".9"/>
+<text x="24" y="30" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">SOLAR SYSTEM · @${esc(profile.name||'StarLord').toUpperCase()}</text>
 <g id="starfield">${starsBg}</g>
 ${cometSvg}
 ${orbitTracks}
 <g transform="translate(${cx} ${cy})">
- <g id="sun-halo" data-sun="1"><circle r="68" fill="url(#sunCorona)"/></g>
+ <g id="sun-halo" data-sun="1"><circle r="78" fill="url(#sunCorona)"/></g>
  <g id="sun-core" data-sun="1">
-  <circle r="38" fill="#0B1225" stroke="#FFA726" stroke-width="2"/>
+  <circle r="44" fill="#FFA726" fill-opacity=".2"/>
+  <circle r="40" fill="#0B1225" stroke="#FFE082" stroke-width="2.5"/>
   ${avatarSun}
  </g>
- <text y="58" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.4" fill="#FFA726">THE SUN // STARLORD</text>
+ <text y="62" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="700" letter-spacing="1.6" fill="#FFE082">THE SUN // STARLORD</text>
 </g>
 ${orbitPlanets}
-<text x="24" y="500" font-family="ui-monospace,monospace" font-size="10" fill="#64748B">starlord.solar</text>
-<text x="856" y="500" text-anchor="end" font-family="ui-monospace,monospace" font-size="10" fill="#64748B">planets = languages · moons = repos · comets = recent pushes</text>
+<text x="24" y="500" font-family="ui-monospace,monospace" font-size="10" fill="#94A3B8">starlord.solar</text>
+<text x="856" y="500" text-anchor="end" font-family="ui-monospace,monospace" font-size="10" fill="#94A3B8">planets = languages · moons = repos · comets = recent pushes</text>
 </svg>`;
 
 // --- Phase 2: THE SUN about card ---
@@ -178,11 +198,14 @@ const aboutAvatar=avatarDataUri
 const aboutStars=Array.from({length:18},(_,i)=>{const x=(i*73.1)%860+10,y=(i*41.7)%170+10;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i%5===0?1.1:0.5}" fill="#E2E8F0" opacity="${0.12+(i%3)*0.04}"/>`;}).join('');
 const about=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="190" viewBox="0 0 880 190" fill="none">
 <defs>
- <radialGradient id="aboutSunCorona"><stop stop-color="#FFA726" stop-opacity=".85"/><stop offset=".55" stop-color="#FF7043" stop-opacity=".22"/><stop offset="1" stop-color="#030611" stop-opacity="0"/></radialGradient>
+ <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#060B1A"/><stop offset="1" stop-color="#0C1838"/></linearGradient>
+ <radialGradient id="aboutNebula" cx="88%" cy="40%" r="40%"><stop stop-color="#F97316" stop-opacity=".2"/><stop offset="1" stop-color="#060B1A" stop-opacity="0"/></radialGradient>
+ <radialGradient id="aboutSunCorona"><stop stop-color="#FFE082" stop-opacity=".95"/><stop offset=".45" stop-color="#FFA726" stop-opacity=".45"/><stop offset="1" stop-color="#030611" stop-opacity="0"/></radialGradient>
  <clipPath id="aboutAvatarClip"><circle cx="0" cy="0" r="40"/></clipPath>
 </defs>
-<rect width="880" height="190" rx="12" fill="#091024"/>
-<rect x=".5" y=".5" width="879" height="189" rx="11.5" stroke="#1E2C4F"/>
+<rect width="880" height="190" rx="14" fill="url(#aboutBg)"/>
+<rect width="880" height="190" rx="14" fill="url(#aboutNebula)"/>
+<rect x=".5" y=".5" width="879" height="189" rx="13.5" stroke="#334155"/>
 ${aboutStars}
 <text x="36" y="42" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">THE SUN</text>
 <text x="36" y="84" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="28" font-weight="800" fill="#F8FAFC">${esc(fullName)}</text>
@@ -246,8 +269,9 @@ const stackRows=orbitLangs.map((p,i)=>{
  </g>`;
 }).join('');
 const stack=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="${stackH}" viewBox="0 0 880 ${stackH}" fill="none">
-<rect width="880" height="${stackH}" rx="12" fill="#091024"/>
-<rect x=".5" y=".5" width="879" height="${stackH-1}" rx="11.5" stroke="#1E2C4F"/>
+<defs><linearGradient id="stackBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#060B1A"/><stop offset="1" stop-color="#0C1838"/></linearGradient></defs>
+<rect width="880" height="${stackH}" rx="14" fill="url(#stackBg)"/>
+<rect x=".5" y=".5" width="879" height="${stackH-1}" rx="13.5" stroke="#334155"/>
 <text x="28" y="30" font-family="ui-monospace,monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#FBBF24">PLANETS</text>
 ${stackRows}
 </svg>`;

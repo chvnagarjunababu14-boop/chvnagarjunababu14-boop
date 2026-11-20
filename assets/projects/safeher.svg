@@ -4,7 +4,7 @@
 <text x="18" y="24" font-family="ui-monospace,monospace" font-size="10" font-weight="700" letter-spacing="1.2" fill="#FBBF24">MOON 01.</text>
 <g transform="translate(392 28)">
  <ellipse rx="22" ry="10" transform="rotate(-28)" fill="none" stroke="#E2E8F0" stroke-opacity=".55" stroke-width="1.2"/>
- <rect x="-9" y="-9" width="18" height="18" rx="5" fill="#7F52FF"/><text y="2.8" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="8" font-weight="800" fill="#F8FAFC">KT</text>
+ <circle r="12" fill="#7F52FF" fill-opacity=".28"/><circle r="9" fill="#7F52FF"/><circle r="9" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1.2"/><text y="2.8" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="8" font-weight="800" fill="#F8FAFC">KT</text>
 </g>
 <text x="18" y="56" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="20" font-weight="800" fill="#F8FAFC">SafeHer-Next</text>
 <text x="18" y="80" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="11" fill="#94A3B8">Privacy-first Android safety app with SOS and guardian alerts.</text>
@@ -12,7 +12,7 @@
 <g transform="translate(18 122)">
  <text y="0" font-family="ui-monospace,monospace" font-size="11" fill="#F8FAFC">★ 3</text>
  <text x="58" y="0" font-family="ui-monospace,monospace" font-size="11" fill="#94A3B8">⑂ 0</text>
- <g transform="translate(120 -10) scale(0.75)"><rect x="-10" y="-10" width="20" height="20" rx="5" fill="#7F52FF"/><text y="2.8" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="8" font-weight="800" fill="#F8FAFC">KT</text></g>
+ <g transform="translate(120 -10) scale(0.75)"><circle r="13" fill="#7F52FF" fill-opacity=".28"/><circle r="10" fill="#7F52FF"/><circle r="10" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1.2"/><text y="2.8" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="8" font-weight="800" fill="#F8FAFC">KT</text></g>
  <text x="140" y="0" font-family="ui-monospace,monospace" font-size="11" fill="#CBD5E1">Kotlin</text>
 </g>
 <g transform="translate(350 95)"><path d="M0-28L22-18V6C22 20 10 30 0 36-10 30-22 20-22 6V-18Z" fill="#7F52FF" fill-opacity=".2" stroke="#7F52FF" stroke-width="2"/><path d="M-10 0L-2 8 14-8" fill="none" stroke="#F8FAFC" stroke-width="3" stroke-linecap="round"/></g>

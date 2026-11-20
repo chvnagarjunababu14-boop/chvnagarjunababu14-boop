@@ -12,10 +12,10 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SVG_PATH = ROOT / "assets" / "profile-universe.svg"
 GIF_PATH = ROOT / "assets" / "profile-universe.gif"
-FRAME_COUNT = 40
-FRAME_DURATION_MS = 160
-WIDTH, HEIGHT = 800, 473
-COLORS = 64
+FRAME_COUNT = 48
+FRAME_DURATION_MS = 140
+WIDTH, HEIGHT = 880, 520
+COLORS = 192
 
 PLANET_RE = re.compile(
     r'<g id="planet-(\d+)" data-orbit="1" data-cx="([^"]+)" data-cy="([^"]+)" '
@@ -67,7 +67,7 @@ def animated_svg(base: str, frame_index: int) -> str:
 
     def move_moon(match: re.Match[str]) -> str:
         mr, mang, r, rest = float(match.group(1)), float(match.group(2)), match.group(3), match.group(4)
-        angle = (mang + (360 / FRAME_COUNT) * frame_index * 0.45) % 360
+        angle = (mang + (360 / FRAME_COUNT) * frame_index * 0.5) % 360
         rad = math.radians(angle)
         x = mr * math.cos(rad)
         y = mr * math.sin(rad)
@@ -90,7 +90,7 @@ def animated_svg(base: str, frame_index: int) -> str:
     svg = PLANET_RE.sub(move_planet, base)
     svg = MOON_RE.sub(move_moon, svg)
     svg = COMET_RE.sub(move_comet, svg)
-    halo = 68 + 1.6 * math.sin(phase)
+    halo = 78 + 2.4 * math.sin(phase)
     svg = SUN_HALO_RE.sub(rf"\g<1>{halo:.3f}\g<3>", svg, count=1)
     return svg
 
