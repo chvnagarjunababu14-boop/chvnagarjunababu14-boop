@@ -1,5 +1,6 @@
 {
   "username": "chvnagarjunababu14-boop",
+  "theme": "solar-system",
   "profile": {
     "login": "chvnagarjunababu14-boop",
     "id": 240295208,
@@ -168,6 +169,44 @@
       "Batchfile",
       200
     ]
+  ],
+  "orbitLanguages": [
+    {
+      "name": "TypeScript",
+      "pct": 57.59578058904312,
+      "label": "58%",
+      "color": "#5BC0EB"
+    },
+    {
+      "name": "Kotlin",
+      "pct": 22.166237356669242,
+      "label": "22%",
+      "color": "#C792EA"
+    },
+    {
+      "name": "Python",
+      "pct": 8.553262188789676,
+      "label": "9%",
+      "color": "#82AAFF"
+    },
+    {
+      "name": "Rust",
+      "pct": 8.390353809530422,
+      "label": "8%",
+      "color": "#E07A5F"
+    },
+    {
+      "name": "PLpgSQL",
+      "pct": 1.2396450169188173,
+      "label": "1%",
+      "color": "#A7B18D"
+    },
+    {
+      "name": "JavaScript",
+      "pct": 0.8222943512530516,
+      "label": "<1%",
+      "color": "#F0C75E"
+    }
   ],
   "totalStars": 3
 }
