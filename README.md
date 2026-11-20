@@ -16,9 +16,7 @@
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop?tab=repositories"><b>Explore all repositories ↗</b></a></p>
 
 <h2 align="center">📊 &nbsp; GITHUB ANALYTICS</h2>
-<div align="center"><img src="https://github-readme-stats.vercel.app/api?username=chvnagarjunababu14-boop&show_icons=true&hide_border=true&bg_color=080b16&title_color=c4b5fd&icon_color=67e8f9&text_color=cbd5e1" height="165"/> <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=chvnagarjunababu14-boop&layout=compact&hide_border=true&bg_color=080b16&title_color=c4b5fd&text_color=cbd5e1" height="165"/></div>
-
-<div align="center"><img src="https://github-readme-activity-graph.vercel.app/graph?username=chvnagarjunababu14-boop&bg_color=080b16&color=c4b5fd&line=67e8f9&point=ffffff&area=true&hide_border=true" width="100%"/></div>
+<img src="./assets/profile-analytics.svg" width="100%" alt="Locally generated GitHub repository analytics"/>
 
 <p align="center"><sub>✨ Auto-generated from public GitHub data · Private repositories excluded</sub></p>
 </div>
