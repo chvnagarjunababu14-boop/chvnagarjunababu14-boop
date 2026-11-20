@@ -13,7 +13,7 @@ const langs=Object.entries(totals).sort((a,b)=>b[1]-a[1]).slice(0,8);
 const palette={TypeScript:'#3178c6',JavaScript:'#f1e05a',Python:'#3572A5',Java:'#b07219',Rust:'#dea584',Kotlin:'#A97BFF',CSS:'#563d7c',HTML:'#e34c26',Go:'#00ADD8',C:'#555555','C++':'#f34b7d',PHP:'#4F5D95',Ruby:'#701516',Dart:'#00B4AB',Shell:'#89e051',SQL:'#e38c00',Swift:'#F05138'};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const stars=repos.reduce((n,r)=>n+r.stargazers_count,0);
-const featured=[...repos].filter(r=>r.name.toLowerCase()!==username.toLowerCase()).sort((a,b)=>(b.stargazers_count-a.stargazers_count)||new Date(b.updated_at)-new Date(a.updated_at)).slice(0,6);
+const featured=[...repos].filter(r=>r.name.toLowerCase()!==username.toLowerCase()).sort((a,b)=>(b.stargazers_count-a.stargazers_count)||new Date(b.updated_at)-new Date(a.updated_at)).slice(0,8);
 const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const colors=['#ff5ac8','#42d9ff','#a78bfa','#ffc247','#35e0b5','#ff7894'];
 const projectSummaries={
