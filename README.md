@@ -1,6 +1,5 @@
 <div align="center">
 <img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>
-
 <table width="100%" cellpadding="20" cellspacing="0" bgcolor="#18251F">
 <tr><td>
 <p><sub><font color="#C58E6A">01 / THE PERSON BEHIND THE PROJECTS</font></sub></p>
