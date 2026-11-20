@@ -162,9 +162,7 @@
       "domain": "Web Architecture & Full-Stack Products",
       "moons": [
         "Knox",
-        "Store-Point",
-        "devcatalyst-community-crm",
-        "QuantumShield-India"
+        "Store-Point"
       ]
     },
     {
@@ -199,14 +197,6 @@
       "label": "1%",
       "color": "#336791",
       "domain": "Data Layer & Persistence",
-      "moons": []
-    },
-    {
-      "name": "JavaScript",
-      "pct": 0.8222943512530516,
-      "label": "<1%",
-      "color": "#F7DF1E",
-      "domain": "Interface Experiments",
       "moons": []
     }
   ],

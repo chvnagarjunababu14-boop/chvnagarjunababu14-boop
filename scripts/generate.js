@@ -1,16 +1,31 @@
 // StarLord Solar System — GitSkins-quality custom profile. Public GitHub data only.
 async function main(){
+const fs=await import('node:fs/promises');
 const username=process.env.GITHUB_USERNAME||'chvnagarjunababu14-boop';
 const headers={Accept:'application/vnd.github+json','User-Agent':'starlord-solar-profile'};
 if(process.env.GITHUB_TOKEN)headers.Authorization='Bearer '+process.env.GITHUB_TOKEN;
 async function api(url){const r=await fetch(url,{headers});if(!r.ok)throw new Error('GitHub API '+r.status+' at '+url);return r.json();}
-const profile=await api('https://api.github.com/users/'+username);
-const all=await api('https://api.github.com/users/'+username+'/repos?type=public&sort=updated&per_page=100');
-const repos=all.filter(r=>!r.private&&!r.archived&&r.name.toLowerCase()!==username.toLowerCase()).slice(0,100);
-const langmaps=await Promise.all(repos.map(r=>api(r.languages_url)));
-const totals={};langmaps.forEach(m=>Object.entries(m).forEach(([k,v])=>totals[k]=(totals[k]||0)+v));
-const allLangs=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
-const langs=allLangs.slice(0,6);
+function hydrateRepo(r){return{name:r.name,description:r.description||null,language:r.language||null,stargazers_count:r.stars??r.stargazers_count??0,forks_count:r.forks??r.forks_count??0,updated_at:r.updated_at,html_url:r.url||r.html_url,private:false,archived:false,languages_url:null};}
+let profile,repos,allLangs,weekCountsCached=null,offline=false;
+try{
+ profile=await api('https://api.github.com/users/'+username);
+ const all=await api('https://api.github.com/users/'+username+'/repos?type=public&sort=updated&per_page=100');
+ repos=all.filter(r=>!r.private&&!r.archived&&r.name.toLowerCase()!==username.toLowerCase()).slice(0,100);
+ const langmaps=await Promise.all(repos.map(async r=>{try{return await api(r.languages_url);}catch{return r.language?{[r.language]:1}:{};}}));
+ const totals={};langmaps.forEach(m=>Object.entries(m).forEach(([k,v])=>totals[k]=(totals[k]||0)+v));
+ if(!Object.keys(totals).length)repos.forEach(r=>{if(r.language)totals[r.language]=(totals[r.language]||0)+1;});
+ allLangs=Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+}catch(err){
+ console.warn('Live GitHub fetch failed ('+err.message+'); regenerating from assets/solar-data.json');
+ const cached=JSON.parse(await fs.readFile('assets/solar-data.json','utf8'));
+ offline=true;
+ profile=cached.profile;
+ repos=(cached.publicRepositories||[]).map(hydrateRepo);
+ allLangs=cached.languages||[];
+ weekCountsCached=cached.weekCounts||null;
+}
+const langs=allLangs.slice(0,5);
+const totals=Object.fromEntries(allLangs);
 const palette={TypeScript:'#3178C6',JavaScript:'#F7DF1E',Python:'#3776AB',Java:'#F59E0B',Rust:'#DEA584',Kotlin:'#7F52FF',CSS:'#1572B6',HTML:'#E34F26',Go:'#00ADD8',C:'#94A3B8','C++':'#F472B6',PHP:'#A78BFA',Shell:'#A3E635',SQL:'#F59E0B',PLpgSQL:'#336791'};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -60,67 +75,69 @@ try{
  if(ar.ok){const buf=Buffer.from(await ar.arrayBuffer());const mime=ar.headers.get('content-type')||'image/png';avatarDataUri=`data:${mime};base64,${buf.toString('base64')}`;}
 }catch{}
 
-let publicEvents=[];
-try{publicEvents=await api('https://api.github.com/users/'+username+'/events/public?per_page=100');}catch{}
 const weekMs=7*24*3600*1000;
 const now=Date.now();
 const weeks=26;
-const weekCounts=Array.from({length:weeks},()=>0);
-for(const ev of publicEvents){
- if(!ev||!ev.created_at)continue;
- const age=now-new Date(ev.created_at).getTime();
- const w=Math.floor(age/weekMs);
- if(w>=0&&w<weeks)weekCounts[weeks-1-w]+=1;
-}
-// Fallback heat from repo updates if events sparse
-if(weekCounts.every(n=>n===0)){
- for(const r of repos){
-  const age=now-new Date(r.updated_at).getTime();
+let weekCounts=Array.from({length:weeks},()=>0);
+if(weekCountsCached&&weekCountsCached.length===weeks){
+ weekCounts=weekCountsCached.slice();
+}else{
+ let publicEvents=[];
+ if(!offline){try{publicEvents=await api('https://api.github.com/users/'+username+'/events/public?per_page=100');}catch{}}
+ for(const ev of publicEvents){
+  if(!ev||!ev.created_at)continue;
+  const age=now-new Date(ev.created_at).getTime();
   const w=Math.floor(age/weekMs);
   if(w>=0&&w<weeks)weekCounts[weeks-1-w]+=1;
  }
+ if(weekCounts.every(n=>n===0)){
+  for(const r of repos){
+   const age=now-new Date(r.updated_at).getTime();
+   const w=Math.floor(age/weekMs);
+   if(w>=0&&w<weeks)weekCounts[weeks-1-w]+=1;
+  }
+ }
 }
-const recentPushes=repos.slice(0,3).map((r,i)=>({name:r.name,updated:r.updated_at,phase:i*0.28}));
+const recentPushes=repos.slice(0,2).map((r,i)=>({name:r.name,updated:r.updated_at,phase:i*0.45}));
 
 const orbitLangs=langs.map(([name,bytes],i)=>{
  const pct=bytes/totalLanguageBytes*100;
  const label=pct>0&&pct<1?'<1%':`${Math.round(pct)}%`;
- const related=repos.filter(r=>(r.language||'')===name).slice(0,4);
- return {name,color:palette[name]||'#38BDF8',pct,label,rx:118+i*36,ry:52+i*16,start:i*(360/Math.max(langs.length,1))+12,size:12,moons:related,domain:domainByLang[name]||'Software Systems'};
+ const related=repos.filter(r=>(r.language||'')===name).slice(0,2);
+ // Wider, calmer rings with even spacing (reference-style neat ellipses).
+ return {name,color:palette[name]||'#38BDF8',pct,label,rx:130+i*42,ry:48+i*14,start:i*(360/Math.max(langs.length,1))+18,size:12,moons:related,domain:domainByLang[name]||'Software Systems'};
 });
 
 // --- Phase 1: Hero widget ---
 const cx=440,cy=248;
-const starsBg=Array.from({length:120},(_,i)=>{const x=(i*97.3)%840+20,y=(i*61.7)%470+20,r=i%8===0?1.6:0.7;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#E2E8F0" opacity="${(0.12+(i%5)*0.06).toFixed(2)}"/>`;}).join('');
-const orbitTracks=orbitLangs.map(p=>`<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="3 7"/>`).join('');
+const starsBg=Array.from({length:64},(_,i)=>{const x=(i*97.3)%840+20,y=(i*61.7)%470+20,r=i%8===0?1.4:0.6;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="#E2E8F0" opacity="${(0.10+(i%4)*0.05).toFixed(2)}"/>`;}).join('');
+const orbitTracks=orbitLangs.map(p=>`<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="2 8"/>`).join('');
 const cometSvg=recentPushes.map((c,i)=>{
- const y=90+i*55;const x0=40+i*30;
- return `<g id="comet-${i}" data-comet="1" data-y="${y}" data-x0="${x0}" data-span="620" data-phase="${c.phase}" transform="translate(${x0} ${y})">
-  <path d="M0 0H48" stroke="#F8FAFC" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round"/>
-  <circle cx="52" cy="0" r="2.4" fill="#FFA726"/>
-  <text x="60" y="3" font-family="ui-monospace,monospace" font-size="8" fill="#94A3B8">${esc((projectNames[slug(c.name)]||c.name).slice(0,14))}</text>
+ const y=110+i*70;const x0=50+i*40;
+ return `<g id="comet-${i}" data-comet="1" data-y="${y}" data-x0="${x0}" data-span="560" data-phase="${c.phase}" transform="translate(${x0} ${y})">
+  <path d="M0 0H36" stroke="#F8FAFC" stroke-opacity=".35" stroke-width="1.3" stroke-linecap="round"/>
+  <circle cx="40" cy="0" r="2" fill="#FFA726" fill-opacity=".85"/>
  </g>`;
 }).join('');
 const orbitPlanets=orbitLangs.map((p,i)=>{
- const short=esc(p.name.length>12?p.name.slice(0,11)+'…':p.name);
+ const short=esc(p.name.length>11?p.name.slice(0,10)+'…':p.name);
  const rad=p.start*Math.PI/180;
  const x=cx+p.rx*Math.cos(rad);
  const y=cy+p.ry*Math.sin(rad);
- const moonDots=p.moons.slice(0,3).map((m,mi)=>{
-  const mang=mi*120;const mr=22+mi*3;
+ const moonDots=p.moons.slice(0,2).map((m,mi)=>{
+  const mang=mi*180+20;const mr=20+mi*2;
   const mx=(Math.cos(mang*Math.PI/180)*mr).toFixed(1);
   const my=(Math.sin(mang*Math.PI/180)*mr).toFixed(1);
-  return `<circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="2.1" fill="#F8FAFC" opacity=".9"/>`;
+  return `<circle class="moon" data-moon="1" data-mr="${mr}" data-mang="${mang}" cx="${mx}" cy="${my}" r="1.8" fill="#F8FAFC" opacity=".85"/>`;
  }).join('');
- const labelTop=18;
- return `<g id="planet-${i}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${p.rx}" data-ry="${p.ry}" data-angle="${p.start}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
-   <circle r="18" fill="${p.color}" fill-opacity=".12"/>
-   ${langBadge(p.name,p.color,22)}
-   <g class="moons" opacity=".95">${moonDots}</g>
-   <line x1="0" y1="14" x2="0" y2="${labelTop}" stroke="#64748B" stroke-opacity=".45" stroke-width="1"/>
-   <rect x="-36" y="${labelTop}" width="72" height="26" rx="4" fill="#091024" fill-opacity=".92" stroke="#1E2C4F"/>
-   <text y="${labelTop+11}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#F8FAFC">${short}</text>
-   <text y="${labelTop+21}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#94A3B8">${esc(p.label)}</text>
+ const labelTop=16;
+ return `<g id="planet-${i}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${p.rx}" data-ry="${p.ry}" data-angle="${p.start}" data-speed="1" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
+   <circle r="16" fill="${p.color}" fill-opacity=".10"/>
+   ${langBadge(p.name,p.color,20)}
+   <g class="moons" opacity=".9">${moonDots}</g>
+   <rect x="-34" y="${labelTop}" width="68" height="24" rx="4" fill="#091024" fill-opacity=".9" stroke="#1E2C4F" stroke-opacity=".8"/>
+   <text y="${labelTop+10}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8.5" fill="#F8FAFC">${short}</text>
+   <text y="${labelTop+20}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7.5" fill="#94A3B8">${esc(p.label)}</text>
  </g>`;
 }).join('');
 const avatarSun=avatarDataUri
@@ -158,7 +175,7 @@ const fullName='Venkata Nagarjuna Babu Chitturi';
 const aboutAvatar=avatarDataUri
  ? `<image href="${avatarDataUri}" x="-40" y="-40" width="80" height="80" clip-path="url(#aboutAvatarClip)"/>`
  : `<circle r="30" fill="#FFD36A"/><text y="6" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#3A2A10">SL</text>`;
-const aboutStars=Array.from({length:40},(_,i)=>{const x=(i*73.1)%860+10,y=(i*41.7)%170+10;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i%5===0?1.2:0.6}" fill="#E2E8F0" opacity="${0.15+(i%4)*0.05}"/>`;}).join('');
+const aboutStars=Array.from({length:18},(_,i)=>{const x=(i*73.1)%860+10,y=(i*41.7)%170+10;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i%5===0?1.1:0.5}" fill="#E2E8F0" opacity="${0.12+(i%3)*0.04}"/>`;}).join('');
 const about=`<svg xmlns="http://www.w3.org/2000/svg" width="880" height="190" viewBox="0 0 880 190" fill="none">
 <defs>
  <radialGradient id="aboutSunCorona"><stop stop-color="#FFA726" stop-opacity=".85"/><stop offset=".55" stop-color="#FF7043" stop-opacity=".22"/><stop offset="1" stop-color="#030611" stop-opacity="0"/></radialGradient>
@@ -382,7 +399,7 @@ await write('assets/solar-data.json',JSON.stringify({
  totalStars:stars,
  totalForks:forks
 },null,2));
-console.log(`StarLord solar system generated: ${featured.length} moons / ${repos.length} repos / ${orbitLangs.length} planets / ${weeks} week log.`);
-async function write(path,content){const fs=await import('node:fs/promises');await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
+console.log(`StarLord solar system generated: ${featured.length} moons / ${repos.length} repos / ${orbitLangs.length} planets / ${weeks} week log${offline?' (offline cache)':''}.`);
+async function write(path,content){await fs.mkdir(path.split('/').slice(0,-1).join('/')||'.',{recursive:true});await fs.writeFile(path,content);}
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

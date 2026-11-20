@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render animated GIF: elliptical planets, local moons, drifting comets."""
+"""Slow, neat elliptical orbits + soft moons + gentle comets (size-aware GIF)."""
 from __future__ import annotations
 
 import math
@@ -12,13 +12,15 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SVG_PATH = ROOT / "assets" / "profile-universe.svg"
 GIF_PATH = ROOT / "assets" / "profile-universe.gif"
-FRAME_COUNT = 36
-FRAME_DURATION_MS = 80
-WIDTH, HEIGHT = 880, 520
+FRAME_COUNT = 40
+FRAME_DURATION_MS = 160
+WIDTH, HEIGHT = 800, 473
+COLORS = 64
 
 PLANET_RE = re.compile(
     r'<g id="planet-(\d+)" data-orbit="1" data-cx="([^"]+)" data-cy="([^"]+)" '
-    r'data-rx="([^"]+)" data-ry="([^"]+)" data-angle="([^"]+)" transform="translate\([^"]+\)">'
+    r'data-rx="([^"]+)" data-ry="([^"]+)" data-angle="([^"]+)"(?: data-speed="([^"]+)")? '
+    r'transform="translate\([^"]+\)">'
 )
 MOON_RE = re.compile(
     r'<circle class="moon" data-moon="1" data-mr="([^"]+)" data-mang="([^"]+)" '
@@ -51,20 +53,21 @@ def animated_svg(base: str, frame_index: int) -> str:
         cx, cy = float(match.group(2)), float(match.group(3))
         rx, ry = float(match.group(4)), float(match.group(5))
         start_angle = float(match.group(6))
-        speed = 1.0 - planet_index * 0.09
+        # Integer revolutions per loop keep the GIF seamless; pacing comes from frame duration.
+        speed = float(match.group(7)) if match.group(7) else 1.0
         angle = (start_angle + (360 / FRAME_COUNT) * frame_index * speed) % 360
         rad = math.radians(angle)
         x = cx + rx * math.cos(rad)
         y = cy + ry * math.sin(rad)
         return (
             f'<g id="planet-{planet_index}" data-orbit="1" data-cx="{cx:g}" data-cy="{cy:g}" '
-            f'data-rx="{rx:g}" data-ry="{ry:g}" data-angle="{angle:.3f}" '
+            f'data-rx="{rx:g}" data-ry="{ry:g}" data-angle="{angle:.3f}" data-speed="{speed:g}" '
             f'transform="translate({x:.2f} {y:.2f})">'
         )
 
     def move_moon(match: re.Match[str]) -> str:
         mr, mang, r, rest = float(match.group(1)), float(match.group(2)), match.group(3), match.group(4)
-        angle = (mang + (360 / FRAME_COUNT) * frame_index * 2.2) % 360
+        angle = (mang + (360 / FRAME_COUNT) * frame_index * 0.45) % 360
         rad = math.radians(angle)
         x = mr * math.cos(rad)
         y = mr * math.sin(rad)
@@ -77,7 +80,8 @@ def animated_svg(base: str, frame_index: int) -> str:
         index = match.group(1)
         y, x0, span, cphase = map(float, match.group(2, 3, 4, 5))
         t = (frame_index / FRAME_COUNT + cphase) % 1
-        x = x0 + span * t
+        eased = t * t * (3 - 2 * t)
+        x = x0 + span * eased
         return (
             f'<g id="comet-{index}" data-comet="1" data-y="{y:g}" data-x0="{x0:g}" '
             f'data-span="{span:g}" data-phase="{cphase:g}" transform="translate({x:.2f} {y:.2f})">'
@@ -86,7 +90,7 @@ def animated_svg(base: str, frame_index: int) -> str:
     svg = PLANET_RE.sub(move_planet, base)
     svg = MOON_RE.sub(move_moon, svg)
     svg = COMET_RE.sub(move_comet, svg)
-    halo = 68 + 3.5 * math.sin(phase)
+    halo = 68 + 1.6 * math.sin(phase)
     svg = SUN_HALO_RE.sub(rf"\g<1>{halo:.3f}\g<3>", svg, count=1)
     return svg
 
@@ -99,11 +103,11 @@ def main() -> None:
         raise RuntimeError("The hero SVG is missing elliptical orbit markers for animation.")
 
     frames = [render_svg(animated_svg(original, i)) for i in range(FRAME_COUNT)]
-    thumbnails = [frame.resize((176, 104), Image.Resampling.LANCZOS) for frame in frames]
-    contact_sheet = Image.new("RGB", (176 * 6, 104 * 6))
+    thumbnails = [frame.resize((160, 95), Image.Resampling.LANCZOS) for frame in frames]
+    contact_sheet = Image.new("RGB", (160 * 8, 95 * 6))
     for index, thumbnail in enumerate(thumbnails):
-        contact_sheet.paste(thumbnail, ((index % 6) * 176, (index // 6) * 104))
-    palette = contact_sheet.quantize(colors=256, method=Image.Quantize.FASTOCTREE)
+        contact_sheet.paste(thumbnail, ((index % 8) * 160, (index // 8) * 95))
+    palette = contact_sheet.quantize(colors=COLORS, method=Image.Quantize.FASTOCTREE)
     indexed = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in frames]
 
     GIF_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -120,9 +124,10 @@ def main() -> None:
     with Image.open(GIF_PATH) as animation:
         if not getattr(animation, "is_animated", False) or animation.n_frames < 20:
             raise RuntimeError("The generated hero GIF is not animated.")
+    size_kb = GIF_PATH.stat().st_size / 1024
     print(
-        f"Animated solar hero created: {GIF_PATH.relative_to(ROOT)} "
-        f"({FRAME_COUNT} frames, {FRAME_DURATION_MS} ms/frame)."
+        f"Slow solar hero created: {GIF_PATH.relative_to(ROOT)} "
+        f"({FRAME_COUNT} frames @ {FRAME_DURATION_MS}ms, {COLORS} colors, {size_kb:.0f} KB)."
     )
 
 

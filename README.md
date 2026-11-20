@@ -45,12 +45,11 @@
 
 | Orbit | Celestial Body | Domain | Verified Repositories |
 |---|---|---|---|
-| **Orbit 1** | **TypeScript** (Inner) | Web Architecture &amp; Full-Stack Products | [`Knox`](https://github.com/chvnagarjunababu14-boop/Knox), [`StorePoint`](https://github.com/chvnagarjunababu14-boop/Store-Point), [`DevCatalyst CRM`](https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm), [`QuantumShield India`](https://github.com/chvnagarjunababu14-boop/QuantumShield-India) |
+| **Orbit 1** | **TypeScript** (Inner) | Web Architecture &amp; Full-Stack Products | [`Knox`](https://github.com/chvnagarjunababu14-boop/Knox), [`StorePoint`](https://github.com/chvnagarjunababu14-boop/Store-Point) |
 | **Orbit 2** | **Kotlin** (Orbit 2) | Android &amp; Privacy-Minded Mobile | [`SafeHer-Next`](https://github.com/chvnagarjunababu14-boop/SafeHer) |
 | **Orbit 3** | **Python** (Orbit 3) | Learning Systems &amp; Experiments | _exploring_ |
 | **Orbit 4** | **Rust** (Orbit 4) | Developer Tools &amp; Agent Memory | _exploring_ |
-| **Orbit 5** | **PLpgSQL** (Orbit 5) | Data Layer &amp; Persistence | _exploring_ |
-| **Orbit 6** | **JavaScript** (Outer) | Interface Experiments | _exploring_ |
+| **Orbit 5** | **PLpgSQL** (Outer) | Data Layer &amp; Persistence | _exploring_ |
 
 </details>
 
