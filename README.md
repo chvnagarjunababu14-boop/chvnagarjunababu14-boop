@@ -1,26 +1,39 @@
 <div align="center">
 <img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>
-<table width="100%" cellpadding="20" cellspacing="0" bgcolor="#18251F">
-<tr><td>
-<p><sub><font color="#C58E6A">01 / THE PERSON BEHIND THE PROJECTS</font></sub></p>
-<h2><font color="#F1EBDD">A Little About Me</font></h2>
-<p><font color="#E4E1D4">Hey, I'm <b>Venkata Nagarjuna Babu Chitturi</b> — a student, developer, builder and curious mind who loves turning ideas into real-world projects.</font></p>
-<p><font color="#C5CEC1">I'm passionate about exploring different areas of software development, from crafting polished interfaces and Android applications to building backend systems, developer tools and experimenting with emerging technologies.</font></p>
-<p><font color="#C5CEC1">I love attending tech events, meeting fellow builders, exploring new ideas and, most importantly, building things that genuinely excite me. For me, every project is an opportunity to learn something new, challenge myself and turn curiosity into creation.</font></p>
-<h3><font color="#D7BD78">What I Enjoy Building</font></h3>
-<table width="100%" cellpadding="8" cellspacing="0">
+
+<img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
+
+<div align="left">
+<p>Hey, I’m <strong>Venkata Nagarjuna Babu Chitturi</strong> — a student, developer and builder who enjoys turning curiosity into things people can actually use.</p>
+
+<p>My work moves between polished web experiences and Android apps, backend systems, developer tools, and experiments in cybersecurity, quantum technology and AI. I also enjoy tech events, meeting fellow builders and learning through collaboration.</p>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>What I Enjoy Building</h3>
+<table width="100%" cellpadding="13" cellspacing="0">
 <tr>
-<td width="50%" valign="top">
-<p>📱 <font color="#EDE8DA"><b>Mobile Applications</b></font><br/><font color="#AFC0B0" size="2">Android apps and practical everyday solutions.</font></p>
-<p>🌐 <font color="#EDE8DA"><b>Web Experiences</b></font><br/><font color="#AFC0B0" size="2">Modern interfaces, full-stack applications and useful platforms.</font></p>
-<p>⚙️ <font color="#EDE8DA"><b>Developer Tools</b></font><br/><font color="#AFC0B0" size="2">Desktop software, automation and productivity tools.</font></p>
-</td>
-<td width="50%" valign="top">
-<p>🔐 <font color="#EDE8DA"><b>Emerging Technology</b></font><br/><font color="#AFC0B0" size="2">Cybersecurity, quantum computing and AI-powered ideas.</font></p>
-<p>🤝 <font color="#EDE8DA"><b>Community Projects</b></font><br/><font color="#AFC0B0" size="2">Tools that connect people and make collaboration easier.</font></p>
-</td>
+<td width="50%" valign="top"><p><strong>📱 Mobile Applications</strong></p><p>Android apps and practical tools that solve everyday problems.</p></td>
+<td width="50%" valign="top"><p><strong>🌐 Web Experiences</strong></p><p>Responsive interfaces, full-stack apps and useful digital platforms.</p></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><p><strong>⚙️ Developer Tools</strong></p><p>Desktop software, automation and workflows that make building easier.</p></td>
+<td width="50%" valign="top"><p><strong>🔐 Emerging Technology</strong></p><p>Cybersecurity, quantum computing and AI-powered experiments.</p></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><p><strong>🤝 Community Projects</strong></p><p>Tools that bring people together and make collaboration easier.</p></td>
 </tr>
 </table>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>My Approach</h3>
+<p>I learn best by building: trying ideas, stepping outside my comfort zone, and improving with every iteration. I’m always exploring what’s next — and looking for the next idea worth bringing to life.</p>
+
+<img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
+</div>
+
+
 <h3><font color="#D7BD78">My Approach</font></h3>
 <p><font color="#C5CEC1">I believe in learning by building, experimenting beyond my comfort zone, embracing challenges and improving every project one iteration at a time.</font></p>
 <p><font color="#E4E1D4"><i>I'm always curious about what's next, always exploring, and always looking for something exciting to build.</i></font></p>
