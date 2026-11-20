@@ -15,5 +15,5 @@
 <text x="54" y="53" fill="#C58E6A" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">01 / ABOUT THE BUILDER</text>
 <text x="54" y="111" fill="#F1EBDD" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="700">A Little About Me</text>
 <rect x="56" y="130" width="410" height="3" rx="1.5" fill="url(#rule)"/>
-<text x="56" y="160" fill="#AFC0B0" font-family="Segoe UI, Arial, sans-serif" font-size="17" letter-spacing=".3">Curiosity is where every build begins.</text>
+<text x="56" y="160" fill="#AFC0B0" font-family="Segoe UI, Arial, sans-serif" font-size="17" letter-spacing=".3">Android · full-stack · tools that people can use.</text>
 </svg>

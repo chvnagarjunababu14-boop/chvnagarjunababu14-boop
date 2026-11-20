@@ -5,49 +5,38 @@
 <img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
 
 <div align="left">
-<p>Hey, I’m <strong>Venkata Nagarjuna Babu Chitturi</strong> — a student, developer and builder who enjoys turning curiosity into things people can actually use.</p>
+<p>Hey, I’m <strong>Venkata Nagarjuna Babu Chitturi</strong> — known online as <strong>StarLord</strong>. I’m a student developer focused on turning real problems into polished, usable software.</p>
 
-<p>My work moves between polished web experiences and Android apps, backend systems, developer tools, and experiments in cybersecurity, quantum technology and AI. I also enjoy tech events, meeting fellow builders and learning through collaboration.</p>
-
-<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
-
-<h3>What I Enjoy Building</h3>
-<table width="100%" cellpadding="13" cellspacing="0">
-<tr>
-<td width="50%" valign="top"><p><strong>📱 Mobile Applications</strong></p><p>Android apps and practical tools that solve everyday problems.</p></td>
-<td width="50%" valign="top"><p><strong>🌐 Web Experiences</strong></p><p>Responsive interfaces, full-stack apps and useful digital platforms.</p></td>
-</tr>
-<tr>
-<td width="50%" valign="top"><p><strong>⚙️ Developer Tools</strong></p><p>Desktop software, automation and workflows that make building easier.</p></td>
-<td width="50%" valign="top"><p><strong>🔐 Emerging Technology</strong></p><p>Cybersecurity, quantum computing and AI-powered experiments.</p></td>
-</tr>
-<tr>
-<td colspan="2" align="center"><p><strong>🤝 Community Projects</strong></p><p>Tools that bring people together and make collaboration easier.</p></td>
-</tr>
-</table>
+<p>I spend most of my time on <strong>Android apps</strong>, <strong>full-stack web products</strong>, and <strong>developer tools</strong>. On the side I explore security, AI, and community platforms — always with a bias toward shipping something people can actually open and use.</p>
 
 <img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
 
-<h3>My Approach</h3>
-<p>I learn best by building: trying ideas, stepping outside my comfort zone, and improving with every iteration. I’m always exploring what’s next — and looking for the next idea worth bringing to life.</p>
+<h3>Where I Focus</h3>
+<p><strong>Android</strong> — privacy-minded mobile tools with clear UX.<br/>
+<strong>Full-stack web</strong> — practical products for retail, food systems, and student communities.<br/>
+<strong>Developer tools</strong> — workflows and agents that keep context while you build.</p>
+
+<img src="./assets/about-divider.svg" width="100%" alt="Cedar and Stone decorative divider"/>
+
+<h3>How I Work</h3>
+<p>I learn by building in public: start with a sharp problem, ship an early version, then refine. Curious collaborators and hard feedback welcome.</p>
 
 <img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
 </div>
 
 <a id="snapshot"></a>
-<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile snapshot: public projects, stars, languages and followers"/>
+<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile snapshot: public projects, stars, languages and featured work"/>
 
 <a id="toolkit"></a>
 <img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>
 
 <a id="selected-work"></a>
 <img src="./assets/work-header.svg" width="100%" alt="Selected work — projects shaped by curiosity"/>
-<sub>7 public projects · mobile, developer tools, security and community.</sub>
+<sub>4 featured · 7 public projects · Android, tools, security and community.</sub>
 
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" width="47%" alt="SafeHer-Next project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" width="47%" alt="Knox project card"/></a></p>
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" width="47%" alt="StorePoint project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" width="47%" alt="DevCatalyst CRM project card"/></a></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India"><img src="./assets/projects/quantumshield-india.svg" width="47%" alt="QuantumShield India project card"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle"><img src="./assets/projects/fresh-circle.svg" width="47%" alt="FreshLink project card"/></a></p>
-<p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-"><img src="./assets/projects/feed-hyderabad.svg" width="47%" alt="Feed Hyderabad project card"/></a></p>
+<p align="center"><sub>Also in progress: <a href="https://github.com/chvnagarjunababu14-boop/QuantumShield-India">QuantumShield India</a> · <a href="https://github.com/chvnagarjunababu14-boop/Fresh-Circle">FreshLink</a> · <a href="https://github.com/chvnagarjunababu14-boop/Feed-Hyderabad-">Feed Hyderabad</a></sub></p>
 
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop?tab=repositories"><img src="./assets/portfolio-footer.svg" width="100%" alt="Explore all repositories — browse every public project and experiment"/></a></p>
 <p align="center"><sub>A living collection of public work · Automatically refreshed · Private repositories stay private</sub></p>

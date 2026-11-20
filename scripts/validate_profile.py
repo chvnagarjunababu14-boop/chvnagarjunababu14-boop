@@ -52,6 +52,8 @@ if not parser.images:
 
 if "A Little About Me" not in readme or "Venkata Nagarjuna Babu Chitturi" not in readme:
     fail("The personal introduction section is missing or incomplete.")
+if "StarLord" not in readme:
+    fail("The StarLord brand identity is missing from the README.")
 for anchor in ("about", "snapshot", "toolkit", "selected-work"):
     if f'id="{anchor}"' not in readme or f'href="#{anchor}"' not in readme:
         fail(f"Profile navigation is missing the {anchor} section anchor.")
@@ -101,17 +103,23 @@ except (json.JSONDecodeError, UnicodeDecodeError) as exc:
     fail(f"assets/solar-data.json is invalid: {exc}")
 
 repositories = data.get("publicRepositories")
+featured = data.get("featuredRepositories")
 if not isinstance(repositories, list):
     fail("solar-data.json has no publicRepositories array.")
+if not isinstance(featured, list) or not featured:
+    fail("solar-data.json has no featuredRepositories array.")
+if len(featured) > 4:
+    fail("Featured work should stay curated to at most 4 projects.")
 
+featured_urls = {item.get("url", "") for item in featured if item.get("url")}
 project_images = [
     image["src"] for image in parser.images
     if image.get("src", "").startswith("./assets/projects/")
 ]
-if len(project_images) != len(repositories):
+if len(project_images) != len(featured):
     fail(
         f"README shows {len(project_images)} project images, "
-        f"but solar-data.json contains {len(repositories)} public projects."
+        f"but solar-data.json contains {len(featured)} featured projects."
     )
 
 hrefs = set(parser.links)
@@ -123,9 +131,21 @@ missing_links = [
 if missing_links:
     fail("A public project is missing its repository link: " + ", ".join(missing_links))
 
-count_match = re.search(r"(\d+)\s+public projects", readme, re.IGNORECASE)
-if not count_match or int(count_match.group(1)) != len(repositories):
-    fail("The README public-project count does not match solar-data.json.")
+missing_featured_links = sorted(url for url in featured_urls if url and url not in hrefs)
+if missing_featured_links:
+    fail("A featured project is missing its repository link: " + ", ".join(missing_featured_links))
+
+count_match = re.search(
+    r"(\d+)\s+featured\s*[·•]\s*(\d+)\s+public projects",
+    readme,
+    re.IGNORECASE,
+)
+if (
+    not count_match
+    or int(count_match.group(1)) != len(featured)
+    or int(count_match.group(2)) != len(repositories)
+):
+    fail("The README featured/public project counts do not match solar-data.json.")
 
 required_assets = {
     "./assets/profile-universe.gif",
@@ -153,5 +173,5 @@ print(
     "PROFILE VALIDATION PASSED: "
     f"{len(parser.images)} images checked, "
     f"{len(checked)} local assets found, "
-    f"{len(repositories)} project links verified."
+    f"{len(featured)} featured / {len(repositories)} public project links verified."
 )

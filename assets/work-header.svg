@@ -7,7 +7,7 @@
 <rect x="1" y="18" width="6" height="140" rx="3" fill="#B47D58"/>
 <text x="42" y="45" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">04 / THE THINGS I BUILD</text>
 <text x="42" y="101" font-family="Georgia,serif" font-size="44" font-weight="700" fill="#F1EBDD">Selected Work</text>
-<text x="44" y="137" font-family="Arial,sans-serif" font-size="17" fill="#AFC0B0">A few ideas turned into useful, evolving projects.</text>
+<text x="44" y="137" font-family="Arial,sans-serif" font-size="17" fill="#AFC0B0">Four projects that best show how I think and ship.</text>
 <g transform="translate(1038 88)">
 <rect x="-94" y="-54" width="68" height="68" rx="12" fill="#8EA68C" fill-opacity=".10" stroke="#8EA68C" stroke-opacity=".75" stroke-width="2"/>
 <rect x="-13" y="-54" width="68" height="68" rx="12" fill="#B47D58" fill-opacity=".10" stroke="#B47D58" stroke-opacity=".75" stroke-width="2"/>
