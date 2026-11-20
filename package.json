@@ -1,0 +1,14 @@
+{
+  "name": "cedar-stone-profile",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate.js",
+    "animate": "node scripts/animate_hero_node.mjs",
+    "build": "npm run generate && npm run animate"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "gifenc": "^1.0.3"
+  }
+}
