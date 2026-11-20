@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 190" role="img" aria-labelledby="title desc">
+<title id="title">A Little About Me</title>
+<desc id="desc">A Cedar and Stone themed section header in forest green, warm ivory and copper.</desc>
+<defs>
+  <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B47D58"/><stop offset=".55" stop-color="#8EA68C"/><stop offset="1" stop-color="#8EA68C" stop-opacity="0"/></linearGradient>
+  <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8EA68C" stop-opacity=".18"/><stop offset="1" stop-color="#B47D58" stop-opacity=".04"/></linearGradient>
+</defs>
+<rect x="1" y="1" width="1198" height="188" rx="18" fill="#17241D" stroke="#45594B" stroke-width="2"/>
+<rect x="1" y="18" width="7" height="154" rx="3.5" fill="#B47D58"/>
+<circle cx="1053" cy="91" r="112" fill="url(#glow)"/>
+<circle cx="1053" cy="91" r="72" fill="none" stroke="#8EA68C" stroke-opacity=".28" stroke-width="1.5"/>
+<circle cx="1053" cy="91" r="49" fill="none" stroke="#B47D58" stroke-opacity=".5" stroke-width="1.5"/>
+<circle cx="1053" cy="91" r="7" fill="#D7BD78"/>
+<path d="M1053 16V44 M1053 138V166 M978 91H1006 M1100 91H1128" stroke="#8EA68C" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+<text x="54" y="53" fill="#C58E6A" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">01 / ABOUT THE BUILDER</text>
+<text x="54" y="111" fill="#F1EBDD" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="700">A Little About Me</text>
+<rect x="56" y="130" width="410" height="3" rx="1.5" fill="url(#rule)"/>
+<text x="56" y="160" fill="#AFC0B0" font-family="Segoe UI, Arial, sans-serif" font-size="17" letter-spacing=".3">Curiosity is where every build begins.</text>
+</svg>
