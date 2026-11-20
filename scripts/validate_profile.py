@@ -48,6 +48,9 @@ if not parser.images:
 
 if "A Little About Me" not in readme or "Venkata Nagarjuna Babu Chitturi" not in readme:
     fail("The personal introduction section is missing or incomplete.")
+for anchor in ("about", "snapshot", "toolkit", "selected-work"):
+    if f'id="{anchor}"' not in readme or f'href="#{anchor}"' not in readme:
+        fail(f"Profile navigation is missing the {anchor} section anchor.")
 
 checked: list[Path] = []
 for index, image in enumerate(parser.images, start=1):
@@ -124,6 +127,7 @@ required_assets = {
     "./assets/about-header.svg",
     "./assets/about-divider.svg",
     "./assets/about-signoff.svg",
+    "./assets/work-header.svg",
 }
 actual_sources = {image.get("src", "") for image in parser.images}
 missing_required = sorted(required_assets - actual_sources)
