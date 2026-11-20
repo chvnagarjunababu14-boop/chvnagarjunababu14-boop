@@ -98,7 +98,7 @@ await write('README.md',readme);
 await write('assets/profile-universe.svg',hero);
 await write('assets/nebula-hero.svg',hero);
 await write('assets/profile-metrics.svg',metricsSvg);
-await write('assets/tech-stack.svg',stackSvg);
+await write('assets/tech-stack-v2.svg',stackSvg);
 await write('assets/profile-analytics.svg',analyticsSvg);
 await Promise.all(projectArts.map(p=>write('assets/projects/'+slug(p.r.name)+'.svg',p.art)));
 await write('assets/solar-data.json',JSON.stringify({username,profile,publicRepositories:repos.map(r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,updated_at:r.updated_at,url:r.html_url})),languages:langs,totalStars:stars},null,2));
