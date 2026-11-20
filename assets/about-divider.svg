@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 12" role="img" aria-labelledby="title">
-<title id="title">Solar System section divider</title>
-<defs><linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F0C75E"/><stop offset=".34" stop-color="#5BC0EB"/><stop offset=".72" stop-color="#5BC0EB" stop-opacity=".45"/><stop offset="1" stop-color="#5BC0EB" stop-opacity="0"/></linearGradient></defs>
-<rect x="0" y="5" width="1200" height="2" rx="1" fill="url(#line)"/>
-<circle cx="600" cy="6" r="3.5" fill="#FFD36A"/>
-</svg>

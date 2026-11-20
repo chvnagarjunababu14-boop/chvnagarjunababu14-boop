@@ -59,7 +59,7 @@
 ## 📡 Solar Log — Revolutions & Telemetry
 
 <div align="center">
-<img src="./assets/solar-log.svg" alt="Solar Log — Telemetry & public signal" width="100%"/>
+<img src="./assets/solar-log.svg" alt="Orbit Log — 26 weeks of public signal" width="100%"/>
 </div>
 
 ### Verified Experience & Orbit Logs
@@ -90,5 +90,5 @@
   <a href="mailto:chvnagarjunababu14@gmail.com">Email</a> ·
   <a href="https://github.com/chvnagarjunababu14-boop?tab=repositories">All repositories</a>
 </p>
-<sub>Solar System · planets are languages, moons are projects · automatically refreshed</sub>
+<sub>Solar System · planets are languages, moons are projects, comets are recent pushes · automatically refreshed</sub>
 </div>

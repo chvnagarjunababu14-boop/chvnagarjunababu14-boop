@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a seamless animated GIF with planets on elliptical orbits (upright labels)."""
+"""Render animated GIF: elliptical planets, local moons, drifting comets."""
 from __future__ import annotations
 
 import math
@@ -20,6 +20,14 @@ PLANET_RE = re.compile(
     r'<g id="planet-(\d+)" data-orbit="1" data-cx="([^"]+)" data-cy="([^"]+)" '
     r'data-rx="([^"]+)" data-ry="([^"]+)" data-angle="([^"]+)" transform="translate\([^"]+\)">'
 )
+MOON_RE = re.compile(
+    r'<circle class="moon" data-moon="1" data-mr="([^"]+)" data-mang="([^"]+)" '
+    r'cx="[^"]*" cy="[^"]*" r="([^"]*)"([^>]*)>'
+)
+COMET_RE = re.compile(
+    r'<g id="comet-(\d+)" data-comet="1" data-y="([^"]+)" data-x0="([^"]+)" '
+    r'data-span="([^"]+)" data-phase="([^"]+)" transform="translate\([^"]+\)">'
+)
 SUN_HALO_RE = re.compile(
     r'(<g id="sun-halo" data-sun="1">\s*<circle r=")(\d+(?:\.\d+)?)(")',
 )
@@ -29,9 +37,7 @@ def render_svg(svg: str) -> Image.Image:
     try:
         import cairosvg
     except Exception as exc:  # pragma: no cover
-        raise RuntimeError(
-            "cairosvg/cairo is required to render the animated hero GIF"
-        ) from exc
+        raise RuntimeError("cairosvg/cairo is required to render the animated hero GIF") from exc
     png = cairosvg.svg2png(bytestring=svg.encode("utf-8"), output_width=WIDTH, output_height=HEIGHT)
     with Image.open(BytesIO(png)) as image:
         return image.convert("RGB")
@@ -56,8 +62,31 @@ def animated_svg(base: str, frame_index: int) -> str:
             f'transform="translate({x:.2f} {y:.2f})">'
         )
 
+    def move_moon(match: re.Match[str]) -> str:
+        mr, mang, r, rest = float(match.group(1)), float(match.group(2)), match.group(3), match.group(4)
+        angle = (mang + (360 / FRAME_COUNT) * frame_index * 2.2) % 360
+        rad = math.radians(angle)
+        x = mr * math.cos(rad)
+        y = mr * math.sin(rad)
+        return (
+            f'<circle class="moon" data-moon="1" data-mr="{mr:g}" data-mang="{mang:g}" '
+            f'cx="{x:.1f}" cy="{y:.1f}" r="{r}"{rest}>'
+        )
+
+    def move_comet(match: re.Match[str]) -> str:
+        index = match.group(1)
+        y, x0, span, cphase = map(float, match.group(2, 3, 4, 5))
+        t = (frame_index / FRAME_COUNT + cphase) % 1
+        x = x0 + span * t
+        return (
+            f'<g id="comet-{index}" data-comet="1" data-y="{y:g}" data-x0="{x0:g}" '
+            f'data-span="{span:g}" data-phase="{cphase:g}" transform="translate({x:.2f} {y:.2f})">'
+        )
+
     svg = PLANET_RE.sub(move_planet, base)
-    halo = 70 + 3.5 * math.sin(phase)
+    svg = MOON_RE.sub(move_moon, svg)
+    svg = COMET_RE.sub(move_comet, svg)
+    halo = 68 + 3.5 * math.sin(phase)
     svg = SUN_HALO_RE.sub(rf"\g<1>{halo:.3f}\g<3>", svg, count=1)
     return svg
 
@@ -70,7 +99,6 @@ def main() -> None:
         raise RuntimeError("The hero SVG is missing elliptical orbit markers for animation.")
 
     frames = [render_svg(animated_svg(original, i)) for i in range(FRAME_COUNT)]
-
     thumbnails = [frame.resize((176, 104), Image.Resampling.LANCZOS) for frame in frames]
     contact_sheet = Image.new("RGB", (176 * 6, 104 * 6))
     for index, thumbnail in enumerate(thumbnails):
@@ -93,7 +121,7 @@ def main() -> None:
         if not getattr(animation, "is_animated", False) or animation.n_frames < 20:
             raise RuntimeError("The generated hero GIF is not animated.")
     print(
-        f"Animated elliptical solar hero created: {GIF_PATH.relative_to(ROOT)} "
+        f"Animated solar hero created: {GIF_PATH.relative_to(ROOT)} "
         f"({FRAME_COUNT} frames, {FRAME_DURATION_MS} ms/frame)."
     )
 
