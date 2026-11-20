@@ -52,6 +52,10 @@ for anchor in ("about", "snapshot", "toolkit", "selected-work"):
     if f'id="{anchor}"' not in readme or f'href="#{anchor}"' not in readme:
         fail(f"Profile navigation is missing the {anchor} section anchor.")
 
+for nav_asset in ("./assets/nav-about.svg", "./assets/nav-snapshot.svg", "./assets/nav-toolkit.svg", "./assets/nav-selected-work.svg"):
+    if nav_asset not in actual_sources:
+        fail(f"Navigation artwork is missing from README: {nav_asset}")
+
 checked: list[Path] = []
 for index, image in enumerate(parser.images, start=1):
     src = image.get("src", "").strip()
@@ -128,6 +132,10 @@ required_assets = {
     "./assets/about-divider.svg",
     "./assets/about-signoff.svg",
     "./assets/work-header.svg",
+    "./assets/nav-about.svg",
+    "./assets/nav-snapshot.svg",
+    "./assets/nav-toolkit.svg",
+    "./assets/nav-selected-work.svg",
 }
 actual_sources = {image.get("src", "") for image in parser.images}
 missing_required = sorted(required_assets - actual_sources)

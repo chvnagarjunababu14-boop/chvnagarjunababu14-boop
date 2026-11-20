@@ -19,23 +19,25 @@ const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/
 const colors=['#C58E6A','#8FA99A','#D1B675','#A6B39B','#88A9A4','#BE8E89','#B7A17A'];
 const cardBgs=['#17241F','#172326','#22251D','#1C2822','#192A2B','#29221F','#23271F'];
 const projectSummaries={
- 'safeher':'Privacy-first Android safety app with emergency SOS and trusted guardian alerts.',
- 'knox':'Persistent knowledge graph that gives AI coding agents long-term project memory.',
- 'store-point':'Offline-first retail POS with inventory, barcode checkout and multi-branch analytics.',
- 'devcatalyst-community-crm':'Community CRM for student developer clubs: projects, events, recruitment and member directory.',
- 'quantumshield-india':'Learning platform for cybersecurity, quantum computing and emerging technologies.',
- 'feed-hyderabad':'Connects restaurants with surplus food to nearby NGOs for faster food redistribution.',
- 'fresh-circle':'Hyperlocal produce matching for vendors and buyers, with stock and surplus management.'
+ 'safeher':'Privacy-first Android safety app with emergency SOS, automated check-ins and trusted guardian alerts.',
+ 'knox':'Rust-based knowledge graph that preserves software decisions and project context for AI coding agents.',
+ 'store-point':'Offline-first retail POS with barcode checkout, inventory control and multi-branch analytics.',
+ 'devcatalyst-community-crm':'Community CRM for student developer clubs: project tracking, events, recruitment and member directory.',
+ 'quantumshield-india':'Early-stage learning site for cybersecurity and quantum technology, with structured lessons and a sample quiz.',
+ 'feed-hyderabad':'Location-based platform connecting restaurants with surplus food to nearby NGOs for redistribution.',
+ 'fresh-circle':'FreshLink connects nearby produce vendors and buyers, with stock matching and surplus discounts.'
 };
+const projectNames={'fresh-circle':'FreshLink'};
+const projectTags={'knox':'Rust / Tauri','safeher':'Kotlin','store-point':'TypeScript','devcatalyst-community-crm':'TypeScript','quantumshield-india':'TypeScript / Python','fresh-circle':'TypeScript','feed-hyderabad':'TypeScript'};
 const projectArts=featured.map((r,i)=>{
  const color=colors[i%colors.length],langColor=palette[r.language]||color,bg=cardBgs[i%cardBgs.length];
- const rawName=r.name.length>25?r.name.slice(0,24)+'…':r.name,displayName=esc(rawName),titleSize=Math.min(37,Math.max(27,500/(rawName.length*.58)));
+ const labelName=projectNames[slug(r.name)]||r.name;const rawName=labelName.length>25?labelName.slice(0,24)+'…':labelName,displayName=esc(rawName),titleSize=Math.min(42,Math.max(30,540/(rawName.length*.56)));
  const summary=projectSummaries[slug(r.name)]||r.description||('A '+(r.language||'software')+' project from my public repositories.');
  const words=String(summary).split(/\s+/),lines=[];let line='';
  for(const word of words){if(line&&(line+' '+word).length>48){lines.push(line);line=word;}else line=(line+' '+word).trim();}
  if(line)lines.push(line);
- const visibleLines=lines.slice(0,3);if(lines.length>3)visibleLines[2]=visibleLines[2].replace(/[.,;:]?$/,'')+'…';const descSvg=visibleLines.map((line,j)=>'<tspan x="48" dy="'+(j===0?0:23)+'">'+esc(line)+'</tspan>').join('');
- const lang=esc(r.language||'Multi-stack'),updated=new Date(r.updated_at).toISOString().slice(0,10),repoStars=r.stargazers_count;
+ const visibleLines=lines.slice(0,3);if(lines.length>3)visibleLines[2]=visibleLines[2].replace(/[.,;:]?$/,'')+'…';const descSvg=visibleLines.map((line,j)=>'<tspan x="48" dy="'+(j===0?0:24)+'">'+esc(line)+'</tspan>').join('');
+ const lang=esc(projectTags[slug(r.name)]||r.language||'Multi-stack'),updated=new Date(r.updated_at).toISOString().slice(0,10),repoStars=r.stargazers_count;
  const keyword=(r.name+' '+summary).toLowerCase();
  const motif=keyword.includes('safe')?
  '<g transform="translate(685 158)"><circle r="112" fill="none" stroke="'+color+'" stroke-opacity=".18" stroke-width="1.5"/><path d="M0-84L66-58V8C66 52 29 85 0 102-29 85-66 52-66 8V-58Z" fill="'+color+'" fill-opacity=".13" stroke="'+color+'" stroke-width="3"/><path d="M-28 0L-8 20 35-28" fill="none" stroke="#F1EBDD" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M-92 88Q0 126 92 88" fill="none" stroke="'+color+'" stroke-opacity=".35"/></g>'
@@ -53,10 +55,18 @@ const projectArts=featured.map((r,i)=>{
  '<g transform="translate(685 164)"><g stroke="'+color+'" stroke-width="4" fill="none"><path d="M-82-50L0-84 80-38 67 54 0 85-75 45Z"/><path d="M-82-50L-18 0 80-38M-18 0L67 54M-18 0L0 85"/></g><g fill="'+langColor+'" stroke="#EDE7D8" stroke-width="2"><circle cx="-82" cy="-50" r="14"/><circle cx="0" cy="-84" r="14"/><circle cx="80" cy="-38" r="14"/><circle cx="67" cy="54" r="14"/><circle cx="0" cy="85" r="14"/><circle cx="-75" cy="45" r="14"/><circle cx="-18" cy="0" r="19"/></g></g>'
  :'<g transform="translate(685 164)"><circle r="104" fill="none" stroke="'+color+'" stroke-opacity=".35"/><circle r="70" fill="none" stroke="'+langColor+'" stroke-width="2" stroke-dasharray="3 9"/><path d="M-58-10L0-76 58-10 0 76Z" fill="'+color+'" fill-opacity=".16" stroke="'+color+'" stroke-width="3"/><circle r="17" fill="#EDE7D8"/></g>';
  const starsText='★ '+repoStars+'   ·   UPDATED '+updated;
- const art='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320"><defs><linearGradient id="cardBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+color+'" stop-opacity=".24"/></linearGradient><linearGradient id="cardLine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="'+color+'" stop-opacity=".85"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".45"/></linearGradient></defs><rect width="900" height="320" rx="20" fill="url(#cardBg)"/><rect x="8" y="8" width="884" height="304" rx="15" fill="none" stroke="#D9D2C2" stroke-opacity=".14"/><path d="M0 276Q220 236 440 278T900 252" fill="none" stroke="url(#cardLine)" stroke-opacity=".24" stroke-width="1.5"/><path d="M48 52H112" stroke="'+color+'" stroke-width="3"/><text x="48" y="40" font-family="Georgia,serif" font-size="14" letter-spacing="2.5" fill="'+color+'">'+lang.toUpperCase()+'  /  SELECTED WORK</text><text x="48" y="119" font-family="Georgia,Times New Roman,serif" font-size="'+titleSize+'" font-weight="700" fill="#F1EBDD">'+displayName+'</text><text x="48" y="150" font-family="Arial,sans-serif" font-size="17" fill="#C5CEC1">'+descSvg+'</text><rect x="48" y="222" width="150" height="34" rx="17" fill="'+langColor+'" fill-opacity=".15" stroke="'+langColor+'" stroke-opacity=".6"/><text x="123" y="244" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#EDE7D8">'+lang+'</text><text x="48" y="286" font-family="Consolas,monospace" font-size="12" letter-spacing=".7" fill="#AEBBAA">'+starsText+'</text>'+motif+'<text x="850" y="296" text-anchor="end" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="'+color+'">VIEW PROJECT ↗</text></svg>';
+ const art='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320"><defs><linearGradient id="cardBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+color+'" stop-opacity=".24"/></linearGradient><linearGradient id="cardLine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="'+color+'" stop-opacity=".85"/><stop offset="1" stop-color="#D7BD78" stop-opacity=".45"/></linearGradient></defs><rect width="900" height="320" rx="20" fill="url(#cardBg)"/><rect x="8" y="8" width="884" height="304" rx="15" fill="none" stroke="#D9D2C2" stroke-opacity=".14"/><path d="M0 276Q220 236 440 278T900 252" fill="none" stroke="url(#cardLine)" stroke-opacity=".24" stroke-width="1.5"/><path d="M48 52H112" stroke="'+color+'" stroke-width="3"/><text x="48" y="40" font-family="Georgia,serif" font-size="16" letter-spacing="2.2" fill="'+color+'">'+lang.toUpperCase()+'  /  SELECTED WORK</text><text x="48" y="119" font-family="Georgia,Times New Roman,serif" font-size="'+titleSize+'" font-weight="700" fill="#F1EBDD">'+displayName+'</text><text x="48" y="148" font-family="Arial,sans-serif" font-size="22" fill="#C5CEC1">'+descSvg+'</text><rect x="48" y="226" width="180" height="36" rx="17" fill="'+langColor+'" fill-opacity=".15" stroke="'+langColor+'" stroke-opacity=".6"/><text x="138" y="249" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#EDE7D8">'+lang+'</text><text x="48" y="286" font-family="Consolas,monospace" font-size="15" letter-spacing=".5" fill="#AEBBAA">'+starsText+'</text>'+motif+'<text x="850" y="296" text-anchor="end" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.5" fill="'+color+'">VIEW PROJECT ↗</text></svg>';
  return {r,i,color,art};
 });
 const projectCards=projectArts.map(p=>'<a href="'+p.r.html_url+'"><img src="./assets/projects/'+slug(p.r.name)+'.svg" width="100%" alt="'+esc(p.r.name)+' project illustration"/></a>').reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[]).map(row=>'<p align="center">'+row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')+'</p>').join('\n');
+const navItems=[
+ {id:'about',number:'01',label:'ABOUT',color:'#C58E6A'},
+ {id:'snapshot',number:'02',label:'SNAPSHOT',color:'#8EA68C'},
+ {id:'toolkit',number:'03',label:'TOOLKIT',color:'#D7BD78'},
+ {id:'selected-work',number:'04',label:'SELECTED WORK',color:'#91B8A8'}
+];
+const navSvgs=navItems.map(item=>({ ...item, svg:'<svg xmlns="http://www.w3.org/2000/svg" width="300" height="72" viewBox="0 0 300 72"><rect x="1" y="1" width="298" height="70" rx="12" fill="#18251F" stroke="#657765" stroke-opacity=".55" stroke-width="1.5"/><rect x="1" y="13" width="5" height="46" rx="2.5" fill="'+item.color+'"/><text x="22" y="28" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="'+item.color+'">'+item.number+' / SECTION</text><text x="22" y="53" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing=".8" fill="#F1EBDD">'+item.label+'</text><path d="M262 36H278M271 29L278 36 271 43" fill="none" stroke="'+item.color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' }));
+const navCards=navSvgs.map(item=>'<a href="#'+item.id+'"><img src="./assets/nav-'+item.id+'.svg" width="22%" alt="'+item.number+' '+item.label+' section navigation"/></a>').join(' &nbsp; ');
 const totalLanguageBytes=Object.values(totals).reduce((sum,n)=>sum+n,0);
 const metricItems=[
  {value:repos.length,label:'PUBLIC PROJECTS',symbol:'✳',color:'#C58E6A'},
@@ -76,7 +86,7 @@ const workHeader='<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1
 const readme=[
 '<div align="center">',
 '<img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>',
-'<p align="center"><sub><a href="#about">01&nbsp; ABOUT</a> &nbsp;·&nbsp; <a href="#snapshot">02&nbsp; SNAPSHOT</a> &nbsp;·&nbsp; <a href="#toolkit">03&nbsp; TOOLKIT</a> &nbsp;·&nbsp; <a href="#selected-work">04&nbsp; SELECTED WORK</a></sub></p>',
+'<p align="center">'+navCards+'</p>',
 '<a id="about"></a>',
 aboutSection,
 '',
@@ -104,6 +114,7 @@ await write('assets/nebula-hero.svg',hero);
 await write('assets/profile-metrics.svg',metricsSvg);
 await write('assets/tech-stack-v2.svg',stackSvg);
 await write('assets/work-header.svg',workHeader);
+await Promise.all(navSvgs.map(item=>write('assets/nav-'+item.id+'.svg',item.svg)));
 await Promise.all(projectArts.map(p=>write('assets/projects/'+slug(p.r.name)+'.svg',p.art)));
 await write('assets/solar-data.json',JSON.stringify({username,profile,publicRepositories:repos.map(r=>({name:r.name,description:r.description,language:r.language,stars:r.stargazers_count,updated_at:r.updated_at,url:r.html_url})),languages:allLangs,totalStars:stars},null,2));
 console.log('Cedar & Stone profile generated for '+repos.length+' public repositories and '+langs.length+' languages.');
