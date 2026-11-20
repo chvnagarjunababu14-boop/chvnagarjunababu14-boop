@@ -1,5 +1,7 @@
 <div align="center">
 <img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>
+<p align="center"><sub><a href="#about">01&nbsp; ABOUT</a> &nbsp;·&nbsp; <a href="#snapshot">02&nbsp; SNAPSHOT</a> &nbsp;·&nbsp; <a href="#toolkit">03&nbsp; TOOLKIT</a> &nbsp;·&nbsp; <a href="#selected-work">04&nbsp; SELECTED WORK</a></sub></p>
+<a id="about"></a>
 <img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
 
 <div align="left">
@@ -32,12 +34,15 @@
 <img src="./assets/about-signoff.svg" width="100%" alt="Build thoughtfully. Experiment boldly. Keep learning."/>
 </div>
 
-<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile metrics: public projects, stars, languages and followers"/>
+<a id="snapshot"></a>
+<img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile snapshot: public projects, stars, languages and followers"/>
 
+<a id="toolkit"></a>
 <img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>
 
-<h2 align="center">✦ &nbsp; SELECTED WORK</h2>
-<sub>7 public projects · spanning mobile, developer tools, security and community.</sub>
+<a id="selected-work"></a>
+<img src="./assets/work-header.svg" width="100%" alt="Selected work — projects shaped by curiosity"/>
+<sub>7 public projects · mobile, developer tools, security and community.</sub>
 
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop/SafeHer"><img src="./assets/projects/safeher.svg" width="47%" alt="SafeHer project illustration"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/Knox"><img src="./assets/projects/knox.svg" width="47%" alt="Knox project illustration"/></a></p>
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop/Store-Point"><img src="./assets/projects/store-point.svg" width="47%" alt="Store-Point project illustration"/></a> &nbsp; <a href="https://github.com/chvnagarjunababu14-boop/devcatalyst-community-crm"><img src="./assets/projects/devcatalyst-community-crm.svg" width="47%" alt="devcatalyst-community-crm project illustration"/></a></p>
