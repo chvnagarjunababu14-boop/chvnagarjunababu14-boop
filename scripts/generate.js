@@ -118,10 +118,19 @@ const seedDots=Array.from({length:56},(_,i)=>{
  const fill=i%5===0?'#D7BD78':(i%3===0?'#A8C4A4':'#D6DCCB');
  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${fill}" opacity="${(0.12+(i%4)*0.07).toFixed(2)}"/>`;
 }).join('');
-const canopy=Array.from({length:18},(_,i)=>{
- const x=40+i*64,y=18+(i%3)*10,s=0.55+(i%4)*0.12,rot=-40+i*11;
- const fill=['#5F8F6E','#7FA88A','#8EA68C','#A6B39B'][i%4];
- return `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s.toFixed(2)})">${leafMark(fill,'#C5D6C4')}</g>`;
+// Falling leaves — staggered phases for a continuous gentle shower.
+const fallFills=['#5F8F6E','#7FA88A','#8EA68C','#A6B39B','#C58E6A','#D7BD78'];
+const fallingLeaves=Array.from({length:22},(_,i)=>{
+ const x=(48+i*51+(i%3)*17)%1120+40;
+ const yStart=-30-(i%5)*18;
+ const s=(0.32+(i%5)*0.08).toFixed(2);
+ const rot=(-50+i*17)%360;
+ const phase=(i*0.137)%1;
+ const drift=(18+(i%4)*8)*(i%2===0?1:-1);
+ const spin=(40+(i%5)*12)*(i%2===0?1:-1);
+ const fill=fallFills[i%fallFills.length];
+ const stroke=i%3===0?'#E0B18C':'#C5D6C4';
+ return `<g data-fall="1" data-x0="${x}" data-y0="${yStart}" data-rot0="${rot}" data-scale="${s}" data-phase="${phase.toFixed(3)}" data-drift="${drift}" data-spin="${spin}" transform="translate(${x} ${yStart}) rotate(${rot}) scale(${s})">${leafMark(fill,stroke)}</g>`;
 }).join('');
 const groundFerns=Array.from({length:10},(_,i)=>{
  const x=70+i*110,y=430+(i%2)*8;
@@ -142,7 +151,7 @@ const hero=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" vi
 <rect width="1200" height="480" rx="28" fill="url(#dawnGlow)"/>
 <rect width="1200" height="480" rx="28" fill="url(#mossGlow)"/>
 <rect width="1200" height="480" rx="28" fill="url(#mistSoft)"/>
-<g opacity=".7">${canopy}</g>
+<g id="falling-leaves" opacity=".78">${fallingLeaves}</g>
 <g>${seedDots}</g>
 ${groundFerns}
 <path d="M0 390Q180 350 360 392T720 370T1200 400" fill="none" stroke="#7FA88A" stroke-opacity=".2" stroke-width="1.5"/>
