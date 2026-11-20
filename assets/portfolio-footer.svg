@@ -1,15 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="142" viewBox="0 0 1200 142" role="img" aria-labelledby="title desc">
-<title id="title">Explore all repositories</title>
-<desc id="desc">A Cedar and Stone call to action to browse every public project and experiment.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="142" viewBox="0 0 1200 142" role="img">
 <defs>
-<linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#17241F"/><stop offset=".55" stop-color="#1C2B24"/><stop offset="1" stop-color="#172725"/></linearGradient>
-<linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#8EA68C"/><stop offset="1" stop-color="#8EA68C" stop-opacity=".35"/></linearGradient>
+<linearGradient id="footerBg" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14241C"/><stop offset=".55" stop-color="#1A2E24"/><stop offset="1" stop-color="#152820"/></linearGradient>
+<linearGradient id="footerEdge"><stop stop-color="#B47D58"/><stop offset=".5" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity=".35"/></linearGradient>
 </defs>
-<rect x="1" y="1" width="1198" height="140" rx="18" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62" stroke-width="1.5"/>
+<rect x="1" y="1" width="1198" height="140" rx="20" fill="url(#footerBg)" stroke="url(#footerEdge)" stroke-opacity=".62" stroke-width="1.5"/>
 <rect x="1" y="18" width="6" height="106" rx="3" fill="#B47D58"/>
-<text x="42" y="43" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">05 / THE FULL COLLECTION</text>
+<g transform="translate(1040 36) rotate(-25)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#7FA88A" opacity="0.5"/></g><g transform="translate(1070 52) rotate(30)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#C58E6A" opacity="0.45"/></g>
+<text x="42" y="43" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">05 / THE FULL GROVE</text>
 <text x="42" y="91" font-family="Georgia,serif" font-size="37" font-weight="700" fill="#F1EBDD">Explore all repositories</text>
 <text x="44" y="119" font-family="Arial,sans-serif" font-size="16" fill="#AFC0B0">Browse every public project, experiment and work in progress.</text>
-<circle cx="1110" cy="71" r="38" fill="#8EA68C" fill-opacity=".09" stroke="#8EA68C" stroke-opacity=".55" stroke-width="1.5"/>
-<path d="M1094 71H1124M1113 59L1125 71 1113 83" fill="none" stroke="#D7BD78" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="1135" cy="71" r="34" fill="#7FA88A" fill-opacity=".1" stroke="#7FA88A" stroke-opacity=".55"/>
+<path d="M1120 71H1148M1138 60L1149 71 1138 82" fill="none" stroke="#D7BD78" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

@@ -1,6 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 12" role="img" aria-labelledby="title">
-<title id="title">Cedar and Stone section divider</title>
-<defs><linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B47D58"/><stop offset=".34" stop-color="#8EA68C"/><stop offset=".72" stop-color="#8EA68C" stop-opacity=".45"/><stop offset="1" stop-color="#8EA68C" stop-opacity="0"/></linearGradient></defs>
-<rect x="0" y="5" width="1200" height="2" rx="1" fill="url(#line)"/>
-<path d="M600 1.5 604.5 6 600 10.5 595.5 6Z" fill="#D7BD78"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="28" viewBox="0 0 1200 28" role="img">
+<defs><linearGradient id="divLine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#C58E6A" stop-opacity="0"/><stop offset=".2" stop-color="#C58E6A"/><stop offset=".5" stop-color="#7FA88A"/><stop offset=".8" stop-color="#D7BD78"/><stop offset="1" stop-color="#D7BD78" stop-opacity="0"/></linearGradient></defs>
+<rect x="40" y="13" width="1120" height="2" rx="1" fill="url(#divLine)"/>
+<g transform="translate(600 14)">
+ <path d="M0-9C-5-2-5 4 0 10 5 4 5-2 0-9Z" fill="#D7BD78"/>
+ <path d="M-18-2C-26 2-26 8-18 12-12 6-12 2-18-2Z" fill="#7FA88A" opacity=".85"/>
+ <path d="M18-2C26 2 26 8 18 12 12 6 12 2 18-2Z" fill="#C58E6A" opacity=".85"/>
+</g>
 </svg>

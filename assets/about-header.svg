@@ -1,19 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 190" role="img" aria-labelledby="title desc">
-<title id="title">A Little About Me</title>
-<desc id="desc">A Cedar and Stone themed section header in forest green, warm ivory and copper.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="190" viewBox="0 0 1200 190" role="img">
 <defs>
-  <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B47D58"/><stop offset=".55" stop-color="#8EA68C"/><stop offset="1" stop-color="#8EA68C" stop-opacity="0"/></linearGradient>
-  <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8EA68C" stop-opacity=".18"/><stop offset="1" stop-color="#B47D58" stop-opacity=".04"/></linearGradient>
+ <linearGradient id="aboutBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14241C"/><stop offset="1" stop-color="#1A2E24"/></linearGradient>
+ <linearGradient id="aboutRule" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#C58E6A"/><stop offset=".55" stop-color="#7FA88A"/><stop offset="1" stop-color="#7FA88A" stop-opacity="0"/></linearGradient>
 </defs>
-<rect x="1" y="1" width="1198" height="188" rx="18" fill="#17241D" stroke="#45594B" stroke-width="2"/>
-<rect x="1" y="18" width="7" height="154" rx="3.5" fill="#B47D58"/>
-<circle cx="1053" cy="91" r="112" fill="url(#glow)"/>
-<circle cx="1053" cy="91" r="72" fill="none" stroke="#8EA68C" stroke-opacity=".28" stroke-width="1.5"/>
-<circle cx="1053" cy="91" r="49" fill="none" stroke="#B47D58" stroke-opacity=".5" stroke-width="1.5"/>
-<circle cx="1053" cy="91" r="7" fill="#D7BD78"/>
-<path d="M1053 16V44 M1053 138V166 M978 91H1006 M1100 91H1128" stroke="#8EA68C" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
-<text x="54" y="53" fill="#C58E6A" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3">01 / ABOUT THE BUILDER</text>
-<text x="54" y="111" fill="#F1EBDD" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="700">A Little About Me</text>
-<rect x="56" y="130" width="410" height="3" rx="1.5" fill="url(#rule)"/>
-<text x="56" y="160" fill="#AFC0B0" font-family="Segoe UI, Arial, sans-serif" font-size="17" letter-spacing=".3">Android · full-stack · tools that people can use.</text>
+<rect width="1200" height="190" rx="20" fill="url(#aboutBg)"/>
+<rect x=".5" y=".5" width="1199" height="189" rx="19.5" fill="none" stroke="#6F8F72" stroke-opacity=".45"/>
+<g transform="translate(1080 40) rotate(-25)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#7FA88A" opacity="0.5"/></g><g transform="translate(1115 58) rotate(40)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#C58E6A" opacity="0.45"/></g><g transform="translate(1145 36) rotate(-10)"><path d="M0-14C-8-2-8 8 0 16 8 8 8-2 0-14Z" fill="#D7BD78" opacity="0.4"/></g>
+<text x="48" y="48" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.8" fill="#C58E6A">01 / A LITTLE ABOUT ME</text>
+<path d="M48 68H320" stroke="url(#aboutRule)" stroke-width="2"/>
+<text x="48" y="120" font-family="Georgia,serif" font-size="42" font-weight="700" fill="#F1EBDD">Roots, craft &amp; curiosity</text>
+<text x="48" y="156" font-family="Arial,sans-serif" font-size="16" fill="#AFC0B0">Student · developer · builder · lifelong learner</text>
 </svg>

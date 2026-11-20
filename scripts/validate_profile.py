@@ -50,7 +50,7 @@ parser.close()
 if not parser.images:
     fail("No images were found in README.md.")
 
-if "A Little About Me" not in readme or "Venkata Nagarjuna Babu Chitturi" not in readme:
+if ("A Little About Me" not in readme and "roots, craft" not in readme.lower()) or "Venkata Nagarjuna Babu Chitturi" not in readme:
     fail("The personal introduction section is missing or incomplete.")
 if "StarLord" not in readme:
     fail("The StarLord brand identity is missing from the README.")
