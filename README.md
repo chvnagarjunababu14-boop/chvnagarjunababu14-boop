@@ -15,9 +15,6 @@
 
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop?tab=repositories"><b>Explore all repositories ↗</b></a></p>
 
-<h2 align="center">📊 &nbsp; GITHUB ANALYTICS</h2>
-<img src="./assets/profile-analytics.svg" width="100%" alt="Locally generated GitHub repository analytics"/>
-
 <p align="center"><sub>Built with curiosity · Automatically refreshed from public GitHub data · Private repositories are excluded</sub></p>
 <p align="center"><a href="https://github.com/chvnagarjunababu14-boop">GitHub profile ↗</a></p>
 </div>
