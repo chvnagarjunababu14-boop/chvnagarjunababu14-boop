@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a seamless animated GIF with orbiting language planets around the sun."""
+"""Render a seamless animated GIF with planets on elliptical orbits (upright labels)."""
 from __future__ import annotations
 
 import math
@@ -12,12 +12,13 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SVG_PATH = ROOT / "assets" / "profile-universe.svg"
 GIF_PATH = ROOT / "assets" / "profile-universe.gif"
-FRAME_COUNT = 24
-FRAME_DURATION_MS = 100
+FRAME_COUNT = 36
+FRAME_DURATION_MS = 80
 WIDTH, HEIGHT = 880, 520
 
 PLANET_RE = re.compile(
-    r'(<g id="planet-(\d+)" data-orbit="1" transform="rotate\()(-?\d+(?:\.\d+)?)( [^"]*)(">)',
+    r'<g id="planet-(\d+)" data-orbit="1" data-cx="([^"]+)" data-cy="([^"]+)" '
+    r'data-rx="([^"]+)" data-ry="([^"]+)" data-angle="([^"]+)" transform="translate\([^"]+\)">'
 )
 SUN_HALO_RE = re.compile(
     r'(<g id="sun-halo" data-sun="1">\s*<circle r=")(\d+(?:\.\d+)?)(")',
@@ -39,13 +40,23 @@ def render_svg(svg: str) -> Image.Image:
 def animated_svg(base: str, frame_index: int) -> str:
     phase = 2 * math.pi * frame_index / FRAME_COUNT
 
-    def rotate_planet(match: re.Match[str]) -> str:
-        planet_index = int(match.group(2))
-        speed = 1.0 - planet_index * 0.08
-        angle = (planet_index * 52 + (360 / FRAME_COUNT) * frame_index * speed) % 360
-        return f"{match.group(1)}{angle:.3f}{match.group(4)}{match.group(5)}"
+    def move_planet(match: re.Match[str]) -> str:
+        planet_index = int(match.group(1))
+        cx, cy = float(match.group(2)), float(match.group(3))
+        rx, ry = float(match.group(4)), float(match.group(5))
+        start_angle = float(match.group(6))
+        speed = 1.0 - planet_index * 0.09
+        angle = (start_angle + (360 / FRAME_COUNT) * frame_index * speed) % 360
+        rad = math.radians(angle)
+        x = cx + rx * math.cos(rad)
+        y = cy + ry * math.sin(rad)
+        return (
+            f'<g id="planet-{planet_index}" data-orbit="1" data-cx="{cx:g}" data-cy="{cy:g}" '
+            f'data-rx="{rx:g}" data-ry="{ry:g}" data-angle="{angle:.3f}" '
+            f'transform="translate({x:.2f} {y:.2f})">'
+        )
 
-    svg = PLANET_RE.sub(rotate_planet, base)
+    svg = PLANET_RE.sub(move_planet, base)
     halo = 70 + 3.5 * math.sin(phase)
     svg = SUN_HALO_RE.sub(rf"\g<1>{halo:.3f}\g<3>", svg, count=1)
     return svg
@@ -55,13 +66,13 @@ def main() -> None:
     if not SVG_PATH.is_file():
         raise FileNotFoundError(f"Static fallback hero is missing: {SVG_PATH}")
     original = SVG_PATH.read_text(encoding="utf-8")
-    if 'data-orbit="1"' not in original:
-        raise RuntimeError("The hero SVG is missing orbit planet markers for animation.")
+    if 'data-rx="' not in original:
+        raise RuntimeError("The hero SVG is missing elliptical orbit markers for animation.")
 
     frames = [render_svg(animated_svg(original, i)) for i in range(FRAME_COUNT)]
 
     thumbnails = [frame.resize((176, 104), Image.Resampling.LANCZOS) for frame in frames]
-    contact_sheet = Image.new("RGB", (176 * 6, 104 * 4))
+    contact_sheet = Image.new("RGB", (176 * 6, 104 * 6))
     for index, thumbnail in enumerate(thumbnails):
         contact_sheet.paste(thumbnail, ((index % 6) * 176, (index // 6) * 104))
     palette = contact_sheet.quantize(colors=256, method=Image.Quantize.FASTOCTREE)
@@ -82,7 +93,7 @@ def main() -> None:
         if not getattr(animation, "is_animated", False) or animation.n_frames < 20:
             raise RuntimeError("The generated hero GIF is not animated.")
     print(
-        f"Animated solar hero created: {GIF_PATH.relative_to(ROOT)} "
+        f"Animated elliptical solar hero created: {GIF_PATH.relative_to(ROOT)} "
         f"({FRAME_COUNT} frames, {FRAME_DURATION_MS} ms/frame)."
     )
 

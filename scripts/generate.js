@@ -66,19 +66,24 @@ const starsBg=Array.from({length:110},(_,i)=>{const x=(i*97.3)%840+20,y=(i*61.7)
 const orbitTracks=orbitLangs.map(p=>`<ellipse cx="${cx}" cy="${cy}" rx="${p.rx}" ry="${p.ry}" fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1" stroke-dasharray="4 6"/>`).join('');
 const orbitPlanets=orbitLangs.map((p,i)=>{
  const short=esc(p.name.length>11?p.name.slice(0,10)+'…':p.name);
+ const rad=p.start*Math.PI/180;
+ // Elliptical placement so planets stay on the dashed orbit tracks.
+ const x=cx+p.rx*Math.cos(rad);
+ const y=cy+p.ry*Math.sin(rad);
  const moonDots=p.moons.slice(0,3).map((m,mi)=>{
   const ang=-40+mi*40;const mr=28+mi*4;
   return `<circle cx="${(Math.cos(ang*Math.PI/180)*mr).toFixed(1)}" cy="${(Math.sin(ang*Math.PI/180)*mr).toFixed(1)}" r="2.2" fill="#F8FAFC" opacity=".75"/>`;
  }).join('');
- return `<g id="planet-${i}" data-orbit="1" transform="rotate(${p.start} ${cx} ${cy})">
-  <g transform="translate(${cx+p.rx} ${cy})">
-   <circle r="${p.size+8}" fill="${p.color}" fill-opacity=".12"/>
-   <circle r="${p.size}" fill="${p.color}" stroke="#F8FAFC" stroke-opacity=".5" stroke-width="1.2"/>
+ // Label stays upright below the planet; planet center stays on the ellipse.
+ const labelTop=p.size+8;
+ return `<g id="planet-${i}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${p.rx}" data-ry="${p.ry}" data-angle="${p.start}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
+   <circle r="${p.size+5}" fill="${p.color}" fill-opacity=".14"/>
+   <circle r="${Math.max(7,p.size-1)}" fill="${p.color}" stroke="#F8FAFC" stroke-opacity=".65" stroke-width="1.4"/>
    <g opacity=".85">${moonDots}</g>
-   <rect x="-34" y="${p.size+10}" width="68" height="28" rx="4" fill="#091024" fill-opacity=".9" stroke="#1E2C4F"/>
-   <text y="${p.size+22}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#F8FAFC">${short}</text>
-   <text y="${p.size+33}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="${p.color}">${esc(p.label)}</text>
-  </g>
+   <line x1="0" y1="${p.size}" x2="0" y2="${labelTop}" stroke="#64748B" stroke-opacity=".55" stroke-width="1"/>
+   <rect x="-34" y="${labelTop}" width="68" height="26" rx="4" fill="#091024" fill-opacity=".92" stroke="#1E2C4F"/>
+   <text y="${labelTop+12}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#F8FAFC">${short}</text>
+   <text y="${labelTop+22}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="${p.color}">${esc(p.label)}</text>
  </g>`;
 }).join('');
 const avatarSun=avatarDataUri

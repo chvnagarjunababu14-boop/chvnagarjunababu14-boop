@@ -10,20 +10,23 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SVG_PATH = join(ROOT, 'assets', 'profile-universe.svg');
 const GIF_PATH = join(ROOT, 'assets', 'profile-universe.gif');
-const FRAME_COUNT = 24;
-const FRAME_DURATION_CS = 10; // 100ms
+const FRAME_COUNT = 36;
+const FRAME_DURATION_CS = 8; // 80ms
 const WIDTH = 880;
 
-const PLANET_RE = /(<g id="planet-(\d+)" data-orbit="1" transform="rotate\()(-?\d+(?:\.\d+)?)( [^"]*)(">)/g;
+const PLANET_RE = /<g id="planet-(\d+)" data-orbit="1" data-cx="([^"]+)" data-cy="([^"]+)" data-rx="([^"]+)" data-ry="([^"]+)" data-angle="([^"]+)" transform="translate\([^"]+\)">/g;
 const SUN_HALO_RE = /(<g id="sun-halo" data-sun="1">\s*<circle r=")(\d+(?:\.\d+)?)(")/;
 
 function animatedSvg(base, frameIndex) {
   const phase = (2 * Math.PI * frameIndex) / FRAME_COUNT;
-  let svg = base.replace(PLANET_RE, (_, prefix, index, _angle, rest, suffix) => {
+  let svg = base.replace(PLANET_RE, (full, index, cx, cy, rx, ry, startAngle) => {
     const planetIndex = Number(index);
-    const speed = 1.0 - planetIndex * 0.08;
-    const angle = (planetIndex * 52 + (360 / FRAME_COUNT) * frameIndex * speed) % 360;
-    return `${prefix}${angle.toFixed(3)}${rest}${suffix}`;
+    const speed = 1.0 - planetIndex * 0.09;
+    const angle = (Number(startAngle) + (360 / FRAME_COUNT) * frameIndex * speed) % 360;
+    const rad = (angle * Math.PI) / 180;
+    const x = Number(cx) + Number(rx) * Math.cos(rad);
+    const y = Number(cy) + Number(ry) * Math.sin(rad);
+    return `<g id="planet-${index}" data-orbit="1" data-cx="${cx}" data-cy="${cy}" data-rx="${rx}" data-ry="${ry}" data-angle="${angle.toFixed(3)}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">`;
   });
   const halo = 70 + 3.5 * Math.sin(phase);
   svg = svg.replace(SUN_HALO_RE, `$1${halo.toFixed(3)}$3`);
@@ -37,8 +40,8 @@ function renderFrame(svg) {
 }
 
 const original = readFileSync(SVG_PATH, 'utf8');
-if (!original.includes('data-orbit="1"')) {
-  throw new Error('Hero SVG is missing orbit planet markers for animation.');
+if (!original.includes('data-rx=')) {
+  throw new Error('Hero SVG is missing elliptical orbit markers for animation.');
 }
 
 const frames = [];
@@ -54,4 +57,4 @@ for (const frame of frames) {
 gif.finish();
 mkdirSync(dirname(GIF_PATH), { recursive: true });
 writeFileSync(GIF_PATH, Buffer.from(gif.bytes()));
-console.log(`Animated solar hero created via node: assets/profile-universe.gif (${FRAME_COUNT} frames).`);
+console.log(`Animated elliptical solar hero created via node: assets/profile-universe.gif (${FRAME_COUNT} frames).`);
