@@ -27,6 +27,8 @@ jobs:
           GITHUB_USERNAME: chvnagarjunababu14-boop
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/generate.js
+      - name: Validate generated README and image assets
+        run: python3 scripts/validate_profile.py
       - name: Commit refreshed profile
         run: |
           git config user.name "github-actions[bot]"
