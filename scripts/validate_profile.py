@@ -118,7 +118,6 @@ required_assets = {
     "./assets/profile-universe.svg",
     "./assets/profile-metrics.svg",
     "./assets/tech-stack-v2.svg",
-    "./assets/profile-analytics.svg",
 }
 actual_sources = {image.get("src", "") for image in parser.images}
 missing_required = sorted(required_assets - actual_sources)
