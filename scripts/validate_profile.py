@@ -8,6 +8,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
@@ -37,6 +38,9 @@ if not README.is_file():
     fail("README.md is missing.")
 if not DATA.is_file():
     fail("assets/solar-data.json is missing.")
+
+if not (ROOT / "assets" / "profile-universe.svg").is_file():
+    fail("The static SVG hero fallback is missing.")
 
 readme = README.read_text(encoding="utf-8")
 parser = ReadmeParser()
@@ -83,6 +87,9 @@ for index, image in enumerate(parser.images, start=1):
             signature = stream.read(6)
         if signature not in (b"GIF87a", b"GIF89a"):
             fail(f"Invalid GIF signature: {src}")
+        with Image.open(target) as animation:
+            if not getattr(animation, "is_animated", False) or animation.n_frames < 20:
+                fail(f"Expected an animated hero GIF with at least 20 frames: {src}")
     elif suffix not in (".png", ".jpg", ".jpeg", ".webp"):
         fail(f"Unsupported image format in README: {src}")
 
@@ -121,7 +128,7 @@ if not count_match or int(count_match.group(1)) != len(repositories):
     fail("The README public-project count does not match solar-data.json.")
 
 required_assets = {
-    "./assets/profile-universe.svg",
+    "./assets/profile-universe.gif",
     "./assets/profile-metrics.svg",
     "./assets/tech-stack-v2.svg",
     "./assets/about-header.svg",
