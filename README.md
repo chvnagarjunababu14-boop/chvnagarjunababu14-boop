@@ -3,7 +3,7 @@
 
 <img src="./assets/profile-metrics.svg" width="100%" alt="GitHub profile metrics: public projects, stars, languages and followers"/>
 
-<img src="./assets/tech-stack-v2.svg" width="100%" alt="Technology stack and language distribution"/>
+<img src="./assets/tech-stack.svg" width="100%" alt="Technology stack and language distribution"/>
 
 <h2 align="center">✦ &nbsp; SELECTED PROJECTS</h2>
 <sub>7 public projects · updated automatically from GitHub</sub>
