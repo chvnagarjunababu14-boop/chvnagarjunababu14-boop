@@ -54,7 +54,7 @@ const projectArts=featured.map((r,i)=>{
  const art='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+bg+'"/><stop offset="1" stop-color="'+color+'" stop-opacity=".23"/></linearGradient><radialGradient id="glow"><stop stop-color="'+color+'" stop-opacity=".44"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient><filter id="blur"><feGaussianBlur stdDeviation="23"/></filter></defs><rect width="900" height="320" rx="22" fill="url(#bg)"/><circle cx="660" cy="155" r="175" fill="url(#glow)" filter="url(#blur)"/>'+spark+'<path d="M0 310 Q210 245 420 300T900 250" fill="none" stroke="'+color+'" stroke-opacity=".14" stroke-width="2"/>'+motif+'<text x="40" y="36" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="2" fill="'+color+'">'+lang.toUpperCase()+'  /  PROJECT</text><text x="40" y="112" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="'+titleSize+'" font-weight="700" fill="#f5f6ff">'+displayName+'</text><text x="40" y="151" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" fill="#c0cbe3">'+descSvg+'</text><rect x="40" y="199" width="148" height="34" rx="17" fill="'+langColor+'" fill-opacity=".2" stroke="'+langColor+'" stroke-opacity=".7"/><text x="114" y="221" text-anchor="middle" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13" fill="#f7f9ff">'+lang+'</text><text x="40" y="281" font-family="JetBrains Mono,Consolas,monospace" font-size="13" fill="#a8b7d5">★ '+repoStars+'   ·   UPDATED '+updated+'</text><text x="850" y="305" text-anchor="end" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" fill="'+color+'">OPEN ↗</text></svg>';
  return {r,i,color,art};
 });
-const projectCards=projectArts.map(p=>'<a href="'+p.r.html_url+'"><img src="./assets/projects/'+slug(p.r.name)+'.svg" width="100%" alt="'+esc(p.r.name)+' project illustration"/></a>').reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[]).map(row=>'<p align="center">'+row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')+'</p>').join('\\n');
+const projectCards=projectArts.map(p=>'<a href="'+p.r.html_url+'"><img src="./assets/projects/'+slug(p.r.name)+'.svg" width="100%" alt="'+esc(p.r.name)+' project illustration"/></a>').reduce((a,x,i)=>{if(i%2===0)a.push([x]);else a[a.length-1].push(x);return a;},[]).map(row=>'<p align="center">'+row.map(x=>x.replace('width="100%"','width="47%"')).join(' &nbsp; ')+'</p>').join('\n');
 const totalLanguageBytes=Object.values(totals).reduce((sum,n)=>sum+n,0);
 const metricItems=[
  {value:repos.length,label:'PUBLIC PROJECTS',symbol:'◇',color:'#bd9cff'},
@@ -79,9 +79,7 @@ const readme=[
 '<h2 align="center">✦ &nbsp; SELECTED PROJECTS</h2>',
 '<sub>'+featured.length+' public projects · updated automatically from GitHub</sub>',
 '',
-'<table width="100%" cellspacing="12" cellpadding="0">',
 projectCards,
-'</table>',
 '',
 '<p align="center"><a href="https://github.com/'+username+'?tab=repositories"><b>Explore all repositories ↗</b></a></p>',
 '',
