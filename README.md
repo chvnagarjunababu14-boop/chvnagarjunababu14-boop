@@ -6,6 +6,11 @@
 <h2>🧰 &nbsp; TECH STACK</h2>
 <img src="https://img.shields.io/badge/TypeScript-3178c6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/> <sub>58%</sub> &nbsp; <img src="https://img.shields.io/badge/Kotlin-A97BFF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"/> <sub>22%</sub> &nbsp; <img src="https://img.shields.io/badge/Python-3572A5?style=for-the-badge&logo=python&logoColor=white" alt="Python"/> <sub>9%</sub> &nbsp; <img src="https://img.shields.io/badge/Rust-dea584?style=for-the-badge&logo=rust&logoColor=white" alt="Rust"/> <sub>8%</sub> &nbsp; <img src="https://img.shields.io/badge/PLpgSQL-8b5cf6?style=for-the-badge&logo=plpgsql&logoColor=white" alt="PLpgSQL"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/JavaScript-f1e05a?style=for-the-badge&logo=javascript&logoColor=white" alt="JavaScript"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/CSS-563d7c?style=for-the-badge&logo=css&logoColor=white" alt="CSS"/> <sub>1%</sub> &nbsp; <img src="https://img.shields.io/badge/Java-b07219?style=for-the-badge&logo=java&logoColor=white" alt="Java"/> <sub>0%</sub>
 
+<h2 align="center">🐟 &nbsp; MY GITHUB KOI</h2>
+<p align="center"><sub>A pixel-art koi generated from my public GitHub activity. Its colors and growth evolve with my repositories, languages and contribution history.</sub></p>
+<p align="center"><img src="./koi/koi.gif" width="256" alt="My GitHub activity koi — automatically redrawn daily"/></p>
+<p align="center"><sub>Generated with <a href="https://github.com/yalongwastaken/git-koi">git-koi</a> · <a href="https://github.com/yalongwastaken/git-koi#readme">How it works ↗</a></sub></p>
+
 <h2>🚀 &nbsp; FEATURED PROJECTS</h2>
 <sub>Selected from public repositories · dynamically refreshed</sub>
 
