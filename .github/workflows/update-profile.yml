@@ -1,5 +1,9 @@
 name: Refresh Glass Profile
 on:
+  push:
+    paths:
+      - 'scripts/generate.js'
+      - '.github/workflows/update-profile.yml'
   schedule:
     - cron: '17 4 * * *'
   workflow_dispatch:
