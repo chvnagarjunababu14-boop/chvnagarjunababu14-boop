@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./assets/profile-universe.svg" width="100%" alt="StarLord — Cedar & Stone portfolio banner"/>
+<img src="./assets/profile-universe.gif" width="100%" alt="StarLord — Cedar & Stone banner with gently swaying leaves"/>
 <p align="center"><a href="#about"><img src="./assets/nav-about.svg" width="22%" alt="01 ABOUT section navigation"/></a> &nbsp; <a href="#snapshot"><img src="./assets/nav-snapshot.svg" width="22%" alt="02 SNAPSHOT section navigation"/></a> &nbsp; <a href="#toolkit"><img src="./assets/nav-toolkit.svg" width="22%" alt="03 TOOLKIT section navigation"/></a> &nbsp; <a href="#selected-work"><img src="./assets/nav-selected-work.svg" width="22%" alt="04 SELECTED WORK section navigation"/></a></p>
 <a id="about"></a>
 <img src="./assets/about-header.svg" width="100%" alt="A Little About Me — student, developer, builder and lifelong learner"/>
